@@ -2,11 +2,12 @@
   "engines": {
     "node": "22.11.0"
   },
-  "name": "project_b",
+  "name": "beyond_man",
   "version": "1.0.0",
-  "description": "This is blog posting website",
-  "main": "index.js",
+  "description": "This is a blogging website where many types of blogs are uploaded regularly.",
+  "main": "server.js",
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Shakib Ansari",
