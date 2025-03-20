@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /
+
+# This is when i start when sufficiant blogs uploaded.
+# User-agent: *
+# Disallow: /admin/

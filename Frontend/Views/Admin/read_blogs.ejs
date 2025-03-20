@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Style/style.css">
+    <title>All Blogs</title>
+
+</head>
+
+<body>
+    <div class="read-container">
+
+        <div class="two-btn" style="display: flex; justify-content: space-around;">
+            <a aria-label="Upload Blog" href="/admin/edit"><button onclick="showPage('upload')">Upload
+                    Blog...</button></a>
+            <a aria-label="Log Out" href="/admin/logout"><button>Log Out</button></a>
+        </div>
+
+
+
+        <div class="articles" style="text-align: center;">
+            <div class="read-blogs">
+                <h1>Read Your All Blogs</h1>
+            </div>
+            <% if(blogs.length> 0){ %>
+                <div class="blogs">
+                    <% for(blog of blogs) {%>
+                        <div class="blog">
+                            <img src="<%= blog.image.url %>" alt="">
+
+                            <h3 class="heebo-blog-title"">
+                        <%= blog.title %>
+                    </h3>
+                    <div class=" blog-card-container">
+
+                        </div>
+                        <a aria-label="Read Now" href="read/<%= blog.id %>"><button type="button"
+                                class="read-now-btn">Read
+                                Now</button></a>
+                </div>
+                <%} %>
+
+                    <%} else {%>
+                        <h3>No Blogs Available</h3>
+                        <%}%>
+
+        </div>
+
+
+
+    </div>
+</body>

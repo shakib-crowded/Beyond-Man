@@ -1,0 +1,503 @@
+/* Blog Page Styling */
+/* Default font sizes for Desktop (1440px and above) */
+/* h1 {
+  font-size: 48px;
+}
+h2 {
+  font-size: 40px;
+}
+h3 {
+  font-size: 32px;
+}
+h4 {
+  font-size: 26px;
+}
+h5 {
+  font-size: 20px;
+}
+h6 {
+  font-size: 16px;
+} */
+
+/* For Tablets (768px - 1024px) */
+/* @media (max-width: 1024px) {
+  h1 {
+    font-size: 40px;
+  }
+  h2 {
+    font-size: 34px;
+  }
+  h3 {
+    font-size: 28px;
+  }
+  h4 {
+    font-size: 22px;
+  }
+  h5 {
+    font-size: 18px;
+  }
+  h6 {
+    font-size: 16px;
+  }
+}
+
+/* For Mobile Devices (320px - 768px) */
+/* @media (max-width: 768px) {
+  h1 {
+    font-size: 32px;
+  }
+  h2 {
+    font-size: 28px;
+  }
+  h3 {
+    font-size: 24px;
+  }
+  h4 {
+    font-size: 20px;
+  }
+  h5 {
+    font-size: 18px;
+  }
+  h6 {
+    font-size: 16px;
+  }
+} */
+
+/* For Extra Small Devices (Below 320px) */
+/* @media (max-width: 480px) {
+  h1 {
+    font-size: 28px;
+  }
+  h2 {
+    font-size: 24px;
+  }
+  h3 {
+    font-size: 20px;
+  }
+  h4 {
+    font-size: 18px;
+  }
+  h5 {
+    font-size: 16px;
+  }
+  h6 {
+    font-size: 14px;
+  }
+} */
+
+/* Blog Content Styling*/
+@media (max-width: 600px) {
+  .blog-content h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+  }
+  .blog-content h2 {
+    font-size: 1.5rem;
+    font-weight: 650;
+  }
+  .blog-content h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+  .blog-content p,
+  li {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+}
+
+/* @media (max-width: 1024px) {
+  .blog-content h1 {
+    font-size: 2rem;
+  }
+  .blog-content h2 {
+    font-size: 1.8rem;
+  }
+  .blog-content p,
+  li {
+    font-size: 1rem;
+  }
+} */
+
+@media (min-width: 1025px) {
+  .blog-content h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+  }
+  .blog-content h2 {
+    font-size: 2rem;
+    font-weight: 650;
+  }
+  .blog-content h3 {
+    font-size: 1.75rem;
+    font-weight: 600;
+  }
+  .blog-content p,
+  li {
+    font-size: 1.125rem;
+  }
+}
+
+/* Navbar Responsiveness Code*/
+
+@media screen and (max-width: 1030px) {
+  .desktop-menu {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns */
+    gap: 10px;
+  }
+
+  .desktop-menu li {
+    width: 100%;
+    text-align: center;
+  }
+
+  .searchBox {
+    width: 20%;
+    margin-top: 0px; /* Adjust as needed */
+  }
+  .main-container img {
+    width: 100%;
+    height: 40vh;
+    opacity: 0.3;
+    background-size: cover;
+  }
+}
+
+/* Media Queries for Mobile */
+@media (max-width: 768px) {
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #fff;
+    min-width: 80px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    z-index: 10;
+    margin-left: -32px;
+    overflow-y: scroll;
+    height: auto;
+  }
+  .desktop-menu {
+    display: none;
+  }
+
+  .searchBox {
+    display: block;
+    margin-left: 2rem;
+    width: 60%;
+  }
+
+  .dropdown-items {
+    display: block;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .mobile-menu {
+    display: block;
+  }
+  .main-container img {
+    width: 100%;
+    height: 28vh;
+    opacity: 0.3;
+    background-size: cover;
+  }
+
+  .searchInput {
+    width: 75%;
+  }
+}
+
+@keyframes learn-to-code {
+  0%,
+  10%,
+  100% {
+    width: 0;
+    /* Start with zero width */
+  }
+
+  50%,
+  90% {
+    width: 100%;
+    /* Expand to full width */
+  }
+}
+/* Animation to reveal letters one by one */
+@keyframes reveal-text {
+  from {
+    width: 0; /* Start with zero width */
+  }
+  to {
+    width: 100%; /* Fully reveal */
+  }
+}
+/* Typewriter effect with a pause */
+@keyframes typing {
+  0% {
+    width: 0;
+  }
+  80% {
+    width: 100%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@media (max-width: 570px) {
+  .home-p-centered p {
+    font-size: 0.9em;
+    margin-top: 12px;
+  }
+  .author-name {
+    position: absolute;
+    top: 75%;
+    left: 70%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background-color: #da2c38;
+    color: #d7d9ce;
+    /* padding-left: 1rem;
+    padding-right: 1rem; */
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+  }
+
+  .author-name p {
+    min-width: 6rem;
+  }
+  .h-centered-learn-to-code h1 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 456px) {
+  .home-p-centered p {
+    font-size: 0.9em;
+    margin-top: 12px;
+  }
+  .author-name {
+    position: absolute;
+    top: 75%;
+    left: 70%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background-color: #da2c38;
+    color: #d7d9ce;
+    /* padding-left: 1rem;
+    padding-right: 1rem; */
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+  }
+
+  .author-name p {
+    min-width: 6rem;
+    font-size: 1rem;
+  }
+  .h-centered-learn-to-code h1 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Blinking cursor effect */
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+/* Pause cursor blinking after typing completes */
+@keyframes fade-out {
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeInDropdown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Founder Section Media Query*/
+
+@media (max-width: 768px) {
+  .about {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .founder-img {
+    max-width: 150px;
+  }
+
+  .founder-description {
+    text-align: center;
+  }
+}
+
+/* Responsive About Section */
+@media (max-width: 768px) {
+  .about {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .founder-img {
+    max-width: 100%;
+  }
+
+  .founder-img img {
+    max-width: 200px;
+  }
+
+  .founder-description {
+    text-align: center;
+    max-width: 90%;
+  }
+}
+
+/* Add responsiveness */
+@media (max-width: 600px) {
+  .footer-content {
+    flex-direction: column; /* Stack content vertically on small screens */
+    align-items: center; /* Center align text and icons */
+    gap: 10px; /* Add spacing between text and social links */
+  }
+}
+
+@media (max-width: 480px) {
+  .btn-container {
+    flex-direction: column;
+  }
+
+  .btn-container button {
+    width: 100%;
+  }
+}
+
+/* Responsive Design */
+
+@media screen and (max-width: 768px) {
+  .blogs {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+  .article-heading {
+    font-size: 20px;
+  }
+  .blog {
+    padding: 10px;
+  }
+  .blog-meta-data {
+    font-size: 0.8rem;
+  }
+  .read-now-btn {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+}
+
+/* Responsive Design Blogs*/
+@media screen and (max-width: 480px) {
+  .blogs {
+    grid-template-columns: 1fr;
+  }
+  .article-heading {
+    font-size: 18px;
+  }
+
+  .read-now-btn {
+    font-size: 0.8rem;
+    padding: 6px;
+  }
+}
+
+/* --- Reply Section In Comments. --- */
+@media (max-width: 768px) {
+  .reply {
+    padding: 10px;
+  }
+
+  .reply-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .right-section {
+    align-self: flex-end;
+  }
+
+  .reply-box textarea {
+    min-height: 60px;
+  }
+}
+
+/* Delete Comment and Reply */
+@media screen and (max-width: 500px) {
+  .modal {
+    padding: 15px; /* Reduce padding on smaller screens */
+  }
+
+  .modal-content {
+    font-size: 0.9rem; /* Adjust text size */
+  }
+
+  .card-delete-btn,
+  .card-cancel-btn {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+  }
+}
+
+/*  Hide Image When Width < 874px In User Sign In and Sign Up */
+@media screen and (max-width: 874px) {
+  .login-container {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: auto;
+  }
+
+  .login-container .image-container {
+    display: none; /* Hide image */
+  }
+
+  .login-form {
+    width: 90vw; /* Make form take more space */
+    max-width: 400px; /* Set max width */
+    border-radius: 12px; /* Fully rounded */
+    box-shadow: none;
+    background-color: #d0d0d0;
+    margin: 12px auto;
+  }
+
+  .signup-container {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: auto;
+  }
+
+  .signup-container .image-container {
+    display: none;
+  }
+
+  .sign-up-form {
+    width: 90vw;
+    max-width: 400px;
+    border-radius: 12px;
+    box-shadow: none;
+    background-color: #d0d0d0;
+    margin: 12px auto;
+  }
+}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../Style/style.css">
+    <title>Admin Login</title>
+</head>
+
+<body>
+    <div class="admin-form-box">
+        <form class="admin-form" method="post" action="/admin/signup">
+            <span class="title">Sign Up</span>
+            <span class="subtitle">We are glad to you become our member</span>
+            <div class="admin-form-container">
+                <input type="text" class="input" placeholder="Name" name="name">
+                <input type="text" class="input" placeholder="Username" name="username">
+                <input type="email" class="input" placeholder="Email" name="email">
+                <input type="password" class="input" placeholder="Password" name="password">
+                <input type="text" class="input" placeholder="About You" name="about_admin">
+            </div>
+            <button aria-label="Sign Up" type="submit">Sign Up</button>
+        </form>
+        <div class="admin-form-section">
+            <p>Are you already member? Just <a aria-label="Login" href="/admin/login">Login</a> </p>
+        </div>
+    </div>
+</body>
+
+</html>

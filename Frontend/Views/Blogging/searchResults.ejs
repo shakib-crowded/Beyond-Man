@@ -1,0 +1,67 @@
+<% layout("../Layouts/boilerplate") %>
+
+    <body>
+        <main>
+            <div class="search">
+                <div class="search-heading">
+                    <h3>Seach Results: <%= identity %>
+                    </h3>
+                </div>
+                <% if(allBlogs.length> 0){ %>
+                    <div class="blogs">
+                        <% for(blog of allBlogs) {%>
+                            <div class="blog">
+                                <img src="<%= blog.image.url %>" alt="">
+
+                                <h3 class="heebo-blog-title"">
+                                    <%= blog.title %>
+                                </h3>
+                                <div class=" blog-card-container">
+                                    <div class="blog-meta-data">
+                                        <div class="author-in-card">
+                                            <p><i class="fa fa-user" aria-hidden="true"></i>
+                                                <% if(blog.author){ %>
+                                                    <%= blog.author %>
+                                                        <%}else {%>
+                                                            <%= blog.admin %>
+                                                                <%}%>
+                                            </p>
+                                        </div>
+                                        <div class="created-date">
+                                            <p>Created Date: <span class="date-format">
+                                                    <%= blog.created_date %>
+                                                </span></p>
+                                        </div>
+                                        <div class="updated-date">
+                                            <p>
+                                                Updated Date:
+                                                <% if (blog.updated_date) { %>
+                                                    <span class="date-format">
+                                                        <%= blog.updated_date %>
+                                                    </span>
+                                                    <% } else { %>
+                                                        No Update Yet!
+                                                        <% } %>
+                                            </p>
+                                        </div>
+                                    </div>
+                            </div>
+                            <a aria-label="Read Now" href="/<%= blog.slug%>"><button type="button" class="read-now-btn"
+                                    aria-label="Read Now">Read
+                                    Now</button></a>
+                    </div>
+                    <%} %>
+            </div>
+            <%}else{%>
+                <p class="no-such-blog">No Such Blog</p>
+                <div class="no-blog-found">
+                    <img src="https://www.duocircle.com/wp-content/uploads/2024/10/spf-record-3.jpg"
+                        alt="No Blog Found Here">
+                </div>
+                <%} %>
+
+                    </div>
+        </main>
+
+        <div id="blogContainer"></div>
+    </body>

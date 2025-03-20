@@ -1,0 +1,93 @@
+<% layout("../Layouts/boilerplate") %>
+
+    <body>
+        <main>
+            <div class="main-container">
+                <div class="img-container">
+                    <img src="Resources/images/beyond_man.jpg" alt="">
+                    <div class="h-centered-learn-to-code">
+                        <h1 data-text-head="Learn How To Code...">Learn How To Code...</h1>
+                    </div>
+                    <div class="home-p-centered">
+                        <p>"Everyone should know how to program a computer, because it teaches
+                            you how to think"</p>
+                    </div>
+                    <div class="author-name">
+                        <p>"Steve Jobs"</p>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="articles">
+                <!-- Heading Section -->
+                <div class="article-heading">
+                    <h3>All Articles</h3>
+                </div>
+
+                <!-- Blogs Container -->
+                <div class="blogs">
+                    <% for(blog of allBlogs) { %>
+                        <div class="blog">
+                            <!-- Blog Link and Image -->
+                            <a aria-label="Read Full Blog" href="/<%= blog.slug %>">
+                                <img src="<%= blog.image.url %>" alt="Blog Image">
+                                <h3 class="heebo-blog-title">
+                                    <%= blog.title %>
+                                </h3>
+                            </a>
+
+                            <!-- Blog Meta Data -->
+                            <div class="blog-card-container">
+                                <div class="blog-meta-data">
+
+                                    <!-- Author Section -->
+                                    <div class="author-in-card">
+                                        <!-- <a href="/author/<%= blog.admin %>"> -->
+                                        <p>
+                                            <i class="fa fa-user" aria-hidden="true"></i>
+                                            <% if (blog.author) { %>
+                                                <%= blog.author %>
+                                                    <% } else { %>
+                                                        <%= blog.admin %>
+                                                            <% } %>
+                                        </p>
+                                        <!-- </a> -->
+                                    </div>
+
+                                    <!-- Created Date -->
+                                    <div class="created-date">
+                                        <p>
+                                            Created Date:
+                                            <span class="date-format">
+                                                <%= blog.created_date %>
+                                            </span>
+                                        </p>
+                                    </div>
+
+                                    <!-- Updated Date -->
+                                    <div class="updated-date">
+                                        <p>
+                                            Updated Date:
+                                            <% if (blog.updated_date) { %>
+                                                <span class="date-format">
+                                                    <%= blog.updated_date %>
+                                                </span>
+                                                <% } else { %>
+                                                    No Update Yet!
+                                                    <% } %>
+                                        </p>
+                                    </div>
+
+                                </div> <!-- End of Blog Meta Data -->
+                            </div> <!-- End of Blog Card Container -->
+
+                        </div> <!-- End of Blog -->
+                        <% } %>
+                </div> <!-- End of Blogs Container -->
+            </div> <!-- End of Articles -->
+
+
+        </main>
+        <div id="blogContainer"></div>
+    </body>

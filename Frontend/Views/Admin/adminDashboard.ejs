@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="/Style/style.css">
+</head>
+
+<body>
+    <div class="admin-panel" style="text-align: center;">
+        <button aria-label="Log Out" onclick="showLogOutCard()" style="margin-bottom: 10px;">Log Out</button>
+        <h1>Admin Panel</h1>
+        <div class="nav">
+            <a aria-label="Upload Blog" href="/admin/edit"><button>Upload Blog...</button></a>
+            <a aria-label="Read All Blogs" href="/admin/read"><button>Read All Blogs</button></a>
+            <a aria-label="Complete Your Profile" href="/admin/profile-edit"><button>Edit Your Profile</button></a>
+        </div>
+    </div>
+    </div>
+    <div id="logoutCard">
+        <p>Are you sure to log out from Beyond Man ?</p>
+        <button aria-label="Cancel" id="cancelButton">Cancel</button>
+        <button aria-label="Logout" id="logoutButton">Log Out</button>
+    </div>
+
+    <div id="overlay" onclick="hideLogOutCard()"></div>
+    <script src="/JavaScript/index.js"></script>
+</body>
+
+</html>

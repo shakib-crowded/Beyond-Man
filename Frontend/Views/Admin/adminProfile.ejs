@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Profile</title>
+    <style>
+        /* Profile Form Container */
+        .admin-profile-container {
+            max-width: 500px;
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin: 40px auto;
+            text-align: center;
+        }
+
+        /* Form Heading */
+        .admin-profile-container h1 {
+            font-size: 1.8em;
+            color: #2f1b13;
+            margin-bottom: 20px;
+        }
+
+        /* Form Group */
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        /* Labels */
+        .form-group label {
+            display: block;
+            font-size: 1em;
+            font-weight: 500;
+            color: #4a3f35;
+            margin-bottom: 5px;
+        }
+
+        /* Input Fields */
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            transition: 0.3s;
+            resize: none;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #2f1b13;
+            outline: none;
+        }
+
+        /* File Input */
+        .form-group input[type="file"] {
+            padding: 8px;
+            border: none;
+        }
+
+        /* Submit Button */
+        button {
+            width: 100%;
+            background: #DA2C38;
+            color: #fff;
+            padding: 12px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #4a3f35;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .admin-profile-container {
+                padding: 20px;
+            }
+
+            button {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-profile-container">
+        <form action="/admin/profile" method="post" enctype="multipart/form-data">
+            <h1>Complete Your Profile</h1>
+
+            <div class="form-group">
+                <label for="education">Highest Education</label>
+                <input type="text" id="education" name="education" placeholder="e.g., BCA, MCA, PhD" required>
+            </div>
+
+            <div class="form-group">
+                <label for="location">Current Location</label>
+                <input type="text" id="location" name="location" placeholder="e.g., Delhi, India" required>
+            </div>
+
+            <div class="form-group">
+                <label for="hobbies">Hobbies</label>
+                <input type="text" id="hobbies" name="hobbies" placeholder="e.g., Writing blogs, reading books">
+            </div>
+
+            <div class="form-group">
+                <label for="instagram_profile">Instagram Profile</label>
+                <input type="url" id="instagram_profile" name="instagram_profile" placeholder="Paste Instagram link"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="linkedin_profile">LinkedIn Profile</label>
+                <input type="url" id="linkedin_profile" name="linkedin_profile" placeholder="Paste LinkedIn link"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="x_profile">X (Twitter) Profile</label>
+                <input type="url" id="x_profile" name="x_profile" placeholder="Paste X (Twitter) link" required>
+            </div>
+
+            <div class="form-group">
+                <label for="about_author">About You</label>
+                <textarea name="about_author" id="about_author" placeholder="Write a short bio..." rows="4"
+                    required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="profile_image">Profile Picture (Max: 1MB)</label>
+                <input type="file" id="profile_image" name="profile_image" accept="image/*">
+            </div>
+
+            <button type="submit">Complete Profile</button>
+        </form>
+    </div>
+
+</body>
+
+</html>

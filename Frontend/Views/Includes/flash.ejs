@@ -1,0 +1,23 @@
+<div class="flash-container">
+    <% if (messages.success) { %>
+        <% messages.success.forEach(msg=> { %>
+            <div class="flash-message success">
+                <span>
+                    <%= msg %>
+                </span>
+                <button onclick="closeFlash(this)">&times;</button>
+            </div>
+            <% }) %>
+                <% } %>
+
+                    <% if (messages.error) { %>
+                        <% messages.error.forEach(msg=> { %>
+                            <div class="flash-message error">
+                                <span>
+                                    <%= msg %>
+                                </span>
+                                <button onclick="closeFlash(this)">&times;</button>
+                            </div>
+                            <% }) %>
+                                <% } %>
+</div>

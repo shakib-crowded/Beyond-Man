@@ -1,0 +1,45 @@
+<% layout("../Layouts/boilerplate") %>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="h-centered-about-us">
+                <h1>CONTACT US</h1>
+                <h1 class="overlay-text" data-text-head="CONTACT US">CONTACT US</h1>
+            </div>
+        </div>
+    </section>
+
+    <div class="contact-container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+        </div>
+        <div class="row contact-content">
+            <div class="col contact-info wow fadeInUp" data-wow-delay="0.1s">
+                <h5 class="contact-subheading">Get In Touch</h5>
+                <p class="contact-text">Have questions or suggestions? We'd love to hear from you!</p>
+                <div class="info-box"><i class="fa fa-map-marker-alt"></i>
+                    <p>E-43, A-560, New Seemapuri, Delhi</p>
+                </div>
+                <div class="info-box"><i class="fa fa-phone"></i>
+                    <p>+91 8287757460</p>
+                </div>
+                <div class="info-box"><i class="fa fa-envelope-open"></i>
+                    <p>beyondman.dev@gmail.com</p>
+                </div>
+            </div>
+            <div class="col map-container wow fadeInUp" data-wow-delay="0.3s">
+                <h5 class="contact-subheading">Our Location</h5>
+                <iframe class="map"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3498.6458797862613!2d77.3055!3d28.6758!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfb5b3a6b0b85%3A0x2cfc8d6c1b4b1d3a!2sSeemapuri%2C%20Delhi%20110095%2C%20India!5e0!3m2!1sen!2sin!4v1706795825000!5m2!1sen!2sin"
+                    allowfullscreen></iframe>
+            </div>
+            <div class="col contact-form wow fadeInUp" data-wow-delay="0.5s">
+                <h5 class="contact-subheading">Fill The Form For Query...</h5>
+                <form method="post" action="/contact">
+                    <input type="text" class="form-control" placeholder="Subject" name="subject">
+                    <textarea class="form-control" placeholder="Leave a message here" name="message"
+                        rows="6"></textarea>
+                    <button aria-label="Send Message" type="submit">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>

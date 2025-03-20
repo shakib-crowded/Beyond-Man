@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../Style/style.css">
+    <title>Admin Login</title>
+</head>
+
+<body>
+    <div class="admin-form-box">
+        <form class="admin-form" method="post" action="/admin/login">
+            <span class="title">Login</span>
+            <span class="subtitle">Login Only If You Are Admin Otherwise Purchase The Admin Memership</span>
+            <div class="admin-form-container">
+                <input type="text" class="input" placeholder="Username" name="username">
+                <input type="password" class="input" placeholder="Password" name="password">
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <div class="admin-form-section">
+            <p>Want To Become Member? <a aria-label="Sign Up Link" href="/admin/signup">Membership</a> </p>
+        </div>
+    </div>
+</body>
+
+</html>
