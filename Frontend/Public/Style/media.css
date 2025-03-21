@@ -267,7 +267,7 @@ h6 {
   }
 }
 
-@media (max-width: 456px) {
+@media (max-width: 420px) {
   .home-p-centered p {
     font-size: 0.9em;
     margin-top: 12px;
