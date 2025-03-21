@@ -702,57 +702,66 @@ document
   });
 // Copy Button on Code Blocks
 document.querySelectorAll("pre").forEach((pre) => {
-  let codeBlock = pre.querySelector("code"); // Check if <code> exists inside <pre>
+  // Copy Button on Code Blocks
+  document.querySelectorAll("pre").forEach((pre) => {
+    let codeBlock = pre.querySelector("code"); // Check if <code> exists inside <pre>
 
-  // Create a copy button
-  let button = document.createElement("button");
-  button.innerHTML = `<i class="fa-solid fa-copy"></i>`;
-  button.classList.add("copy-btn");
-  button.style.color = "#DA2C38";
-
-  button.addEventListener("mouseover", function () {
-    button.style.color = "#2f1b13";
-    button.textContent = "Copy Code";
-  });
-
-  button.addEventListener("mouseout", function () {
-    button.style.color = "#DA2C38";
+    // Create a copy button
+    let button = document.createElement("button");
     button.innerHTML = `<i class="fa-solid fa-copy"></i>`;
-  });
+    button.classList.add("copy-btn");
+    button.style.color = "#DA2C38";
 
-  // Ensure <pre> has position relative for proper button placement
-  pre.style.position = "relative";
+    button.addEventListener("mouseover", function () {
+      button.style.color = "#2f1b13";
+      button.textContent = "Copy Code";
+    });
 
-  // Insert button at the top-right inside <pre>
-  if (codeBlock) {
-    // If <code> exists, insert before it
-    pre.insertBefore(button, codeBlock);
-  } else {
-    // If <code> does NOT exist, insert at the start of <pre>
-    pre.prepend(button);
-  }
+    button.addEventListener("mouseout", function () {
+      button.style.color = "#DA2C38";
+      button.innerHTML = `<i class="fa-solid fa-copy"></i>`;
+    });
 
-  // Copy function
-  button.addEventListener("click", function () {
-    let codeText = (codeBlock ? codeBlock.innerText : pre.innerText).trim();
+    // Ensure <pre> has position relative for proper button placement
+    pre.style.position = "relative";
 
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard
-        .writeText(codeText)
-        .then(() => {
-          this.innerText = "Copied!";
-          setTimeout(
-            () => (this.innerHTML = `<i class="fa-solid fa-copy"></i>`),
-            2000
-          );
-        })
-        .catch((err) => {
-          console.error("Clipboard API failed", err);
-          fallbackCopyTextToClipboard(codeText); // Use fallback
-        });
-    } else {
-      fallbackCopyTextToClipboard(codeText);
-    }
+    // Style the button to stay fixed inside the <pre>
+    button.style.position = "absolute";
+    button.style.top = "10px";
+    button.style.right = "10px";
+    button.style.background = "rgba(255, 255, 255, 0.8)";
+    button.style.border = "none";
+    button.style.padding = "5px 10px";
+    button.style.cursor = "pointer";
+    button.style.zIndex = "10";
+
+    // Insert button inside <pre> but outside <code> to prevent copying its text
+    pre.appendChild(button);
+
+    // Copy function
+    button.addEventListener("click", function () {
+      let codeText = codeBlock
+        ? codeBlock.textContent.trim()
+        : pre.textContent.trim();
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard
+          .writeText(codeText)
+          .then(() => {
+            this.innerText = "Copied!";
+            setTimeout(
+              () => (this.innerHTML = `<i class="fa-solid fa-copy"></i>`),
+              2000
+            );
+          })
+          .catch((err) => {
+            console.error("Clipboard API failed", err);
+            fallbackCopyTextToClipboard(codeText); // Use fallback
+          });
+      } else {
+        fallbackCopyTextToClipboard(codeText);
+      }
+    });
   });
 
   // Fallback for older mobile browsers
