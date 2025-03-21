@@ -14,7 +14,9 @@ module.exports.searchAll = async (req, res) => {
     });
 
     const meta = {};
+    const blog = {};
     res.render("searchResults.ejs", {
+      blog,
       allBlogs,
       user: req.session.user,
       identity,

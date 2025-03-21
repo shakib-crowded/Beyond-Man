@@ -265,6 +265,10 @@ h6 {
   .h-centered-learn-to-code h1 {
     font-size: 1.5rem;
   }
+
+  .search-heading h3 {
+    font-size: 1.25rem;
+  }
 }
 
 @media (max-width: 420px) {
@@ -284,6 +288,9 @@ h6 {
   }
   .h-centered-learn-to-code h1 {
     font-size: 1.5rem;
+  }
+  .search-heading h3 {
+    font-size: 1rem;
   }
 }
 
