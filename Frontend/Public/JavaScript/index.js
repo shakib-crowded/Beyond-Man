@@ -715,6 +715,7 @@ document.querySelectorAll("pre").forEach((pre) => {
     button.addEventListener("mouseover", function () {
       button.style.color = "#2f1b13";
       button.textContent = "Copy Code";
+      button.style.backgroundColor = "#fff";
     });
 
     button.addEventListener("mouseout", function () {

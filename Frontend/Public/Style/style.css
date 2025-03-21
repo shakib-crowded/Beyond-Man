@@ -936,6 +936,12 @@ h6 {
   font-weight: 500;
 }
 
+.ql-size-huge {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #000000bb;
+}
+
 .blog-content p {
   font-size: 1.125rem;
   color: #6a6868;
