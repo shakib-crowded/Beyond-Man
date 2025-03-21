@@ -10,9 +10,9 @@ const slugify = (title) => {
 };
 
 const blogSchema = new Schema({
-  title: { type: String, required: true, maxlength: 250, minlength: 50 },
+  title: { type: String, required: true, maxlength: 250, minlength: 10 },
   slug: { type: String, unique: true },
-  description: { type: String, required: true, maxlength: 120, minlength: 50 },
+  description: { type: String, required: true, maxlength: 120, minlength: 10 },
   content: { type: String, required: true },
   author: { type: String, maxlength: 40, minlength: 0 },
   category: { type: String, required: true },
