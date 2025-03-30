@@ -13,6 +13,13 @@ document.querySelectorAll(".date-format").forEach((el) => {
   el.textContent = date.toLocaleDateString("en-GB"); // Format as DD/MM/YYYY
 });
 
+// Search Button
+
+const searchBlogs = (event) => {
+  event.preventDefault();
+  console.log(event);
+};
+
 // User Logout
 
 function logoutUser() {

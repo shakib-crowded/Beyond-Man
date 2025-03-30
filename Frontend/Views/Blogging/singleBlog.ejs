@@ -26,7 +26,8 @@
 
             <!-- Blog Image -->
             <div class="blog-image">
-                <img src="<%= blog.image.url %>" alt="">
+                <img src="/images/blog_image_id/<%= blog.image.filename.replace('admin_BLOGS/', '') %>"
+                    alt="Blog Image">
             </div>
             <!-- Blog Content -->
             <div class="blog-content">
@@ -37,7 +38,7 @@
             <!-- About Author Section -->
             <div class="author-section">
                 <div class="author-title">About the Author</div>
-                <p>
+                <p class="author-description">
 
                     <% if(admin.about_admin){ %>
                         <%=admin.about_admin%>

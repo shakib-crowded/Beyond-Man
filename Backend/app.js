@@ -9,6 +9,7 @@ const flash = require("connect-flash");
 const passport = require("./Config/passportConfig.js");
 const cookieParser = require("cookie-parser");
 const sessionMiddleware = require("./Config/sessionConfig.js");
+const imageRouter = require("./Routes/imagesRouter.js");
 const adminRouter = require("./Routes/admin.js");
 const adminEnterRouter = require("./Routes/adminEnter.js");
 const userEnterRouter = require("./Routes/userEnter.js");
@@ -59,6 +60,7 @@ app.use((req, res, next) => {
 
 // Routes
 app.use("/search", searchRouter);
+app.use("/images", imageRouter);
 app.use("/", indexRouter, userEnterRouter, blogRouter);
 app.use("/query", queryRouter);
 app.use("/programming", programmingRouter);

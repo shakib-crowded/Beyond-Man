@@ -87,7 +87,7 @@ router.post(
   isAdminLoggedIn,
   isCompleteProfile,
   uploadBlogStorage.single("image"),
-  validateUploadImage,
+  // validateUploadImage,
   validateBlog,
   wrapAsync(adminController.admin_upload)
 );
@@ -133,7 +133,7 @@ router.put(
       next();
     });
   },
-  validateUpdateImage,
+  // validateUpdateImage,
   validateBlog,
   wrapAsync(adminController.admin_update)
 );

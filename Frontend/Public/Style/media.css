@@ -85,27 +85,6 @@ h6 {
   }
 } */
 
-/* Blog Content Styling*/
-@media (max-width: 600px) {
-  .blog-content h1 {
-    font-size: 1.75rem;
-    font-weight: 700;
-  }
-  .blog-content h2 {
-    font-size: 1.5rem;
-    font-weight: 650;
-  }
-  .blog-content h3 {
-    font-size: 1.25rem;
-    font-weight: 600;
-  }
-  .blog-content p,
-  li {
-    font-size: 1.125rem;
-    line-height: 1.75rem;
-  }
-}
-
 /* @media (max-width: 1024px) {
   .blog-content h1 {
     font-size: 2rem;
@@ -118,7 +97,7 @@ h6 {
     font-size: 1rem;
   }
 } */
-
+/* Large screens (Desktops - 1025px and above) */
 @media (min-width: 1025px) {
   .blog-content h1 {
     font-size: 2.5rem;
@@ -126,19 +105,119 @@ h6 {
   }
   .blog-content h2 {
     font-size: 2rem;
-    font-weight: 650;
+    font-weight: 700;
   }
   .blog-content h3 {
     font-size: 1.75rem;
     font-weight: 600;
   }
   .blog-content p,
-  li {
+  .blog-content li {
     font-size: 1.125rem;
+    line-height: 1.8rem;
+  }
+}
+
+/* Medium-Large screens (Tablets & Small Laptops - 601px to 1024px) */
+@media (max-width: 1024px) and (min-width: 601px) {
+  .blog-content h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+  }
+  .blog-content h2 {
+    font-size: 1.85rem;
+    font-weight: 650;
+  }
+  .blog-content h3 {
+    font-size: 1.6rem;
+    font-weight: 600;
+  }
+  .blog-content p,
+  .blog-content li {
+    font-size: 1.125rem;
+    line-height: 1.9rem;
+  }
+  .ql-size-huge {
+    font-size: 1.85rem;
+    font-weight: 700;
+    letter-spacing: 0.04rem;
+  }
+  .ql-size-large {
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: 0.025rem;
+  }
+}
+
+/* Medium screens (Tablets - 401px to 600px) */
+@media (max-width: 600px) and (min-width: 401px) {
+  .blog-content h1 {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+  .blog-content h2 {
+    font-size: 1.75rem;
+    font-weight: 650;
+  }
+  .blog-content h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  .blog-content p,
+  .blog-content li {
+    font-size: 1.1rem;
+    line-height: 1.75rem;
+  }
+  .ql-size-huge {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: 0.03rem;
+  }
+  .ql-size-large {
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: 0.02rem;
+  }
+}
+
+/* Small screens (Phones - Below 400px) */
+@media (max-width: 400px) {
+  .blog-content h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+  }
+  .blog-content h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  .blog-content h3 {
+    font-size: 1.25rem;
+    font-weight: 550;
+  }
+  .blog-content p,
+  .blog-content li {
+    font-size: 1rem;
+    line-height: 1.6rem;
+  }
+  .ql-size-huge {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.02rem;
+  }
+  .ql-size-large {
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.015rem;
   }
 }
 
 /* Navbar Responsiveness Code*/
+
+@media screen and (min-width: 1030px) {
+  .searchInput {
+    width: 16em;
+  }
+}
 
 @media screen and (max-width: 1030px) {
   .desktop-menu {
@@ -206,12 +285,24 @@ h6 {
     opacity: 0.3;
     background-size: cover;
   }
+}
 
-  .searchInput {
-    width: 75%;
+@media (min-width: 768px) and (max-width: 1031px) {
+  .searchBox {
+    position: absolute;
+    top: 90px;
+    left: 120px;
+    width: 80%;
   }
-  .copy-btn {
-    display: none;
+  .searchInput {
+    /* width: 52.5rem; */
+    width: 80vw;
+  }
+  .desktop-menu {
+    display: flex;
+  }
+  .navbar {
+    height: 136px;
   }
 }
 
@@ -493,5 +584,36 @@ h6 {
     box-shadow: none;
     background-color: #d0d0d0;
     margin: 12px auto;
+  }
+}
+
+@media screen and (max-width: 2000px) {
+  .search-heading h3 {
+    font-size: 2rem;
+  }
+  .search .no-such-blog {
+    font-size: 2rem;
+  }
+}
+@media screen and (max-width: 968px) {
+  .search-heading h3 {
+    font-size: 1.5rem;
+  }
+  .search-heading h3 span {
+    padding: 4px;
+  }
+  .search .no-such-blog {
+    font-size: 1.5rem;
+  }
+}
+@media screen and (max-width: 400px) {
+  .search-heading h3 {
+    font-size: 1.25rem;
+  }
+  .search-heading h3 span {
+    padding: 2px;
+  }
+  .search .no-such-blog {
+    font-size: 1.25rem;
   }
 }

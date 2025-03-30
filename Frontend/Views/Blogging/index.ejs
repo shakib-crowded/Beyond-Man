@@ -31,7 +31,8 @@
                         <div class="blog">
                             <!-- Blog Link and Image -->
                             <a aria-label="Read Full Blog" href="/<%= blog.slug %>">
-                                <img src="<%= blog.image.url %>" alt="Blog Image">
+                                <img src="/images/blog_image_id/<%= blog.image.filename.replace('admin_BLOGS/', '') %>"
+                                    alt="Blog Image">
                                 <h3 class="heebo-blog-title">
                                     <%= blog.title %>
                                 </h3>

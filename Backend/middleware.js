@@ -136,9 +136,9 @@ module.exports.validateUploadImage = async (req, res, next) => {
       });
     }
 
-    if (buffer.length > 1 * 1024 * 1024) {
-      return res.status(400).json({ error: "File size exceeds 1 MB." });
-    }
+    // if (buffer.length > 1 * 1024 * 1024) {
+    //   return res.status(400).json({ error: "File size exceeds 1 MB." });
+    // }
 
     next(); // Pass validation
   } catch (err) {
@@ -168,9 +168,9 @@ module.exports.validateUpdateImage = async (req, res, next) => {
       });
     }
 
-    if (buffer.length > 1 * 1024 * 1024) {
-      return res.status(400).json({ error: "File size exceeds 1 MB." });
-    }
+    // if (buffer.length > 1 * 1024 * 1024) {
+    //   return res.status(400).json({ error: "File size exceeds 1 MB." });
+    // }
 
     next(); // Pass validation if file exists and is valid
   } catch (err) {

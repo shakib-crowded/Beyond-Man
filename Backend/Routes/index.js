@@ -7,7 +7,7 @@ const contactController = require("../Controllers/contact");
 
 // Render Home Page
 router.get("/", async (req, res) => {
-  const allBlogs = await Blog.find({});
+  const allBlogs = await Blog.find({}).sort({ created_date: -1 }); // Sorting by most recent
 
   const meta = {
     title: "Beyond Man",
