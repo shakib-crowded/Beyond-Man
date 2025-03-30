@@ -1029,6 +1029,13 @@ h6 {
 .blog-content code {
   font-family: "Courier New", monospace;
   font-size: 20px;
+  background-color: grey;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+  font-weight: 500;
+  padding: 0.15rem 0.3rem;
+  color: #fff;
+  font-weight: bold;
 }
 pre.ql-syntax {
   background-color: #1e1e1e !important;
