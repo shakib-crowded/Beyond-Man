@@ -11,7 +11,7 @@ module.exports.searchAll = async (req, res) => {
         { category: { $regex: identity, $options: "i" } },
         { tags: { $regex: identity, $options: "i" } },
       ],
-    });
+    }).sort({ created_date: -1 }); // Sorting by most recent
 
     const meta = {};
     const blog = {};

@@ -10,7 +10,7 @@ module.exports.search_software_dev = async (req, res, next) => {
         { category: { $regex: topic, $options: "i" } },
         { tags: { $regex: topic, $options: "i" } },
       ],
-    });
+    }).sort({ created_date: -1 });
     const identity = topic.replaceAll("-", " ").toUpperCase();
 
     const blog = {};

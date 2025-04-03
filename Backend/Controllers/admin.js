@@ -43,13 +43,13 @@ module.exports.admin_upload = async (req, res) => {
     const sanitizedContent = domPurify.sanitize(content);
 
     // Add `first-paragraph` class to the first <p> tag
-    const modifiedContent = sanitizedContent.replace(/<p>(.*?)<\/p>/);
+    // const modifiedContent = sanitizedContent.replace(/<p>(.*?)<\/p>/);
 
     // Create and save the new blog
     const newBlog = new Blog({
       title,
       description,
-      content: modifiedContent, // Use the modified content
+      content: sanitizedContent,
       author,
       category,
       tags: tags.split(", "),

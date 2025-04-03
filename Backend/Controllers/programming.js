@@ -1,18 +1,17 @@
 const Blog = require("../Models/blogs");
 
 module.exports.search_programming = async (req, res, next) => {
-  const topic = req.params.topic || "";
-  const inCategory = req.baseUrl.replace("/", "") || "";
+  const category = req.params.topic || "";
   try {
     let allBlogs = await Blog.find({
       $or: [
-        { title: { $regex: topic, $options: "i" } },
-        { author: { $regex: topic, $options: "i" } },
-        { category: { $regex: inCategory, $options: "i" } },
-        { tags: { $regex: inCategory, $options: "i" } },
+        { title: { $regex: category, $options: "i" } },
+        { author: { $regex: category, $options: "i" } },
+        { category: { $regex: category, $options: "i" } },
+        { tags: { $regex: category, $options: "i" } },
       ],
-    });
-    const identity = topic.replaceAll("-", " ").toUpperCase();
+    }).sort({ created_date: -1 });
+    const identity = category.replaceAll("-", " ").toUpperCase();
 
     const meta = {
       title: "BeyondMan | Programming",

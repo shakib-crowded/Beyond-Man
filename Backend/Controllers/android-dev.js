@@ -10,7 +10,7 @@ module.exports.search_android_dev = async (req, res, nex) => {
         { category: { $regex: topic, $options: "i" } },
         { tags: { $regex: topic, $options: "i" } },
       ],
-    });
+    }).sort({ created_date: -1 });
     const identity = topic.replaceAll("-", " ").toUpperCase();
 
     const meta = {

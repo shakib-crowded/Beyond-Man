@@ -394,12 +394,15 @@
 }
 .heebo-blog-title {
   font-weight: 700;
-  font-size: 1em;
+  font-size: 1.12em;
   line-height: 1.25;
-  color: #2f1b13;
+  color: #222;
   text-align: left;
   word-spacing: 2px;
   margin-top: 12px;
+  letter-spacing: 0.6px;
+  font-family: "Heebo", sans-serif;
+  text-transform: capitalize;
 }
 
 .heebo-blog-title:hover {
@@ -1202,7 +1205,7 @@ pre.ql-syntax {
   background-color: #f9f9f9;
   border-radius: 8px;
   margin: 20px auto;
-  max-width: 1200px;
+  /* max-width: 1200px; */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   min-height: 250px;
 }
