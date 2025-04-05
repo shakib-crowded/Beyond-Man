@@ -58,10 +58,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/hexaway", (req, res)=>{
-  res.send("hello i'm nothing")
-})
-
 // Routes
 app.use("/search", searchRouter);
 app.use("/images", imageRouter);
