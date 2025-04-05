@@ -58,10 +58,9 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/hexaway", (res, req)=>{
-  res.send("hello")
+app.get("/hexaway", (req, res)=>{
+  res.send("nothing")
 })
-
 
 // Routes
 app.use("/search", searchRouter);
