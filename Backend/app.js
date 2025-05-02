@@ -24,7 +24,7 @@ const forgotPassword = require("./Routes/forgot-password.js");
 const resetPassword = require("./Routes/reset-password.js");
 const commentRouter = require("./Routes/comment.js");
 const sitemap = require("./Routes/sitemap.js");
-// const authorRouter = require("./Routes/author.js");
+const authorRouter = require("./Routes/author.js");
 const blogRouter = require("./Routes/blog.js");
 const connectDB = require("./DB/db.js");
 
@@ -72,7 +72,7 @@ app.use("/forgot-password", forgotPassword);
 app.use("/reset-password", resetPassword);
 app.use("/comments", commentRouter);
 app.use("/sitemap.xml", sitemap);
-// app.use("/author", authorRouter);
+app.use("/author", authorRouter);
 
 app.use((req, res) => {
   res.render("page_not_found");

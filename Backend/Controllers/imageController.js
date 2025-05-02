@@ -3,7 +3,8 @@
 module.exports.loadImage = async (req, res) => {
   try {
     const imageId = req.params.imageUrl;
-    const cloudinaryUrl = `https://res.cloudinary.com/dsedsszhf/image/upload/v1742569511/admin_BLOGS/${encodeURIComponent(
+    const folder = req.params.folder;
+    const cloudinaryUrl = `https://res.cloudinary.com/dsedsszhf/image/upload/v1742569511/${folder}/${encodeURIComponent(
       imageId
     )}`;
     const response = await fetch(cloudinaryUrl);

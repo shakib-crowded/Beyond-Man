@@ -18,7 +18,7 @@
                             <%}else {%>
                                 <%= blog.admin %>
                                     <%}%>
-                </strong> | Date: <span style="color: #DA2C38;">
+                </strong> | Date: <span style="color: #4361ee;">
                     <%= new Date(blog.created_date).toLocaleDateString('en-US', { weekday: 'short' , year: 'numeric' ,
                         month: 'short' , day: 'numeric' }) %>
                 </span>
@@ -26,8 +26,7 @@
 
             <!-- Blog Image -->
             <div class="blog-image">
-                <img src="/images/blog_image_id/<%= blog.image.filename.replace('admin_BLOGS/', '') %>"
-                    alt="Blog Image">
+                <img src="/images/admin_BLOGS/<%= blog.image.filename.replace('admin_BLOGS/', '') %>" alt="Blog Image">
             </div>
             <!-- Blog Content -->
             <div class="blog-content">
@@ -54,7 +53,10 @@
             <div class="category">
                 Category: <strong>
                     <%= blog.category %>
-                </strong><br>
+                </strong>
+            </div>
+            <br>
+            <div class="tag-list">
                 Tags:
                 <strong>
                     <% if (blog.tags && blog.tags.length> 0) { %>
@@ -126,12 +128,11 @@
                     <br>
                     <input type="hidden" name="blogId" id="blogIdInput" value="<%= blog._id %>">
                     <input type="hidden" id="authorUsernameInput" value="<%= blog.admin %>">
-                    <button aria-label="Comment" type="submit"
-                        style="background-color: #DA2C38; color: white;">Comment</button>
+                    <button aria-label="Comment" type="submit" class="comment-btn">Comment</button>
                 </form>
 
                 <!-- Comments List -->
-                <ul id="commentsList">
+                <ul id=" commentsList">
                     <% comments.forEach(comment=> { %>
                         <div class="comment">
                             <div class="comment-header">
@@ -166,8 +167,6 @@
                                             onclick="showDeleteModal('<%= comment._id %>', 'comment')"><i
                                                 class="fa-solid fa-trash"></i>
                                             Delete</button>
-
-
                                     </div>
                                     <% } %>
                             </div>

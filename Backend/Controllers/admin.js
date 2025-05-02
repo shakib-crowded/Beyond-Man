@@ -96,11 +96,11 @@ module.exports.admin_profile_page = (req, res) => {
 
 module.exports.admin_profile = async (req, res) => {
   try {
-    const url = req.file.path;
-    const filename = req.file.filename;
+    const url = req.file?.path;
+    const filename = req.file?.filename;
     const username = req.user.username;
 
-    const {
+    let {
       education,
       location,
       hobbies,
@@ -110,11 +110,24 @@ module.exports.admin_profile = async (req, res) => {
       about_author,
     } = req.body;
 
+    // Ensure education is always an array
+    if (!Array.isArray(education)) {
+      education = education ? [education] : [];
+    }
+
+    // Split hobbies by comma safely
+    const hobbiesArray = hobbies
+      ? hobbies
+          .split(",")
+          .map((h) => h.trim())
+          .filter((h) => h !== "")
+      : [];
+
     const adminProfile = new AuthorProfile({
       username,
       education,
       location,
-      hobbies: hobbies.split(", "),
+      hobbies: hobbiesArray,
       instagram_profile,
       linkedin_profile,
       x_profile,
@@ -122,11 +135,13 @@ module.exports.admin_profile = async (req, res) => {
       profile_image: { url, filename },
       isCompletedProfile: true,
     });
+
     await adminProfile.save();
+
     req.flash("success", "Your Profile Completed!");
     res.redirect("/admin/dashboard");
   } catch (error) {
-    console.error(error);
+    console.error("Admin profile creation error:", error);
     res.status(500).json({ message: "Server Error" });
   }
 };
@@ -142,6 +157,7 @@ module.exports.admin_profile_update = async (req, res) => {
     const adminProfile = await AuthorProfile.findOne({
       username: adminUsername,
     });
+
     const {
       education,
       location,
@@ -153,9 +169,9 @@ module.exports.admin_profile_update = async (req, res) => {
     } = req.body;
 
     let updatedImage = adminProfile.profile_image;
-
     const processedHobbies = hobbies ? hobbies.split(/\s*,\s*/) : [];
 
+    // Process new profile image if uploaded
     if (req.file) {
       updatedImage = {
         url: req.file.path,
@@ -163,7 +179,27 @@ module.exports.admin_profile_update = async (req, res) => {
       };
     }
 
-    adminProfile.education = education;
+    // Convert education object from form input to array of structured entries
+    const educationArray = [];
+    if (education && typeof education === "object") {
+      for (let key in education) {
+        if (
+          education[key].degreeName?.trim() ||
+          education[key].universityName?.trim() ||
+          education[key].startingDate?.trim()
+        ) {
+          educationArray.push({
+            degreeName: education[key].degreeName || "",
+            universityName: education[key].universityName || "",
+            startingDate: education[key].startingDate || "",
+            endingDate: education[key].endingDate || "",
+          });
+        }
+      }
+    }
+
+    // Update profile fields
+    adminProfile.education = educationArray;
     adminProfile.location = location;
     adminProfile.hobbies = processedHobbies;
     adminProfile.instagram_profile = instagram_profile;

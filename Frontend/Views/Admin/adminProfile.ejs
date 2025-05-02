@@ -2,11 +2,13 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Admin Profile</title>
     <style>
-        /* Profile Form Container */
         .admin-profile-container {
             max-width: 500px;
             background: #fff;
@@ -17,20 +19,17 @@
             text-align: center;
         }
 
-        /* Form Heading */
         .admin-profile-container h1 {
             font-size: 1.8em;
             color: #2f1b13;
             margin-bottom: 20px;
         }
 
-        /* Form Group */
         .form-group {
             margin-bottom: 15px;
             text-align: left;
         }
 
-        /* Labels */
         .form-group label {
             display: block;
             font-size: 1em;
@@ -39,7 +38,6 @@
             margin-bottom: 5px;
         }
 
-        /* Input Fields */
         .form-group input,
         .form-group textarea {
             width: 100%;
@@ -57,16 +55,14 @@
             outline: none;
         }
 
-        /* File Input */
         .form-group input[type="file"] {
             padding: 8px;
             border: none;
         }
 
-        /* Submit Button */
         button {
             width: 100%;
-            background: #DA2C38;
+            background: #4361ee;
             color: #fff;
             padding: 12px;
             font-size: 1.1em;
@@ -77,10 +73,9 @@
         }
 
         button:hover {
-            background: #4a3f35;
+            background: #3f37c9;
         }
 
-        /* Responsive Design */
         @media (max-width: 600px) {
             .admin-profile-container {
                 padding: 20px;
@@ -98,44 +93,77 @@
         <form action="/admin/profile" method="post" enctype="multipart/form-data">
             <h1>Complete Your Profile</h1>
 
-            <div class="form-group">
-                <label for="education">Highest Education</label>
-                <input type="text" id="education" name="education" placeholder="e.g., BCA, MCA, PhD" required>
+            <!-- Education Section -->
+            <div id="education-container">
+                <div class="education-block">
+                    <div class="form-group">
+                        <label for="degreeName0">Degree Name</label>
+                        <input type="text" id="degreeName0" name="education[0][degreeName]"
+                            placeholder="e.g., BCA, MCA, PhD" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="universityName0">University Name</label>
+                        <input type="text" id="universityName0" name="education[0][universityName]"
+                            placeholder="e.g., Delhi University" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="startingDate0">Start Date</label>
+                        <input type="month" id="startingDate0" name="education[0][startingDate]" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="endingDate0">End Date (leave blank if ongoing)</label>
+                        <input type="month" id="endingDate0" name="education[0][endingDate]" />
+                    </div>
+
+
+                    <!-- Remove Button (initial block is not removable) -->
+                </div>
             </div>
 
+            <!-- Add Button -->
+            <button type="button" onclick="addEducation()" style="margin-bottom: 12px;"><i class="fa-solid fa-plus"></i>
+                Add Another
+                Education</button>
+
+            <!-- Location -->
             <div class="form-group">
                 <label for="location">Current Location</label>
                 <input type="text" id="location" name="location" placeholder="e.g., Delhi, India" required>
             </div>
 
+            <!-- Hobbies -->
             <div class="form-group">
                 <label for="hobbies">Hobbies</label>
                 <input type="text" id="hobbies" name="hobbies" placeholder="e.g., Writing blogs, reading books">
             </div>
 
+            <!-- Social Media -->
             <div class="form-group">
                 <label for="instagram_profile">Instagram Profile</label>
-                <input type="url" id="instagram_profile" name="instagram_profile" placeholder="Paste Instagram link"
-                    required>
+                <input type="url" id="instagram_profile" name="instagram_profile" placeholder="Paste Instagram link">
             </div>
 
             <div class="form-group">
                 <label for="linkedin_profile">LinkedIn Profile</label>
-                <input type="url" id="linkedin_profile" name="linkedin_profile" placeholder="Paste LinkedIn link"
-                    required>
+                <input type="url" id="linkedin_profile" name="linkedin_profile" placeholder="Paste LinkedIn link">
             </div>
 
             <div class="form-group">
                 <label for="x_profile">X (Twitter) Profile</label>
-                <input type="url" id="x_profile" name="x_profile" placeholder="Paste X (Twitter) link" required>
+                <input type="url" id="x_profile" name="x_profile" placeholder="Paste X (Twitter) link">
             </div>
 
+            <!-- About -->
             <div class="form-group">
                 <label for="about_author">About You</label>
                 <textarea name="about_author" id="about_author" placeholder="Write a short bio..." rows="4"
                     required></textarea>
             </div>
 
+            <!-- Profile Image -->
             <div class="form-group">
                 <label for="profile_image">Profile Picture (Max: 1MB)</label>
                 <input type="file" id="profile_image" name="profile_image" accept="image/*">
@@ -144,7 +172,55 @@
             <button type="submit">Complete Profile</button>
         </form>
     </div>
-
 </body>
 
 </html>
+<script>
+    let educationIndex = 1;
+
+    function addEducation() {
+        const container = document.getElementById("education-container");
+
+        const block = document.createElement("div");
+        block.classList.add("education-block");
+        block.innerHTML = `
+        <hr style="margin: 20px 0;" />
+        <div class="form-group">
+          <label for="degreeName${educationIndex}">Degree Name</label>
+          <input type="text" id="degreeName${educationIndex}" name="education[${educationIndex}][degreeName]" placeholder="e.g., BCA, MCA, PhD" required />
+        </div>
+  
+        <div class="form-group">
+          <label for="universityName${educationIndex}">University Name</label>
+          <input type="text" id="universityName${educationIndex}" name="education[${educationIndex}][universityName]" placeholder="e.g., Delhi University" required />
+        </div>
+  
+        <div class="form-group">
+          <label for="startingDate${educationIndex}">Start Date</label>
+          <input type="month" id="startingDate${educationIndex}" name="education[${educationIndex}][startingDate]" required />
+        </div>
+  
+        <div class="form-group">
+          <label for="endingDate${educationIndex}">End Date (leave blank if ongoing)</label>
+          <input type="month" id="endingDate${educationIndex}" name="education[${educationIndex}][endingDate]" />
+        </div>
+  
+        <button type="button"
+    onclick="removeEducation(this)"
+    onmouseover="this.style.background='#c9184a'"
+    onmouseout="this.style.background='#e63946'"
+    style="background: #e63946; margin-top: 10px; margin-bottom: 10px; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer;">
+    <i class="fa-solid fa-trash"></i> Remove Education
+</button>
+
+      `;
+
+        container.appendChild(block);
+        educationIndex++;
+    }
+
+    function removeEducation(button) {
+        const block = button.closest(".education-block");
+        block.remove();
+    }
+</script>

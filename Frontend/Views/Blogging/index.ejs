@@ -1,50 +1,46 @@
 <% layout("../Layouts/boilerplate") %>
 
     <body>
-        <main>
-            <div class="main-container">
-                <div class="img-container">
-                    <img src="Resources/images/beyond_man.jpg" alt="">
-                    <div class="h-centered-learn-to-code">
-                        <h1 data-text-head="Learn How To Code...">Learn How To Code...</h1>
-                    </div>
-                    <div class="home-p-centered">
-                        <p>"Everyone should know how to program a computer, because it teaches
-                            you how to think"</p>
-                    </div>
-                    <div class="author-name">
-                        <p>"Steve Jobs"</p>
-                    </div>
-
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1 id="typing-title"></h1>
+                <p id="typing-subtitle"></p>
+                <div class="hero-buttons">
+                    <a href="#courses" class="btn btn-primary">Start Learning</a>
+                    <a href="#projects" class="btn btn-secondary">View Projects</a>
                 </div>
             </div>
+            <div class="tech-graph">
+                <canvas id="languageGraph"></canvas>
+            </div>
+        </section>
+        <div class="articles">
+            <!-- Heading Section -->
+            <div class="article-heading">
+                <h3>All Articles</h3>
+            </div>
 
-            <div class="articles">
-                <!-- Heading Section -->
-                <div class="article-heading">
-                    <h3>All Articles</h3>
-                </div>
+            <!-- Blogs Container -->
+            <div class="blogs">
+                <% for(blog of allBlogs) { %>
+                    <div class="blog">
+                        <!-- Blog Link and Image -->
+                        <a aria-label="Read Full Blog" href="/<%= blog.slug %>">
+                            <img src="/images/admin_BLOGS/<%= blog.image.filename.replace('admin_BLOGS/', '') %>"
+                                alt="Blog Image">
+                            <h3 class="heebo-blog-title">
+                                <%= blog.title %>
+                            </h3>
+                        </a>
 
-                <!-- Blogs Container -->
-                <div class="blogs">
-                    <% for(blog of allBlogs) { %>
-                        <div class="blog">
-                            <!-- Blog Link and Image -->
-                            <a aria-label="Read Full Blog" href="/<%= blog.slug %>">
-                                <img src="/images/blog_image_id/<%= blog.image.filename.replace('admin_BLOGS/', '') %>"
-                                    alt="Blog Image">
-                                <h3 class="heebo-blog-title">
-                                    <%= blog.title %>
-                                </h3>
-                            </a>
+                        <!-- Blog Meta Data -->
+                        <div class="blog-card-container">
+                            <div class="blog-meta-data">
 
-                            <!-- Blog Meta Data -->
-                            <div class="blog-card-container">
-                                <div class="blog-meta-data">
-
-                                    <!-- Author Section -->
-                                    <div class="author-in-card">
-                                        <!-- <a href="/author/<%= blog.admin %>"> -->
+                                <!-- Author Section -->
+                                <div class="author-in-card">
+                                    <a href="/author/<%= blog.admin %>">
                                         <p>
                                             <i class="fa fa-user" aria-hidden="true"></i>
                                             <% if (blog.author) { %>
@@ -53,28 +49,217 @@
                                                         <%= blog.admin %>
                                                             <% } %>
                                         </p>
-                                        <!-- </a> -->
-                                    </div>
+                                    </a>
+                                </div>
 
-                                    <!-- Created Date -->
-                                    <div class="created-date">
-                                        <p>
-                                            Created Date:
-                                            <span class="date-format">
-                                                <%= blog.created_date %>
-                                            </span>
-                                        </p>
-                                    </div>
+                                <!-- Created Date -->
+                                <div class="created-date">
+                                    <p>
+                                        Created Date:
+                                        <span class="date-format">
+                                            <%= blog.created_date %>
+                                        </span>
+                                    </p>
+                                </div>
 
-                                </div> <!-- End of Blog Meta Data -->
-                            </div> <!-- End of Blog Card Container -->
+                            </div> <!-- End of Blog Meta Data -->
+                        </div> <!-- End of Blog Card Container -->
 
-                        </div> <!-- End of Blog -->
-                        <% } %>
-                </div> <!-- End of Blogs Container -->
-            </div> <!-- End of Articles -->
+                    </div> <!-- End of Blog -->
+                    <% } %>
+            </div> <!-- End of Blogs Container -->
+        </div> <!-- End of Articles -->
 
 
-        </main>
         <div id="blogContainer"></div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Typing Animation (keep your existing code)
+                const titleElement = document.getElementById('typing-title');
+                const subtitleElement = document.getElementById('typing-subtitle');
+                const fullTitle = "Learn <span class='typewriter'>Coding</span> and Share Your Knowledge";
+                const fullSubtitle = "Explore programming tutorials, dive into real-world projects, and grow with a community of learners and developers. Whether you're just starting out or sharing your expertise, this platform is for you.";
+
+                // Type title
+                let i = 0;
+                const typeTitle = setInterval(() => {
+                    if (i < fullTitle.length) {
+                        titleElement.innerHTML = fullTitle.substring(0, i + 1);
+                        i++;
+                    } else {
+                        clearInterval(typeTitle);
+                        const spans = titleElement.querySelectorAll('span');
+                        if (spans.length > 0) {
+                            spans[spans.length - 1].classList.add('typewriter');
+                        }
+                        subtitleElement.style.opacity = '1';
+                        let j = 0;
+                        const typeSubtitle = setInterval(() => {
+                            if (j < fullSubtitle.length) {
+                                subtitleElement.innerHTML = fullSubtitle.substring(0, j + 1);
+                                j++;
+                            } else {
+                                clearInterval(typeSubtitle);
+                            }
+                        }, 30);
+                    }
+                }, 50);
+
+                // Only create graph on desktop
+                if (window.innerWidth > 1024) {
+                    initLanguageGraph();
+                }
+
+                // Fallback for mobile
+                if (window.innerWidth <= 768) {
+                    titleElement.innerHTML = fullTitle;
+                    subtitleElement.innerHTML = fullSubtitle;
+                    subtitleElement.style.opacity = '1';
+                    clearInterval(typeTitle);
+                }
+
+                // Language Graph Function with Dark Nodes and FA Icons
+                function initLanguageGraph() {
+                    const container = document.querySelector('.tech-graph');
+                    const canvas = document.getElementById('languageGraph');
+                    const ctx = canvas.getContext('2d');
+
+                    // Set canvas dimensions
+                    function resizeCanvas() {
+                        canvas.width = container.offsetWidth;
+                        canvas.height = container.offsetHeight;
+                    }
+                    resizeCanvas();
+                    window.addEventListener('resize', resizeCanvas);
+
+                    // Dark color palette for nodes
+                    const languages = [
+                        { name: "JavaScript", icon: "fab fa-js", color: "#F7E025" },
+                        { name: "Python", icon: "fab fa-python", color: "#FFDE5B" },
+                        { name: "Java", icon: "fab fa-java", color: "#F29313" },
+                        { name: "C++", icon: "fa-solid fa-c", color: "#085E9F" },
+                        { name: "Ruby", icon: "fas fa-gem", color: "#820C02" },
+                        { name: "Go", icon: "fa-brands fa-golang", color: "#08AFD8" },
+                        { name: "Rust", icon: "fa-brands fa-node", color: "#75AD5F" },
+                        { name: "Swift", icon: "fab fa-swift", color: "#F05138" },
+                        { name: "Kotlin", icon: "fa-brands fa-php", color: "#7377AD" },
+                        { name: "TypeScript", icon: "fa-solid fa-database", color: "#0FE2F2" },
+                        { name: "Server", icon: "fa-solid fa-server", color: "#08357B" },
+                        { name: "HTML5", icon: "fa-brands fa-html5", color: "#DD4B25" },
+                        { name: "CSS3", icon: "fa-brands fa-css3-alt", color: "#2961EA" },
+                        { name: "AWS", icon: "fa-brands fa-aws", color: "#FF9C08" },
+                        { name: "Perl", icon: "fa-solid fa-p", color: "#003E62" },
+
+                    ];
+
+                    // Initialize nodes
+                    const nodes = languages.map(lang => {
+                        const nodeEl = document.createElement('div');
+                        nodeEl.className = 'tech-node';
+
+                        const icon = document.createElement('i');
+                        icon.className = lang.icon;
+                        icon.style.color = "#ffffff";
+                        icon.style.fontSize = "1.2rem";
+
+                        nodeEl.appendChild(icon);
+                        nodeEl.style.backgroundColor = lang.color;
+                        nodeEl.style.width = `60px`;
+                        nodeEl.style.height = `60px`;
+
+                        container.appendChild(nodeEl);
+
+                        return {
+                            ...lang,
+                            element: nodeEl,
+                            x: Math.random() * (canvas.width - 60) + 30,
+                            y: Math.random() * (canvas.height - 60) + 30,
+                            vx: Math.random() * 2 - 1,
+                            vy: Math.random() * 2 - 1,
+                            radius: 30
+                        };
+                    });
+
+                    // Create connections
+                    const connections = [];
+                    for (let i = 0; i < nodes.length; i++) {
+                        for (let j = i + 1; j < nodes.length; j++) {
+                            if (Math.random() > 0.7) {
+                                connections.push({
+                                    source: i,
+                                    target: j,
+                                    strength: Math.random()
+                                });
+                            }
+                        }
+                    }
+
+                    // Initial position setup
+                    nodes.forEach(node => {
+                        node.element.style.left = `${node.x - node.radius}px`;
+                        node.element.style.top = `${node.y - node.radius}px`;
+                    });
+
+                    // Animation loop
+                    function animate() {
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                        // Update node positions
+                        nodes.forEach(node => {
+                            node.x += node.vx;
+                            node.y += node.vy;
+
+                            // Boundary collision
+                            if (node.x < node.radius) {
+                                node.x = node.radius;
+                                node.vx *= -1;
+                            }
+                            if (node.x > canvas.width - node.radius) {
+                                node.x = canvas.width - node.radius;
+                                node.vx *= -1;
+                            }
+                            if (node.y < node.radius) {
+                                node.y = node.radius;
+                                node.vy *= -1;
+                            }
+                            if (node.y > canvas.height - node.radius) {
+                                node.y = canvas.height - node.radius;
+                                node.vy *= -1;
+                            }
+
+                            // Update element position
+                            node.element.style.left = `${node.x - node.radius}px`;
+                            node.element.style.top = `${node.y - node.radius}px`;
+                        });
+
+                        // Draw connections
+                        ctx.strokeStyle = "rgba(67, 97, 238, 0.2)";
+                        ctx.lineWidth = 2;
+
+                        connections.forEach(conn => {
+                            const source = nodes[conn.source];
+                            const target = nodes[conn.target];
+                            const dx = target.x - source.x;
+                            const dy = target.y - source.y;
+                            const distance = Math.sqrt(dx * dx + dy * dy);
+
+                            if (distance < 300) {
+                                ctx.globalAlpha = 1 - distance / 300;
+                                ctx.beginPath();
+                                ctx.moveTo(source.x, source.y);
+                                ctx.lineTo(target.x, target.y);
+                                ctx.stroke();
+                            }
+                        });
+
+                        requestAnimationFrame(animate);
+                    }
+
+                    animate();
+                }
+            });
+
+
+
+        </script>
     </body>

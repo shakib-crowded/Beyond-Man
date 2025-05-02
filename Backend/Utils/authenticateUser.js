@@ -2,8 +2,14 @@ const User = require("../Models/signUpUser");
 
 const authenticateUser = async (username, password, done) => {
   try {
-    const user = await User.userSignUp.findOne({ username });
-
+    const user = await User.userSignUp.findOne({
+      $or: [
+        { email: username },
+        {
+          username: username,
+        },
+      ],
+    });
     if (!user) {
       return done(null, false, { message: "Invalid username or password" });
     }

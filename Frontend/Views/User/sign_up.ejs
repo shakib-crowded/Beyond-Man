@@ -1,76 +1,390 @@
 <% layout("../Layouts/boilerplate") %>
 
-    <body>
+    <div class="signup-page">
         <div class="signup-container">
-            <div class="image-container">
-                <img src="Resources/images/signup_side.jpg" alt="Sign Up Side Image">
+            <!-- Desktop Decorative Elements -->
+            <div class="signup-decoration">
+                <div class="shape-1"></div>
+                <div class="shape-2"></div>
+                <div class="shape-3"></div>
             </div>
-            <div class="signup-form-container">
-                <form class="sign-up-form" action="/user-signup" method="post">
-                    <h2 class="form-heading">Create Free Account</h2>
-                    <p class="form-subtext">Join us and start your learning journey today!</p>
-                    <div class="flex-column">
-                        <label>Name</label>
-                    </div>
-                    <div class="inputForm">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                            <path fill="currentColor"
-                                d="M12 2a5 5 0 1 1-5 5a5 5 0 0 1 5-5Zm0 2a3 3 0 1 0 3 3a3 3 0 0 0-3-3ZM3 20a6 6 0 0 1 6-6h6a6 6 0 0 1 6 6Z" />
+
+            <div class="signup-card">
+                <div class="signup-header">
+                    <div class="logo-container">
+                        <svg viewBox="0 0 24 24" class="logo-icon">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
                         </svg>
-                        <input placeholder="Enter your Name" class="input" type="text" name="name">
+                        <span class="logo-text">BeyondMan</span>
+                    </div>
+                    <h1>Create Your Account</h1>
+                    <p>Join us today to start your learning journey</p>
+                </div>
+
+                <form class="signup-form" action="/register" method="post" novalidate id="signupForm">
+                    <!-- Name Field -->
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <div class="input-wrapper" data-validation="name">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="name" name="name" placeholder="Enter your full name"
+                                autocomplete="name">
+                            <div class="validation-icons">
+                                <i class="fas fa-check-circle valid-icon"></i>
+                                <i class="fas fa-exclamation-circle invalid-icon"></i>
+                            </div>
+                        </div>
+                        <div class="validation-feedback">
+                            <div class="hint-text">3-40 characters, letters and spaces only</div>
+                            <div class="error-message"></div>
+                        </div>
                     </div>
 
-                    <div class="flex-column">
-                        <label>Username</label>
-                    </div>
-                    <div class="inputForm">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" viewBox="0 0 32 32" height="20">
-                            <g data-name="Layer 3" id="Layer_3">
-                                <path
-                                    d="M16,16A6,6,0,1,0,10,10,6,6,0,0,0,16,16Zm0,2c-4,0-12,2-12,6v2H28V24C28,20,20,18,16,18Z" />
-                            </g>
-                        </svg>
-                        <input placeholder="Enter your Username" class="input" type="text" name="username">
-                    </div>
-                    <div class="flex-column">
-                        <label>Email </label>
-                    </div>
-                    <div class="inputForm">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" viewBox="0 0 32 32" height="20">
-                            <g data-name="Layer 3" id="Layer_3">
-                                <path
-                                    d="m30.853 13.87a15 15 0 0 0 -29.729 4.082 15.1 15.1 0 0 0 12.876 12.918 15.6 15.6 0 0 0 2.016.13 14.85 14.85 0 0 0 7.715-2.145 1 1 0 1 0 -1.031-1.711 13.007 13.007 0 1 1 5.458-6.529 2.149 2.149 0 0 1 -4.158-.759v-10.856a1 1 0 0 0 -2 0v1.726a8 8 0 1 0 .2 10.325 4.135 4.135 0 0 0 7.83.274 15.2 15.2 0 0 0 .823-7.455zm-14.853 8.13a6 6 0 1 1 6-6 6.006 6.006 0 0 1 -6 6z">
-                                </path>
-                            </g>
-                        </svg>
-                        <input placeholder="Enter your Email" class="input" type="text" name="email">
+                    <!-- Username Field -->
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <div class="input-wrapper" data-validation="username">
+                            <i class="fas fa-at"></i>
+                            <input type="text" id="username" name="username" placeholder="Choose a username"
+                                autocomplete="username">
+                            <div class="validation-icons">
+                                <i class="fas fa-check-circle valid-icon"></i>
+                                <i class="fas fa-exclamation-circle invalid-icon"></i>
+                            </div>
+                        </div>
+                        <div class="validation-feedback">
+                            <div class="hint-text">3-40 characters, lowercase letters, numbers, ._-@</div>
+                            <div class="error-message"></div>
+                        </div>
                     </div>
 
-
-                    <div class="flex-column">
-                        <label>Password </label>
+                    <!-- Email Field -->
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <div class="input-wrapper" data-validation="email">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="email" name="email" placeholder="Enter your email"
+                                autocomplete="email">
+                            <div class="validation-icons">
+                                <i class="fas fa-check-circle valid-icon"></i>
+                                <i class="fas fa-exclamation-circle invalid-icon"></i>
+                            </div>
+                        </div>
+                        <div class="validation-feedback">
+                            <div class="hint-text">Enter a valid email address</div>
+                            <div class="error-message"></div>
+                        </div>
                     </div>
-                    <div class="inputForm">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" viewBox="-64 0 512 512" height="20">
-                            <path
-                                d="m336 512h-288c-26.453125 0-48-21.523438-48-48v-224c0-26.476562 21.546875-48 48-48h288c26.453125 0 48 21.523438 48 48v224c0 26.476562-21.546875 48-48 48zm-288-288c-8.8125 0-16 7.167969-16 16v224c0 8.832031 7.1875 16 16 16h288c8.8125 0 16-7.167969 16-16v-224c0-8.832031-7.1875-16-16-16zm0 0">
-                            </path>
-                            <path
-                                d="m304 224c-8.832031 0-16-7.167969-16-16v-80c0-52.929688-43.070312-96-96-96s-96 43.070312-96 96v80c0 8.832031-7.167969 16-16 16s-16-7.167969-16-16v-80c0-70.59375 57.40625-128 128-128s128 57.40625 128 128v80c0 8.832031-7.167969 16-16 16zm0 0">
-                            </path>
-                        </svg>
-                        <input placeholder="Enter your Password" class="input" type="password" name="password"
-                            id="password">
-                        <div class="toggle-password"><i style="cursor: pointer;" class="fa-solid fa-eye"
-                                id="showPassword" onclick="togglePassword()"></i></div>
-                    </div>
-                    <button class="button-submit">Sign Up</button>
-                    <p class="p">Have you already account ? <a href="/user-login"><span class="span">Log
-                                In</span></a>
 
-                    </p>
+                    <!-- Password Field -->
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-wrapper" data-validation="password">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="password" name="password" placeholder="Create a password"
+                                autocomplete="new-password">
+                            <div class="validation-icons">
+                                <i class="fas fa-check-circle valid-icon"></i>
+                                <i class="fas fa-exclamation-circle invalid-icon"></i>
+                            </div>
+                            <button type="button" class="toggle-password" aria-label="Toggle password visibility">
+                                <i style="position: absolute; left: -0.5rem; bottom: -0.5rem;" class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="validation-feedback">
+                            <div class="hint-text">8+ chars, uppercase, lowercase, number, special</div>
+                            <div class="error-message"></div>
+                        </div>
+                        <div class="password-strength">
+                            <div class="strength-bar"></div>
+                            <div class="strength-text"></div>
+                        </div>
+                    </div>
+
+                    <!-- Terms Checkbox -->
+                    <div class="form-checkbox">
+                        <input type="checkbox" id="terms" name="terms" value="true">
+                        <label for="terms">I agree to the <a href="/terms-and-conditions">Terms of Service</a> and <a
+                                href="/privacy-policy">Privacy Policy</a></label>
+                        <div class="terms-error error-message"></div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="signup-btn" id="submit-btn">
+                        <span>Create Account</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <!-- Login Link -->
+                    <div class="signup-footer">
+                        <p>Already have an account? <a href="/login">Log in</a></p>
+                    </div>
                 </form>
             </div>
         </div>
-        <div id="blogContainer"></div>
-    </body>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('signupForm');
+            if (!form) return;
+
+            const nameInput = document.getElementById('name');
+            const usernameInput = document.getElementById('username');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const termsCheckbox = document.getElementById('terms');
+            const togglePasswordBtn = document.querySelector('.toggle-password');
+
+            // Validation patterns
+            const namePattern = /^[a-zA-Z\s]{3,40}$/;
+            const usernamePattern = /^[a-z0-9._@-]{3,40}$/;
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=<>?]).+$/;
+
+            // Real-time validation
+            function validateField(field, pattern, minLength, maxLength, specificError, requiredMessage) {
+                const wrapper = field.closest('.input-wrapper');
+                const formGroup = wrapper.closest('.form-group');
+                const value = field.value.trim();
+                const errorElement = formGroup.querySelector('.error-message');
+                const hintElement = formGroup.querySelector('.hint-text');
+
+                wrapper.classList.remove('valid', 'invalid');
+
+                if (value.length === 0) {
+                    errorElement.textContent = requiredMessage || 'This field is required';
+                    wrapper.classList.add('invalid');
+                    return false;
+                }
+
+                if (value.length < minLength) {
+                    errorElement.textContent = `Must be at least ${minLength} characters`;
+                    wrapper.classList.add('invalid');
+                    return false;
+                }
+
+                if (value.length > maxLength) {
+                    errorElement.textContent = `Must not exceed ${maxLength} characters`;
+                    wrapper.classList.add('invalid');
+                    return false;
+                }
+
+                if (pattern && !pattern.test(value)) {
+                    errorElement.textContent = specificError || 'Invalid format';
+                    wrapper.classList.add('invalid');
+                    return false;
+                }
+
+                wrapper.classList.add('valid');
+                return true;
+            }
+
+            // Password strength indicator
+            function checkPasswordStrength(password) {
+                const strengthBar = document.querySelector('.strength-bar');
+                const strengthText = document.querySelector('.strength-text');
+
+                strengthBar.className = 'strength-bar';
+
+                if (password.length === 0) {
+                    strengthBar.style.width = '0';
+                    strengthText.textContent = '';
+                    return;
+                }
+
+                let strength = 0;
+
+                // Length contributes to strength
+                if (password.length >= 8) strength += 1;
+                if (password.length >= 12) strength += 1;
+
+                // Character variety
+                if (/[A-Z]/.test(password)) strength += 1;
+                if (/[a-z]/.test(password)) strength += 1;
+                if (/[0-9]/.test(password)) strength += 1;
+                if (/[^A-Za-z0-9]/.test(password)) strength += 2;
+
+                // Update UI
+                if (strength <= 2) {
+                    strengthBar.classList.add('strength-weak');
+                    strengthText.textContent = 'Weak password';
+                } else if (strength <= 4) {
+                    strengthBar.classList.add('strength-medium');
+                    strengthText.textContent = 'Medium password';
+                } else if (strength <= 6) {
+                    strengthBar.classList.add('strength-strong');
+                    strengthText.textContent = 'Strong password';
+                } else {
+                    strengthBar.classList.add('strength-very-strong');
+                    strengthText.textContent = 'Very strong password';
+                }
+            }
+
+            // Validate terms checkbox
+            function validateTerms() {
+                const termsGroup = termsCheckbox.closest('.form-checkbox');
+                const termsError = termsGroup.querySelector('.terms-error');
+
+                termsGroup.classList.remove('invalid');
+
+                if (!termsCheckbox.checked) {
+                    termsError.textContent = 'You must accept the terms and conditions';
+                    termsGroup.classList.add('invalid');
+                    return false;
+                }
+
+                return true;
+            }
+
+            // Event listeners for input fields
+            function setupFieldValidation(field, pattern, min, max, specificError, requiredMessage) {
+                if (!field) return;
+
+                const wrapper = field.closest('.input-wrapper');
+                const formGroup = wrapper.closest('.form-group');
+
+                field.addEventListener('input', () => {
+                    validateField(field, pattern, min, max, specificError, requiredMessage);
+                    if (field === passwordInput) {
+                        checkPasswordStrength(field.value);
+                    }
+                });
+
+                field.addEventListener('focus', () => {
+                    wrapper.classList.add('focused');
+                    formGroup.querySelector('.hint-text').style.display = 'block';
+                });
+
+                field.addEventListener('blur', () => {
+                    wrapper.classList.remove('focused');
+                    validateField(field, pattern, min, max, specificError, requiredMessage);
+                });
+            }
+
+            // Initialize field validations
+            setupFieldValidation(
+                nameInput,
+                namePattern,
+                3,
+                40,
+                'Only letters and spaces allowed',
+                'Full name is required'
+            );
+
+            setupFieldValidation(
+                usernameInput,
+                usernamePattern,
+                3,
+                40,
+                'Only lowercase letters, numbers, and . _ - @',
+                'Username is required'
+            );
+
+            setupFieldValidation(
+                emailInput,
+                emailPattern,
+                1,
+                100,
+                'Please enter a valid email address',
+                'Email is required'
+            );
+
+            setupFieldValidation(
+                passwordInput,
+                passwordPattern,
+                8,
+                50,
+                'Must include uppercase, lowercase, number, and special character',
+                'Password is required'
+            );
+
+            // Terms checkbox validation
+            termsCheckbox.addEventListener('change', validateTerms);
+
+            // Toggle password visibility
+            if (togglePasswordBtn) {
+                togglePasswordBtn.addEventListener('click', function () {
+                    const icon = this.querySelector('i');
+                    if (passwordInput.type === 'password') {
+                        passwordInput.type = 'text';
+                        icon.classList.remove('fa-eye');
+                        icon.classList.add('fa-eye-slash');
+                    } else {
+                        passwordInput.type = 'password';
+                        icon.classList.remove('fa-eye-slash');
+                        icon.classList.add('fa-eye');
+                    }
+                });
+            }
+
+            // Form submission
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const isNameValid = validateField(
+                    nameInput,
+                    namePattern,
+                    3,
+                    40,
+                    'Only letters and spaces allowed',
+                    'Full name is required'
+                );
+
+                const isUsernameValid = validateField(
+                    usernameInput,
+                    usernamePattern,
+                    3,
+                    40,
+                    'Only lowercase letters, numbers, and . _ - @',
+                    'Username is required'
+                );
+
+                const isEmailValid = validateField(
+                    emailInput,
+                    emailPattern,
+                    1,
+                    100,
+                    'Please enter a valid email address',
+                    'Email is required'
+                );
+
+                const isPasswordValid = validateField(
+                    passwordInput,
+                    passwordPattern,
+                    8,
+                    50,
+                    'Must include uppercase, lowercase, number, and special character',
+                    'Password is required'
+                );
+
+                const isTermsValid = validateTerms();
+
+                if (isNameValid && isUsernameValid && isEmailValid && isPasswordValid && isTermsValid) {
+                    form.submit();
+                } else {
+                    // Add shake animation to invalid fields
+                    document.querySelectorAll('.invalid, .form-checkbox.invalid').forEach(element => {
+                        element.classList.add('shake');
+                        setTimeout(() => {
+                            element.classList.remove('shake');
+                        }, 500);
+                    });
+
+                    // Show hints for empty required fields
+                    if (!nameInput.value.trim()) {
+                        nameInput.closest('.form-group').querySelector('.hint-text').style.display = 'block';
+                    }
+                    if (!usernameInput.value.trim()) {
+                        usernameInput.closest('.form-group').querySelector('.hint-text').style.display = 'block';
+                    }
+                    if (!emailInput.value.trim()) {
+                        emailInput.closest('.form-group').querySelector('.hint-text').style.display = 'block';
+                    }
+                    if (!passwordInput.value.trim()) {
+                        passwordInput.closest('.form-group').querySelector('.hint-text').style.display = 'block';
+                    }
+                }
+            });
+        });
+    </script>

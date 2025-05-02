@@ -23,24 +23,23 @@ module.exports.sign_up = async (req, res, next) => {
       if (!isVerified) {
         await userSignUp.deleteMany({ isVerified: false });
         req.flash("error", "Sorry, you can't verify yourself.");
-        return res.redirect("/user-signup");
+        return res.redirect("/register");
       }
       req.flash("error", "Email is use by another user.");
-      return res.redirect("/user-signup");
+      return res.redirect("/register");
     }
 
     // Check for existing username
     const existingUser = await userSignUp.findOne({ username });
-
     if (existingUser) {
       const isVerified = existingUser.isVerified;
       if (!isVerified) {
         await userSignUp.deleteMany({ isVerified: false });
         req.flash("error", "Sorry, you can't verify yourself.");
-        return res.redirect("/user-signup");
+        return res.redirect("/register");
       }
       req.flash("error", "Username already taken.");
-      return res.redirect("/user-signup");
+      return res.redirect("/register");
     }
 
     const verificationToken = uuidv4();
@@ -52,12 +51,13 @@ module.exports.sign_up = async (req, res, next) => {
       password,
       verificationToken,
       isVerified: false,
+      terms: true, // Explicitly set to true since validation passed
     });
+
     await user.save();
     await verifyEmail(email, verificationToken);
-    const meta = {
-      title: "Verify Email",
-    };
+
+    const meta = { title: "Verify Email" };
     const blog = {};
     res.render("../User/email-verify.ejs", {
       meta,
@@ -83,7 +83,7 @@ module.exports.verifyUser = async (req, res) => {
   user.verificationToken = null;
   await user.save();
   req.flash("success", "You're Successfully Registered.");
-  res.redirect("/user-login");
+  res.redirect("/login");
 };
 
 module.exports.login_form = (req, res) => {

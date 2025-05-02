@@ -218,7 +218,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         setTimeout(() => {
           model.style.display = "none";
-          window.location.href = "/user-login";
+          window.location.href = "/login";
         }, 3000);
       }
 
@@ -314,7 +314,7 @@ const likeComment = async (commentId) => {
 
       setTimeout(() => {
         model.style.display = "none";
-        window.location.href = "/user-login";
+        window.location.href = "/login";
       }, 3000);
     }
 
@@ -370,7 +370,7 @@ const dislikeComment = async (commentId) => {
 
       setTimeout(() => {
         model.style.display = "none";
-        window.location.href = "/user-login";
+        window.location.href = "/login";
       }, 3000);
     }
 
@@ -477,7 +477,7 @@ const postReply = async (commentId) => {
 
       setTimeout(() => {
         model.style.display = "none";
-        window.location.href = "/user-login";
+        window.location.href = "/login";
       }, 3000);
     }
 
@@ -717,7 +717,7 @@ document.querySelectorAll("pre").forEach((pre) => {
     let button = document.createElement("button");
     button.innerHTML = `<i class="fa-solid fa-copy"></i>`;
     button.classList.add("copy-btn");
-    button.style.color = "#DA2C38";
+    button.style.color = "#4361ee";
 
     button.addEventListener("mouseover", function () {
       button.style.color = "#2f1b13";
@@ -726,7 +726,7 @@ document.querySelectorAll("pre").forEach((pre) => {
     });
 
     button.addEventListener("mouseout", function () {
-      button.style.color = "#DA2C38";
+      button.style.color = "#4361ee";
       button.innerHTML = `<i class="fa-solid fa-copy"></i>`;
     });
 

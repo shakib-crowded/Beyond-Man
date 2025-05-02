@@ -26,12 +26,16 @@ router.get("/", async (req, res) => {
 
 // Render About Page
 router.get("/about", (req, res) => {
-  const meta = {};
+  const meta = {
+    title: "Beyond Man | About Us",
+  };
   const blog = {};
   res.render("about", { user: req.session.user, meta, blog });
 });
 router.get("/contact", (req, res) => {
-  const meta = {};
+  const meta = {
+    title: "Beyond Man | Contact Us",
+  };
   const blog = {};
   res.render("contact", { user: req.session.user, meta, blog });
 });
@@ -42,7 +46,16 @@ router
   .post(isUserLoggedIn, wrapAsync(contactController.submitQueryForm));
 
 router.get("/privacy-policy", (req, res) => {
-  res.render("privacy_policy", { user: req.session.user });
+  const meta = {
+    title: "Beyond Man | Privacy Policy",
+  };
+  res.render("privacy_policy", { user: req.session.user, meta });
+});
+router.get("/terms-and-conditions", (req, res) => {
+  const meta = {
+    title: "Beyond Man | Terms and Conditions",
+  };
+  res.render("terms_and_conditions", { user: req.session.user, meta });
 });
 
 module.exports = router;

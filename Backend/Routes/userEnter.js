@@ -6,17 +6,17 @@ const { validateUserSignUpPage, isUserNotLoggedIn } = require("../middleware");
 const userEnterController = require("../Controllers/userEnter");
 
 router
-  .route("/user-signup")
+  .route("/register")
   .get(userEnterController.sign_up_form)
   .post(validateUserSignUpPage, wrapAsync(userEnterController.sign_up));
 
 router
-  .route("/user-login")
+  .route("/login")
   .get(isUserNotLoggedIn, userEnterController.login_form)
   .post(
     isUserNotLoggedIn,
     passport.authenticate("user", {
-      failureRedirect: "/user-login",
+      failureRedirect: "/login",
       failureFlash: true,
     }),
     userEnterController.login

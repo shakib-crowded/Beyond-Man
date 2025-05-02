@@ -2,11 +2,10 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Profile Update</title>
     <style>
-        /* Profile Form Container */
         .admin-profile-container {
             max-width: 500px;
             background: #fff;
@@ -17,29 +16,25 @@
             text-align: center;
         }
 
-        /* Form Heading */
         .admin-profile-container h1 {
             font-size: 1.8em;
             color: #2f1b13;
             margin-bottom: 20px;
         }
 
-        /* Form Group */
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             text-align: left;
         }
 
-        /* Labels */
         .form-group label {
             display: block;
             font-size: 1em;
             font-weight: 500;
             color: #4a3f35;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
         }
 
-        /* Input Fields */
         .form-group input,
         .form-group textarea {
             width: 100%;
@@ -57,16 +52,22 @@
             outline: none;
         }
 
-        /* File Input */
         .form-group input[type="file"] {
             padding: 8px;
             border: none;
         }
 
-        /* Submit Button */
+        .form-group img {
+            margin-top: 10px;
+            height: 280px;
+            width: 300px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
         button {
             width: 100%;
-            background: #DA2C38;
+            background: #4361ee;
             color: #fff;
             padding: 12px;
             font-size: 1.1em;
@@ -77,10 +78,24 @@
         }
 
         button:hover {
-            background: #4a3f35;
+            background: #3f37c9;
         }
 
-        /* Responsive Design */
+        .remove-btn {
+            background: #e63946;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .remove-btn:hover {
+            background: #c9184a;
+        }
+
         @media (max-width: 600px) {
             .admin-profile-container {
                 padding: 20px;
@@ -88,6 +103,11 @@
 
             button {
                 font-size: 1em;
+            }
+
+            .form-group img {
+                width: 100%;
+                height: auto;
             }
         }
     </style>
@@ -98,62 +118,117 @@
         <form action="/admin/profile-edit?_method=PUT" method="post" enctype="multipart/form-data">
             <h1>Update Your Profile</h1>
 
-            <div class="form-group">
-                <label for="education">Highest Education</label>
-                <input type="text" id="education" name="education" value="<%= profile.education%>"
-                    placeholder="e.g., BCA, MCA, PhD" required>
+            <div id="education-wrapper">
+                <% profile.education.forEach(function(edu, index) { %>
+                    <div class="education-block">
+                        <div class="form-group">
+                            <label>Degree Name</label>
+                            <input type="text" name="education[<%= index %>][degreeName]" value="<%= edu.degreeName %>"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label>University Name</label>
+                            <input type="text" name="education[<%= index %>][universityName]"
+                                value="<%= edu.universityName %>" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Start Date</label>
+                            <input type="month" name="education[<%= index %>][startingDate]"
+                                value="<%= new Date(edu.startingDate).toISOString().slice(0, 7) %>" required>
+                        </div>
+                        <div class="form-group">
+                            <label>End Date</label>
+                            <input type="month" name="education[<%= index %>][endingDate]"
+                                value="<%= new Date(edu.endingDate).toISOString().slice(0, 7) %>">
+                        </div>
+
+                        <button type="button" class="remove-btn" onclick="removeEducation(this)">Remove
+                            Education</button>
+                    </div>
+                    <% }); %>
             </div>
+
+            <button type="button" onclick="addEducation()">Add Education</button>
 
             <div class="form-group">
                 <label for="location">Current Location</label>
-                <input type="text" id="location" name="location" value="<%= profile.location %>"
-                    placeholder="e.g., Delhi, India" required>
+                <input type="text" id="location" name="location" value="<%= profile.location %>" required />
             </div>
 
             <div class="form-group">
                 <label for="hobbies">Hobbies</label>
-                <input type="text" id="hobbies" name="hobbies" value="<%= profile.hobbies %>"
-                    placeholder="e.g., Writing blogs, reading books">
+                <input type="text" id="hobbies" name="hobbies" value="<%= profile.hobbies %>" />
             </div>
 
             <div class="form-group">
                 <label for="instagram_profile">Instagram Profile</label>
                 <input type="url" id="instagram_profile" name="instagram_profile"
-                    value="<%= profile.instagram_profile %>" placeholder="Paste Instagram link" required>
+                    value="<%= profile.instagram_profile %>" required />
             </div>
 
             <div class="form-group">
                 <label for="linkedin_profile">LinkedIn Profile</label>
                 <input type="url" id="linkedin_profile" name="linkedin_profile" value="<%= profile.linkedin_profile %>"
-                    placeholder="Paste LinkedIn link" required>
+                    required />
             </div>
 
             <div class="form-group">
                 <label for="x_profile">X (Twitter) Profile</label>
-                <input type="url" id="x_profile" name="x_profile" value="<%= profile.x_profile %>"
-                    placeholder="Paste X (Twitter) link" required>
+                <input type="url" id="x_profile" name="x_profile" value="<%= profile.x_profile %>" required />
             </div>
 
             <div class="form-group">
                 <label for="about_author">About You</label>
-                <textarea name="about_author" id="about_author" placeholder="Write a short bio..." rows="4"
-                    required><%= profile.about_author %></textarea>
+                <textarea id="about_author" name="about_author" rows="4" required><%= profile.about_author %></textarea>
             </div>
 
             <div class="form-group">
-                <p>Preview Profile Image</p>
-                <img src="<%= profile.profile_image.url %>" alt=""
-                    style="height: 280px; width: 300px; border-radius: 50%;">
+                <label>Current Profile Picture</label>
+                <img src="<%= profile.profile_image.url %>" alt="Admin's profile picture" />
             </div>
+
             <div class="form-group">
-                <label for="profile_image">Profile Picture (Max: 1MB)</label>
-                <input type="file" id="profile_image" name="profile_image" accept="image/*">
+                <label for="profile_image">Upload New Profile Picture (Max: 1MB)</label>
+                <input type="file" id="profile_image" name="profile_image" accept="image/*" />
             </div>
 
             <button type="submit">Update Profile</button>
         </form>
     </div>
 
+    <script>
+        function addEducation() {
+            const index = document.querySelectorAll('.education-block').length;
+            const wrapper = document.getElementById('education-wrapper');
+            const div = document.createElement('div');
+            div.classList.add('education-block');
+            div.innerHTML = `
+                <div class="form-group">
+                    <label>Degree Name</label>
+                    <input type="text" name="education[\${index}][degreeName]" required>
+                </div>
+                <div class="form-group">
+                    <label>University Name</label>
+                    <input type="text" name="education[\${index}][universityName]" required>
+                </div>
+                <div class="form-group">
+                    <label>Start Date</label>
+                    <input type="month" name="education[\${index}][startingDate]" required>
+                </div>
+                <div class="form-group">
+                    <label>End Date</label>
+                    <input type="month" name="education[\${index}][endingDate]">
+                </div>
+                <button type="button" class="remove-btn" onclick="removeEducation(this)">Remove Education</button>
+            `;
+            wrapper.appendChild(div);
+        }
+
+        function removeEducation(btn) {
+            const block = btn.closest('.education-block');
+            block.remove();
+        }
+    </script>
 </body>
 
 </html>

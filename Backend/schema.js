@@ -121,6 +121,11 @@ const validateUserSignUp = Joi.object({
       "string.pattern.base":
         "Password must contain at least one uppercase letter, one lowercase letter, and one special character.",
     }),
+  terms: Joi.boolean().valid(true).required().messages({
+    "boolean.base": "You must accept the terms and conditions.",
+    "any.only": "You must accept the terms and conditions.",
+    "any.required": "You must accept the terms and conditions.",
+  }),
 });
 
 const validateUserLogin = Joi.object({

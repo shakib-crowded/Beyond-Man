@@ -14,7 +14,7 @@
                             <div class="blog">
                                 <!-- Blog Link and Image -->
                                 <a aria-label="Read Full Blog" href="/<%= blog.slug %>">
-                                    <img src="/images/blog_image_id/<%= blog.image.filename.replace('admin_BLOGS/', '') %>"
+                                    <img src="/images/admin_BLOGS/<%= blog.image.filename.replace('admin_BLOGS/', '') %>"
                                         alt="Blog Image">
                                     <h3 class="heebo-blog-title">
                                         <%= blog.title %>
@@ -45,8 +45,7 @@
                     <%}else{%>
                         <p class="no-such-blog">No Such Blog</p>
                         <div class="no-blog-found">
-                            <img src="https://www.duocircle.com/wp-content/uploads/2024/10/spf-record-3.jpg"
-                                alt="No Blog Found Here">
+                            <img src="/Resources/images/no blog found.png" alt="No Blog Found Here">
                         </div>
                         <%} %>
 

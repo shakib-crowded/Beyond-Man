@@ -1,52 +1,358 @@
 <% layout("../Layouts/boilerplate") %>
 
-    <body>
+    <div class="login-page">
         <div class="login-container">
-            <div class="image-container">
-                <img src="Resources/images/login_side.jpg" alt="Login Side Image">
+            <!-- Desktop Decorative Elements -->
+            <div class="login-decoration">
+                <div class="shape-1"></div>
+                <div class="shape-2"></div>
+                <div class="shape-3"></div>
             </div>
-            <div class="login-form-container">
-                <form class="login-form" action="/user-login" method="post">
-                    <h2 class="form-heading">Log In</h2>
-                    <p class="form-subtext">Welcome back! Please enter your details to sign in.</p>
-                    <div class="flex-column">
-                        <label>Username</label>
-                    </div>
-                    <div class="inputForm">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" viewBox="0 0 32 32" height="20">
-                            <g data-name="Layer 3" id="Layer_3">
-                                <path
-                                    d="M16,16A6,6,0,1,0,10,10,6,6,0,0,0,16,16Zm0,2c-4,0-12,2-12,6v2H28V24C28,20,20,18,16,18Z" />
-                            </g>
+
+            <div class="login-card">
+                <div class="login-header">
+                    <div class="logo-container">
+                        <svg viewBox="0 0 24 24" class="logo-icon">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
                         </svg>
-                        <input placeholder="Enter your Username" class="input" type="text" name="username">
+                        <span class="logo-text">BeyondMan</span>
+                    </div>
+                    <h1>Welcome Back</h1>
+                    <p>Please enter your credentials to access your account</p>
+                </div>
+
+                <form class="login-form" action="/login" method="post" novalidate id="loginForm">
+                    <div class="form-group">
+                        <label for="username">Username or Email</label>
+                        <div class="input-wrapper" data-validation="username">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="username" name="username" placeholder="Enter your username or email"
+                                autocomplete="username">
+                            <div class="validation-icons">
+                                <i class="fas fa-check-circle valid-icon"></i>
+                                <i class="fas fa-exclamation-circle invalid-icon"></i>
+                            </div>
+                        </div>
+                        <div class="validation-feedback">
+                            <div class="hint-text">3-40 characters, letters, numbers, ._-@</div>
+                            <div class="error-message"></div>
+                        </div>
                     </div>
 
-                    <div class="flex-column">
-                        <label>Password </label>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-wrapper" data-validation="password">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="password" name="password" placeholder="••••••••"
+                                autocomplete="current-password">
+                            <div class="validation-icons">
+                                <i class="fas fa-check-circle valid-icon"></i>
+                                <i class="fas fa-exclamation-circle invalid-icon"></i>
+                            </div>
+                            <div class="toggle-password">
+                                <i style="position: absolute; left: -0.5rem; bottom: -0.5rem;" class="fa-solid fa-eye"
+                                    id="showPassword"></i>
+                            </div>
+                        </div>
+                        <div class="validation-feedback">
+                            <div class="hint-text">8+ chars, uppercase, lowercase, special</div>
+                            <div class="error-message"></div>
+                        </div>
+                        <div class="password-strength">
+                            <div class="strength-bar"></div>
+                            <div class="strength-text"></div>
+                        </div>
                     </div>
-                    <div class="inputForm">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" viewBox="-64 0 512 512" height="20">
-                            <path
-                                d="m336 512h-288c-26.453125 0-48-21.523438-48-48v-224c0-26.476562 21.546875-48 48-48h288c26.453125 0 48 21.523438 48 48v224c0 26.476562-21.546875 48-48 48zm-288-288c-8.8125 0-16 7.167969-16 16v224c0 8.832031 7.1875 16 16 16h288c8.8125 0 16-7.167969 16-16v-224c0-8.832031-7.1875-16-16-16zm0 0">
-                            </path>
-                            <path
-                                d="m304 224c-8.832031 0-16-7.167969-16-16v-80c0-52.929688-43.070312-96-96-96s-96 43.070312-96 96v80c0 8.832031-7.167969 16-16 16s-16-7.167969-16-16v-80c0-70.59375 57.40625-128 128-128s128 57.40625 128 128v80c0 8.832031-7.167969 16-16 16zm0 0">
-                            </path>
-                        </svg>
-                        <input placeholder="Enter your Password" class="input" type="password" name="password"
-                            id="password">
 
-                        <div class="toggle-password"><i style="cursor: pointer;" class="fa-solid fa-eye"
-                                id="showPassword" onclick="togglePassword()"></i></div>
-                    </div>
-                    <div class="flex-row">
-                        <a href="/forgot-password"><span class="span">Forgot password?</span></a>
-                    </div>
-                    <button class="button-submit">Sign In</button>
-                    <p class="p">Don't have an account? <a href="/user-signup"><span class="span">Sign Up</span></a></p>
+                    <!-- Rest of your form remains the same -->
+                    <button type="submit" class="login-btn" id="submit-btn">
+                        <span>Sign In</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
+                <div class="login-footer">
+                    <p>Don't have an account? <a href="/register">Create account</a></p>
+                </div>
                 </form>
             </div>
         </div>
-        <div id="blogContainer"></div>
-    </body>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('loginForm');
+            if (!form) return;
+
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const showPasswordBtn = document.getElementById('showPassword');
+
+            if (!usernameInput || !passwordInput || !showPasswordBtn) return;
+
+            const usernamePattern = /^[a-z0-9._@-]+$/;
+            const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z]).+$/;
+
+            function validateField(field, pattern, minLength, maxLength, specificError, requiredMessage) {
+                if (!field) return false;
+
+                const wrapper = field.closest('.input-wrapper');
+                const formGroup = field.closest('.form-group');
+                if (!wrapper || !formGroup) return false;
+
+                const value = field.value.trim();
+                const errorElement = formGroup.querySelector('.error-message');
+                const hintElement = formGroup.querySelector('.hint-text');
+
+                if (!errorElement || !hintElement) return false;
+
+                wrapper.classList.remove('valid', 'invalid');
+                formGroup.classList.remove('has-error');
+
+                // Check for empty field first
+                if (value.length === 0) {
+                    errorElement.textContent = requiredMessage || 'This field is required';
+                    wrapper.classList.add('invalid');
+                    formGroup.classList.add('has-error');
+                    return false;
+                }
+
+                if (value.length < minLength) {
+                    errorElement.textContent = `Must be at least ${minLength} characters`;
+                    wrapper.classList.add('invalid');
+                    formGroup.classList.add('has-error');
+                    return false;
+                }
+
+                if (value.length > maxLength) {
+                    errorElement.textContent = `Must not exceed ${maxLength} characters`;
+                    wrapper.classList.add('invalid');
+                    formGroup.classList.add('has-error');
+                    return false;
+                }
+
+                if (pattern && !pattern.test(value)) {
+                    errorElement.textContent = specificError || 'Invalid format';
+                    wrapper.classList.add('invalid');
+                    formGroup.classList.add('has-error');
+                    return false;
+                }
+
+                wrapper.classList.add('valid');
+                return true;
+            }
+
+            // Password strength indicator with null checks
+            function checkPasswordStrength(password) {
+                const strengthBar = document.querySelector('.strength-bar');
+                const strengthText = document.querySelector('.strength-text');
+
+                if (!strengthBar || !strengthText) return;
+
+                strengthBar.className = 'strength-bar';
+
+                if (password.length === 0) {
+                    strengthBar.style.width = '0';
+                    strengthText.textContent = '';
+                    return;
+                }
+
+                let strength = 0;
+
+                if (password.length >= 8) strength += 1;
+                if (password.length >= 12) strength += 1;
+                if (/[A-Z]/.test(password)) strength += 1;
+                if (/[a-z]/.test(password)) strength += 1;
+                if (/[0-9]/.test(password)) strength += 1;
+                if (/[^A-Za-z0-9]/.test(password)) strength += 2;
+
+                if (strength <= 2) {
+                    strengthBar.classList.add('strength-weak');
+                    strengthText.textContent = 'Weak password';
+                } else if (strength <= 4) {
+                    strengthBar.classList.add('strength-medium');
+                    strengthText.textContent = 'Medium password';
+                } else if (strength <= 6) {
+                    strengthBar.classList.add('strength-strong');
+                    strengthText.textContent = 'Strong password';
+                } else {
+                    strengthBar.classList.add('strength-very-strong');
+                    strengthText.textContent = 'Very strong password';
+                }
+            }
+
+            if (usernameInput) {
+                usernameInput.addEventListener('input', () => {
+                    validateField(
+                        usernameInput,
+                        usernamePattern,
+                        3,
+                        40,
+                        "Only lowercase letters, numbers, and . _ - @",
+                        "Username is required"
+                    );
+                });
+            }
+
+            if (passwordInput) {
+                passwordInput.addEventListener('input', () => {
+                    validateField(
+                        passwordInput,
+                        passwordPattern,
+                        8,
+                        50,
+                        "Requires uppercase, lowercase, and special character",
+                        "Password is required"
+                    );
+                    checkPasswordStrength(passwordInput.value);
+                });
+            }
+
+            // Safer focus/blur event attachment
+            const inputs = document.querySelectorAll('.input-wrapper input');
+            if (inputs) {
+                inputs.forEach(input => {
+                    const wrapper = input.closest('.input-wrapper');
+                    const formGroup = input.closest('.form-group');
+
+                    if (!wrapper || !formGroup) return;
+
+                    input.addEventListener('focus', () => {
+                        wrapper.classList.add('focused');
+                        const hint = formGroup.querySelector('.hint-text');
+                        if (hint) hint.style.display = 'block';
+                    });
+
+                    input.addEventListener('blur', () => {
+                        wrapper.classList.remove('focused');
+                        if (input === usernameInput) {
+                            validateField(
+                                usernameInput,
+                                usernamePattern,
+                                3,
+                                40,
+                                "Only lowercase letters, numbers, and . _ - @"
+                            );
+                        } else if (input === passwordInput) {
+                            validateField(
+                                passwordInput,
+                                passwordPattern,
+                                8,
+                                50,
+                                "Requires uppercase, lowercase, and special character"
+                            );
+                        }
+                    });
+                });
+            }
+
+            // Toggle password visibility with check
+            if (showPasswordBtn) {
+                showPasswordBtn.addEventListener('click', function () {
+                    if (!passwordInput) return;
+
+                    if (passwordInput.type === 'password') {
+                        passwordInput.type = 'text';
+                        this.classList.remove('fa-eye');
+                        this.classList.add('fa-eye-slash');
+                    } else {
+                        passwordInput.type = 'password';
+                        this.classList.remove('fa-eye-slash');
+                        this.classList.add('fa-eye');
+                    }
+                });
+            }
+
+            // Form submission with validation
+            if (form) {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    const isUsernameValid = validateField(
+                        usernameInput,
+                        usernamePattern,
+                        3,
+                        40,
+                        "Only lowercase letters, numbers, and . _ - @"
+                    );
+
+                    const isPasswordValid = validateField(
+                        passwordInput,
+                        passwordPattern,
+                        8,
+                        50,
+                        "Requires uppercase, lowercase, and special character"
+                    );
+
+                    if (isUsernameValid && isPasswordValid) {
+                        form.submit();
+                    } else {
+                        const errorGroups = document.querySelectorAll('.has-error');
+                        if (errorGroups) {
+                            errorGroups.forEach(formGroup => {
+                                formGroup.classList.add('shake');
+                                setTimeout(() => {
+                                    formGroup.classList.remove('shake');
+                                }, 500);
+                            });
+                        }
+                    }
+                });
+            }
+            if (form) {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    let isValid = true;
+
+                    // Validate username/email
+                    const isUsernameValid = validateField(
+                        usernameInput,
+                        usernamePattern,
+                        3,
+                        40,
+                        "Only lowercase letters, numbers, and . _ - @",
+                        "Username is required"
+                    );
+                    if (!isUsernameValid) isValid = false;
+
+                    // Validate password
+                    const isPasswordValid = validateField(
+                        passwordInput,
+                        passwordPattern,
+                        8,
+                        50,
+                        "Requires uppercase, lowercase, and special character",
+                        "Password is required"
+                    );
+                    if (!isPasswordValid) isValid = false;
+
+                    if (isValid) {
+                        form.submit();
+                    } else {
+                        const errorGroups = document.querySelectorAll('.has-error');
+                        if (errorGroups) {
+                            errorGroups.forEach(formGroup => {
+                                formGroup.classList.add('shake');
+                                setTimeout(() => {
+                                    formGroup.classList.remove('shake');
+                                }, 500);
+                            });
+                        }
+
+                        // Show hints if fields are empty
+                        if (!usernameInput.value.trim()) {
+                            const usernameHint = usernameInput.closest('.form-group')?.querySelector('.hint-text');
+                            if (usernameHint) usernameHint.style.display = 'block';
+                        }
+                        if (!passwordInput.value.trim()) {
+                            const passwordHint = passwordInput.closest('.form-group')?.querySelector('.hint-text');
+                            if (passwordHint) passwordHint.style.display = 'block';
+                        }
+                    }
+                });
+            }
+        });
+
+
+    </script>

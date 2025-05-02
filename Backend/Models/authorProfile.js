@@ -1,10 +1,28 @@
 const mongoose = require("mongoose");
 
-const AuthorProfile = new mongoose.Schema({
-  education: {
+const educationSchema = new mongoose.Schema({
+  degreeName: {
     type: String,
     required: true,
+    trim: true,
   },
+  universityName: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  startingDate: {
+    type: Date,
+    required: true,
+  },
+  endingDate: {
+    type: Date,
+    default: null,
+  },
+});
+
+const AuthorProfile = new mongoose.Schema({
+  education: [educationSchema], // Now stores an array of education objects
   location: {
     type: String,
     required: true,

@@ -181,14 +181,17 @@ module.exports.validateUpdateImage = async (req, res, next) => {
 
 // Validate User Sign Up
 module.exports.validateUserSignUpPage = (req, res, next) => {
+  // Convert checkbox value to boolean
+  req.body.terms = req.body.terms === "true";
+
   const { error } = validateUserSignUp.validate(req.body);
   if (error) {
     const errMsg = error.details.map((el) => el.message).join(", ");
     req.flash("error", errMsg);
-    return res.redirect("/user-signup");
-  } else next();
+    return res.redirect("/register");
+  }
+  next();
 };
-
 // Validate the User Login
 module.exports.validateUserLoginPage = (req, res, next) => {
   const { error } = validateUserLogin.validate(req.body);
@@ -205,7 +208,7 @@ module.exports.validateUserLoginPage = (req, res, next) => {
 module.exports.isUserLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
     req.flash("error", "You must be log in as a user.");
-    if (req.url === "/contact") return res.redirect("/user-login");
+    if (req.url === "/contact") return res.redirect("/login");
     return res.status(401).json({ error: "Unauthorized Access" });
   }
   next();

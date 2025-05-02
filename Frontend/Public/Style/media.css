@@ -100,11 +100,9 @@ h6 {
 /* Large screens (Desktops - 1025px and above) */
 @media (min-width: 1025px) {
   .blog-content h1 {
-    font-size: 2.5rem;
     font-weight: 700;
   }
   .blog-content h2 {
-    font-size: 1.7rem;
     font-weight: 700;
   }
   .blog-content h3 {
@@ -113,7 +111,6 @@ h6 {
   }
   .blog-content p,
   .blog-content li {
-    font-size: 1.125rem;
     line-height: 1.8rem;
   }
 }
@@ -121,29 +118,23 @@ h6 {
 /* Medium-Large screens (Tablets & Small Laptops - 601px to 1024px) */
 @media (max-width: 1024px) and (min-width: 601px) {
   .blog-content h1 {
-    font-size: 2.25rem;
     font-weight: 700;
   }
   .blog-content h2 {
-    font-size: 1.85rem;
     font-weight: 650;
   }
   .blog-content h3 {
-    font-size: 1.6rem;
     font-weight: 600;
   }
   .blog-content p,
   .blog-content li {
-    font-size: 1.125rem;
     line-height: 1.9rem;
   }
   .ql-size-huge {
-    font-size: 1.85rem;
     font-weight: 700;
     letter-spacing: 0.04rem;
   }
   .ql-size-large {
-    font-size: 1.4rem;
     font-weight: 600;
     letter-spacing: 0.025rem;
   }
@@ -152,29 +143,23 @@ h6 {
 /* Medium screens (Tablets - 401px to 600px) */
 @media (max-width: 600px) and (min-width: 401px) {
   .blog-content h1 {
-    font-size: 2rem;
     font-weight: 700;
   }
   .blog-content h2 {
-    font-size: 1.75rem;
     font-weight: 650;
   }
   .blog-content h3 {
-    font-size: 1.5rem;
     font-weight: 600;
   }
   .blog-content p,
   .blog-content li {
-    font-size: 1.1rem;
     line-height: 1.75rem;
   }
   .ql-size-huge {
-    font-size: 1.6rem;
     font-weight: 700;
     letter-spacing: 0.03rem;
   }
   .ql-size-large {
-    font-size: 1.3rem;
     font-weight: 600;
     letter-spacing: 0.02rem;
   }
@@ -183,29 +168,23 @@ h6 {
 /* Small screens (Phones - Below 400px) */
 @media (max-width: 400px) {
   .blog-content h1 {
-    font-size: 1.75rem;
     font-weight: 600;
   }
   .blog-content h2 {
-    font-size: 1.5rem;
     font-weight: 600;
   }
   .blog-content h3 {
-    font-size: 1.25rem;
     font-weight: 550;
   }
   .blog-content p,
   .blog-content li {
-    font-size: 1rem;
     line-height: 1.6rem;
   }
   .ql-size-huge {
-    font-size: 1.5rem;
     font-weight: 700;
     letter-spacing: 0.02rem;
   }
   .ql-size-large {
-    font-size: 1.2rem;
     font-weight: 600;
     letter-spacing: 0.015rem;
   }
@@ -291,8 +270,8 @@ h6 {
   .searchBox {
     position: absolute;
     top: 90px;
-    left: 120px;
-    width: 80%;
+    left: 1.3rem;
+    width: 96%;
   }
   .searchInput {
     /* width: 52.5rem; */
@@ -302,114 +281,7 @@ h6 {
     display: flex;
   }
   .navbar {
-    height: 136px;
-  }
-}
-
-@keyframes learn-to-code {
-  0%,
-  10%,
-  100% {
-    width: 0;
-    /* Start with zero width */
-  }
-
-  50%,
-  90% {
-    width: 100%;
-    /* Expand to full width */
-  }
-}
-/* Animation to reveal letters one by one */
-@keyframes reveal-text {
-  from {
-    width: 0; /* Start with zero width */
-  }
-  to {
-    width: 100%; /* Fully reveal */
-  }
-}
-/* Typewriter effect with a pause */
-@keyframes typing {
-  0% {
-    width: 0;
-  }
-  80% {
-    width: 100%;
-  }
-  100% {
-    width: 100%;
-  }
-}
-
-@media (max-width: 590px) {
-  .home-p-centered p {
-    font-size: 0.9em;
-    margin-top: 12px;
-  }
-  .author-name {
-    position: absolute;
-    top: 75%;
-    left: 80%;
-  }
-
-  .author-name p {
-    min-width: 6rem;
-  }
-  .h-centered-learn-to-code h1 {
-    font-size: 1.5rem;
-  }
-
-  .search-heading h3 {
-    font-size: 1.25rem;
-  }
-}
-
-@media (max-width: 420px) {
-  .home-p-centered p {
-    font-size: 0.9em;
-    margin-top: 12px;
-  }
-  .author-name {
-    position: absolute;
-    top: 85%;
-    left: 70%;
-  }
-
-  .author-name p {
-    min-width: 6rem;
-    font-size: 1rem;
-  }
-  .h-centered-learn-to-code h1 {
-    font-size: 1.5rem;
-  }
-  .search-heading h3 {
-    font-size: 1rem;
-  }
-}
-
-/* Blinking cursor effect */
-@keyframes blink {
-  50% {
-    border-color: transparent;
-  }
-}
-
-/* Pause cursor blinking after typing completes */
-@keyframes fade-out {
-  100% {
-    opacity: 0;
-  }
-}
-
-@keyframes fadeInDropdown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+    height: 9rem;
   }
 }
 
@@ -476,17 +348,10 @@ h6 {
   .blogs {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   }
-  .article-heading {
-    font-size: 20px;
-  }
   .blog {
     padding: 10px;
   }
-  .blog-meta-data {
-    font-size: 0.8rem;
-  }
   .read-now-btn {
-    font-size: 0.9rem;
     padding: 8px;
   }
 }
@@ -496,12 +361,8 @@ h6 {
   .blogs {
     grid-template-columns: 1fr;
   }
-  .article-heading {
-    font-size: 18px;
-  }
 
   .read-now-btn {
-    font-size: 0.8rem;
     padding: 6px;
   }
 }
@@ -533,10 +394,6 @@ h6 {
     padding: 15px; /* Reduce padding on smaller screens */
   }
 
-  .modal-content {
-    font-size: 0.9rem; /* Adjust text size */
-  }
-
   .card-delete-btn,
   .card-cancel-btn {
     font-size: 0.9rem;
@@ -545,75 +402,144 @@ h6 {
 }
 
 /*  Hide Image When Width < 874px In User Sign In and Sign Up */
-@media screen and (max-width: 874px) {
-  .login-container {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: auto;
-  }
 
-  .login-container .image-container {
-    display: none; /* Hide image */
-  }
-
-  .login-form {
-    width: 90vw; /* Make form take more space */
-    max-width: 400px; /* Set max width */
-    border-radius: 12px; /* Fully rounded */
-    box-shadow: none;
-    background-color: #d0d0d0;
-    margin: 12px auto;
-  }
-
-  .signup-container {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: auto;
-  }
-
-  .signup-container .image-container {
-    display: none;
-  }
-
-  .sign-up-form {
-    width: 90vw;
-    max-width: 400px;
-    border-radius: 12px;
-    box-shadow: none;
-    background-color: #d0d0d0;
-    margin: 12px auto;
-  }
-}
-
-@media screen and (max-width: 2000px) {
-  .search-heading h3 {
-    font-size: 2rem;
-  }
-  .search .no-such-blog {
-    font-size: 2rem;
-  }
-}
 @media screen and (max-width: 968px) {
-  .search-heading h3 {
-    font-size: 1.5rem;
-  }
   .search-heading h3 span {
     padding: 4px;
   }
-  .search .no-such-blog {
-    font-size: 1.5rem;
-  }
 }
 @media screen and (max-width: 400px) {
-  .search-heading h3 {
-    font-size: 1.25rem;
-  }
   .search-heading h3 span {
     padding: 2px;
   }
-  .search .no-such-blog {
-    font-size: 1.25rem;
+}
+
+/* Author Profile */
+@media (max-width: 768px) {
+  .profile-body {
+    flex-direction: column;
+    padding: 1.5rem;
+  }
+
+  .profile-about,
+  .profile-details {
+    padding: 0 0 1.5rem 0;
+  }
+}
+
+/* About Us Heading */
+@media (max-width: 600px) {
+  .about-section h2::after {
+    width: 50px;
+    height: 3px;
+  }
+}
+
+/* Contact Us */
+@media (max-width: 768px) {
+  .contact-hero {
+    height: 50vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-hero {
+    height: 40vh;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Sign Up and Login Page */
+@media (max-width: 992px) {
+  .signup-container,
+  .login-container {
+    padding: 20px;
+  }
+
+  .signup-card,
+  .login-card {
+    padding: 40px;
+  }
+  .shape-1,
+  .shape-2,
+  .shape-3 {
+    opacity: 0.3;
+  }
+}
+
+@media (max-width: 768px) {
+  .signup-card,
+  .login-card {
+    padding: 40px 30px;
+  }
+
+  .signup-header h1,
+  .login-header h1 {
+    font-size: 24px;
+  }
+
+  .input-wrapper input {
+    padding: 12px 16px 12px 44px;
+  }
+
+  .social-buttons {
+    gap: 12px;
+  }
+
+  .social-btn {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-options {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .forgot-password {
+    align-self: flex-end;
+  }
+  .signup-card,
+  .login-card {
+    padding: 32px 24px;
+    border-radius: 12px;
+  }
+
+  .logo-container {
+    margin-bottom: 16px;
+  }
+}
+
+/* Shake Animation */
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-5px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(5px);
   }
 }

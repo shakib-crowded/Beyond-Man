@@ -42,5 +42,5 @@ module.exports.postResetPassword = async (req, res) => {
   await user.save();
 
   req.flash("success", "Password reset successful! You can now log in.");
-  res.redirect("/user-login");
+  res.redirect("/login");
 };

@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const { ExpressError } = require("../Utils/ExpressError");
+const { required } = require("joi");
 
 const userSignUpSchema = new mongoose.Schema({
   name: {
@@ -28,6 +29,10 @@ const userSignUpSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 8,
+  },
+  terms: {
+    type: Boolean,
+    required: true,
   },
   role: {
     type: String,

@@ -28,7 +28,7 @@ const sendResetEmail = async (email, token) => {
   
           <div style="text-align: center; margin: 20px 0;">
               <a href="${resetLink}" 
-                 style="background-color: #DA2C38; color: white; text-decoration: none; padding: 12px 20px; border-radius: 5px; display: inline-block; font-size: 16px;">
+                 style="background-color: #4361ee; color: white; text-decoration: none; padding: 12px 20px; border-radius: 5px; display: inline-block; font-size: 16px;">
                  Reset Password
               </a>
           </div>
@@ -42,11 +42,11 @@ const sendResetEmail = async (email, token) => {
           <p style="font-size: 12px; color: #777; text-align: center;">
               If you're having trouble clicking the button, copy and paste this link in your browser: 
               <br>
-              <a href="${resetLink}" style="color: #DA2C38;">${resetLink}</a>
+              <a href="${resetLink}" style="color: #4361ee;">${resetLink}</a>
           </p>
   
           <p style="font-size: 12px; color: #777; text-align: center;">
-              Need help? Contact our support team at <a href="mailto:support@yourcompany.com" style="color: #DA2C38;">support@yourcompany.com</a>.
+              Need help? Contact our support team at <a href="mailto:support@yourcompany.com" style="color: #4361ee;">support@yourcompany.com</a>.
           </p>
       </div>
     `;
@@ -77,7 +77,7 @@ const verifyEmail = async (email, token) => {
 
       <div style="text-align: center; margin: 20px 0;">
           <a href="${verificationUrl}" 
-             style="background-color: #DA2C38; color: white; text-decoration: none; padding: 12px 20px; border-radius: 5px; display: inline-block; font-size: 16px;">
+             style="background-color: #4361ee; color: white; text-decoration: none; padding: 12px 20px; border-radius: 5px; display: inline-block; font-size: 16px;">
              Verify Email
           </a>
       </div>
@@ -91,11 +91,11 @@ const verifyEmail = async (email, token) => {
       <p style="font-size: 12px; color: #777; text-align: center;">
           If you're having trouble clicking the button, copy and paste this link in your browser: 
           <br>
-          <a href="${verificationUrl}" style="color: #DA2C38;">${verificationUrl}</a>
+          <a href="${verificationUrl}" style="color: #4361ee;">${verificationUrl}</a>
       </p>
 
       <p style="font-size: 12px; color: #777; text-align: center;">
-          Need help? Contact our support team at <a href="mailto:beyondman.dev@gmail.com" style="color: #DA2C38;">support@yourcompany.com</a>.
+          Need help? Contact our support team at <a href="mailto:beyondman.dev@gmail.com" style="color: #4361ee;">support@yourcompany.com</a>.
       </p>
   </div>
 `;
