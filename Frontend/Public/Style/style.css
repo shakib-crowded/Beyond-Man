@@ -684,7 +684,7 @@ footer {
   color: var(--secondary-color);
 }
 .footer-section p {
-  font-size: 1em;
+  font-size: 0.9em;
   line-height: 1.6;
 }
 .footer-section a {
@@ -763,7 +763,7 @@ footer {
   padding: 10px 20px;
   margin-bottom: -18px;
   text-align: center;
-  font-size: 1em;
+  font-size: 0.9em;
   display: flex;
   justify-content: space-between;
   align-items: center;
