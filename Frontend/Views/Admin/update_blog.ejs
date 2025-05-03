@@ -76,8 +76,8 @@
             <div class="form-group">
                 <label for="description"><span style="color: red; font-size: 14px;">* </span>Blog Description</label>
                 <input type="text" id="description" name="description" placeholder="Enter short description..."
-                    value="<%= blog.title %>" maxlength="120" minlength="10" oninput="updateDescriptionCharCount()"
-                    required>
+                    value="<%= blog.description %>" maxlength="120" minlength="10"
+                    oninput="updateDescriptionCharCount()" required>
                 <p id="charDescriptionCount" style="font-size: 14px; color: gray; margin-top: 4px;">0/120 characters</p>
             </div>
 
