@@ -97,96 +97,70 @@ h6 {
     font-size: 1rem;
   }
 } */
+
 /* Large screens (Desktops - 1025px and above) */
-@media (min-width: 1025px) {
+@media (max-width: 1024px) {
   .blog-content h1 {
-    font-weight: 700;
+    font-size: 2.25rem;
   }
+
   .blog-content h2 {
-    font-weight: 700;
-  }
-  .blog-content h3 {
     font-size: 1.75rem;
-    font-weight: 600;
   }
-  .blog-content p,
-  .blog-content li {
-    line-height: 1.8rem;
+
+  .ql-size-huge {
+    font-size: 2rem;
   }
 }
 
-/* Medium-Large screens (Tablets & Small Laptops - 601px to 1024px) */
-@media (max-width: 1024px) and (min-width: 601px) {
+@media (max-width: 768px) {
+  .blog-content {
+    font-size: 1rem;
+  }
+
   .blog-content h1 {
-    font-weight: 700;
+    font-size: 2rem;
   }
+
   .blog-content h2 {
-    font-weight: 650;
+    font-size: 1.5rem;
   }
-  .blog-content h3 {
-    font-weight: 600;
+
+  .blog-content p {
+    font-size: 1rem;
   }
-  .blog-content p,
-  .blog-content li {
-    line-height: 1.9rem;
-  }
+
   .ql-size-huge {
-    font-weight: 700;
-    letter-spacing: 0.04rem;
+    font-size: 1.75rem;
   }
+
   .ql-size-large {
-    font-weight: 600;
-    letter-spacing: 0.025rem;
+    font-size: 1.125rem;
   }
 }
 
-/* Medium screens (Tablets - 401px to 600px) */
-@media (max-width: 600px) and (min-width: 401px) {
+@media (max-width: 480px) {
   .blog-content h1 {
-    font-weight: 700;
+    font-size: 1.75rem;
   }
-  .blog-content h2 {
-    font-weight: 650;
-  }
-  .blog-content h3 {
-    font-weight: 600;
-  }
-  .blog-content p,
-  .blog-content li {
-    line-height: 1.75rem;
-  }
-  .ql-size-huge {
-    font-weight: 700;
-    letter-spacing: 0.03rem;
-  }
-  .ql-size-large {
-    font-weight: 600;
-    letter-spacing: 0.02rem;
-  }
-}
 
-/* Small screens (Phones - Below 400px) */
-@media (max-width: 400px) {
-  .blog-content h1 {
-    font-weight: 600;
-  }
   .blog-content h2 {
-    font-weight: 600;
+    font-size: 1.375rem;
   }
-  .blog-content h3 {
-    font-weight: 550;
-  }
-  .blog-content p,
-  .blog-content li {
-    line-height: 1.6rem;
-  }
+
   .ql-size-huge {
-    font-weight: 700;
-    letter-spacing: 0.02rem;
+    font-size: 1.5rem;
+    letter-spacing: -0.01em;
   }
-  .ql-size-large {
-    font-weight: 600;
-    letter-spacing: 0.015rem;
+
+  .blog-content blockquote {
+    padding: 0.75rem 1rem;
+    font-size: 1.1rem;
+  }
+
+  .blog-content pre {
+    padding: 1rem;
+    font-size: 0.8rem;
   }
 }
 
