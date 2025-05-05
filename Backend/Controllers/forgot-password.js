@@ -1,5 +1,5 @@
 const { userSignUp } = require("../Models/signUpUser");
-const sendResetEmail = require("../Utils/mailer");
+const { sendResetEmail } = require("../Utils/mailer");
 const crypto = require("crypto");
 
 module.exports.showForgotPasswordForm = (req, res) => {

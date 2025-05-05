@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
 const sendResetEmail = async (email, token) => {
   const resetLink = `${process.env.BASE_URL}/reset-password/${token}`;
   const logoLink =
-    "https://res.cloudinary.com/dsedsszhf/image/upload/v1742176136/Beyond_Man_Logo_fu76ya.png";
+    "https://res.cloudinary.com/dsedsszhf/image/upload/v1746165075/Beyond_Man_Logo_Circle_ousnw2.png";
 
   const emailTemplate = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background: #ffffff;">
@@ -46,7 +46,7 @@ const sendResetEmail = async (email, token) => {
           </p>
   
           <p style="font-size: 12px; color: #777; text-align: center;">
-              Need help? Contact our support team at <a href="mailto:support@yourcompany.com" style="color: #4361ee;">support@yourcompany.com</a>.
+              Need help? Contact our support team at <a href="mailto:beyondman.dev@gmail.com" style="color: #4361ee;">beyondman.dev@gmail.com</a>.
           </p>
       </div>
     `;
@@ -62,7 +62,7 @@ const sendResetEmail = async (email, token) => {
 const verifyEmail = async (email, token) => {
   const verificationUrl = `${process.env.BASE_URL}/verify/${token}`;
   const logoLink =
-    "https://res.cloudinary.com/dsedsszhf/image/upload/v1742176136/Beyond_Man_Logo_fu76ya.png";
+    "https://res.cloudinary.com/dsedsszhf/image/upload/v1746165075/Beyond_Man_Logo_Circle_ousnw2.png";
 
   const emailTemplate = `
   <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background: #ffffff;">
@@ -95,7 +95,7 @@ const verifyEmail = async (email, token) => {
       </p>
 
       <p style="font-size: 12px; color: #777; text-align: center;">
-          Need help? Contact our support team at <a href="mailto:beyondman.dev@gmail.com" style="color: #4361ee;">support@yourcompany.com</a>.
+          Need help? Contact our support team at <a href="mailto:beyondman.dev@gmail.com" style="color: #4361ee;">beyondman.dev@gmail.com</a>.
       </p>
   </div>
 `;
@@ -108,5 +108,4 @@ const verifyEmail = async (email, token) => {
   });
 };
 
-module.exports = sendResetEmail;
-module.exports = verifyEmail;
+module.exports = { sendResetEmail, verifyEmail };

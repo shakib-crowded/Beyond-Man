@@ -1,7 +1,7 @@
 const { userSignUp } = require("../Models/signUpUser");
 const Blogs = require("../Models/blogs");
 const { v4: uuidv4 } = require("uuid");
-const verifyEmail = require("../Utils/mailer");
+const { verifyEmail } = require("../Utils/mailer");
 require("dotenv").config();
 
 module.exports.sign_up_form = (req, res) => {
