@@ -11,7 +11,7 @@
                                 <a href="#" class="dropbtn">Programming Languages</a>
                                 <ul class="dropdown-content">
                                         <li><a href="/programming/programming-in-c">Programming In C</a></li>
-                                        <li><a href="/programming/object-oriented-programming">Object-Oriented
+                                        <li><a href="/programming/object-oriented-programming-using-c++">Object-Oriented
                                                         Programming Using
                                                         C++</a></li>
                                         <li><a href="/programming/data-structure-and-algorithms-using-c++">Data
@@ -30,9 +30,9 @@
                                 </ul>
                         </li>
                         <li class="dropdown">
-                                <a href="#" class="dropbtn" style="padding-left: 35px; padding-right: 35px;">Website
+                                <a href="#" class="dropbtn">Website
                                         Development</a>
-                                <ul class="dropdown-content">
+                                <ul class=" dropdown-content">
                                         <li><a href="/website-dev/html-css-and-javascript">HTML, CSS, and JavaScript</a>
                                         </li>
                                         <li><a href="/website-dev/responsive-design-and-css-frameworks">Responsive
@@ -138,42 +138,19 @@
                 </div>
 
 
-                <!-- User Dropdown -->
                 <% if (!user) { %>
-                        <div class="dropdown-items">
-                                <div class="dropdown">
-                                        <button class="dropbtn" aria-label="User">
-                                                <i class="fa fa-user"></i>
-                                                <p>User</p>
-                                        </button>
-                                        <div class="dropdown-content" style="overflow:hidden; height: auto;">
-                                                <a aria-label="Log In" href="/login"><button
-                                                                style="padding-right: 24px;"
-                                                                aria-label="Log In">Login</button></a>
-                                                <a aria-label="Register" href="/register"><button
-                                                                aria-label="Register">Register</button></a>
-                                        </div>
-                                </div>
-                        </div>
+                        <a href="/login" class="nav-login-btn">Login</a>
                         <% } else { %>
-                                <div class="dropdown" style="padding: 10px;">
-                                        <button class="dropbtn" aria-label="User Dropdown">
-                                                <i class="fa fa-user"></i>
-                                        </button>
-                                        <div class="dropdown-content" style="height: auto; overflow-y: hidden;">
-                                                <button aria-label="Log Out" onclick="showLogOutCard()">Logout</button>
-                                        </div>
-                                </div>
+                                <i aria-label="Log Out" onclick="showLogOutCard()"
+                                        class="fa-solid fa-power-off nav-power-off" style="margin:0 1rem;"></i>
                                 <% } %>
-
                                         <div id="logoutCard">
                                                 <p>Are you sure to log out Beyond Man ?</p>
                                                 <button aria-label="Cancel " id="cancelButton">Cancel</button>
-                                                <button aria-label="Log Out" id="logoutButton">Log Out</button>
+                                                <button aria-label="Log Out" id="logoutButton">Log
+                                                        Out</button>
                                         </div>
-
                                         <div id="overlay" onclick="hideLogOutCard()"></div>
-
 
 
                                         <!-- Hamburger Icon for Mobile -->
@@ -188,165 +165,218 @@
 
         <!-- Mobile Menu -->
         <div class="mobile-menu">
-                <ul>
-                        <li class="dropdown">
-                                <a aria-label="Programming Languages" href="/programming" class="dropbtn"
-                                        onclick="toggleDropdown(event)">Programming Languages</a>
-                                <ul class="dropdown-content">
-                                        <li><a aria-label="Programming In C"
-                                                        href="/programming/programming-in-c">Programming In C</a></li>
-                                        <li><a aria-label="Object Oriented Programming"
-                                                        href="/programming/object-oriented-programming">Object-Oriented
-                                                        Programming Using
-                                                        C++</a></li>
-                                        <li><a aria-label="Data Structure And Algorithms Using C++"
-                                                        href="/programming/data-structure-and-algorithms-using-c++">Data
-                                                        Structures And
-                                                        Algorithms Using
-                                                        C++</a></li>
-                                        <li><a aria-label="Java Programming" href="/programming/java-programming">Java
-                                                        Programming</a></li>
-                                        <li><a aria-label="Programming With Kotlin"
-                                                        href="/programming/programming-with-kotlin">Programming
-                                                        With Kotlin</a>
-                                        </li>
-                                        <li><a aria-label="Programming In JavaScript"
-                                                        href="/programming/programming-in-javascript">Programming In
-                                                        JavaScript</a></li>
-                                        <li><a aria-label="Programming In Python"
-                                                        href="/programming/programming-in-python">Programming In
-                                                        Python</a></li>
-                                        <li><a aria-label="Programming In Swift"
-                                                        href="/programming/programming-in-swift">Programming In
-                                                        Swift</a></li>
-                                        <li><a aria-label="Programming In GoLang"
-                                                        href="/programming/programming-in-golang">Programming In
-                                                        Golang</a></li>
-                                        <li><a aria-label="Programming With PHP"
-                                                        href="/programming/programming-with-php">Programming With
-                                                        PHP</a></li>
-                                </ul>
-                        </li>
-                        <li class="dropdown">
-                                <a href="/website-dev" class="dropbtn" onclick="toggleDropdown(event)"
-                                        aria-label="Website Development">Website Development</a>
-                                <ul class="dropdown-content">
-                                        <li><a href="/website-dev/html-css-and-javascript"
-                                                        aria-label="HTML, CSS, and JavaScript">HTML, CSS,
-                                                        and JavaScript</a></li>
-                                        <li><a href="/website-dev/responsive-design-and-css-frameworks"
-                                                        aria-label="Responsive Design and CSS Frameworks">Responsive
-                                                        Design and CSS Frameworks</a>
-                                        </li>
-                                        <li><a href="/website-dev/frontend-frameworks"
-                                                        aria-label="Frontend Frameworks (React, Angular, Vue.js)">Frontend
-                                                        Frameworks (React,
-                                                        Angular, Vue.js)</a></li>
-                                        <li><a href="/website-dev/backend-developement"
-                                                        aria-label="Backend Development (Node.js, Django, Flask)">Backend
-                                                        Development (Node.js,
-                                                        Django, Flask)</a></li>
-                                        <li><a href="/website-dev/database-and-orm"
-                                                        aria-label="Databases and ORM (SQL, MongoDB)">Databases
-                                                        and ORM (SQL, MongoDB)</a></li>
-                                        <li><a href="/website-dev/api-development-and-integration"
-                                                        aria-label="API Development and Integration (REST, GraphQL)">API
-                                                        Development and Integration
-                                                        (REST, GraphQL)</a></li>
-                                        <li><a href="/website-dev/authentication-and-authorization"
-                                                        aria-label="Authentication and Authorization">Authentication and
-                                                        Authorization</a></li>
-                                        <li><a href="/website-dev/website-performance-optimization"
-                                                        aria-label="Web Performance Optimization">Web Performance
-                                                        Optimization</a></li>
-                                        <li><a href="/website-dev/deployment-and-hosting"
-                                                        aria-label="Deployment and Hosting (Netlify, Vercel, AWS)">Deployment
-                                                        and Hosting (Netlify,
-                                                        Vercel, AWS)</a></li>
-                                        <li><a href="/website-dev/progressive-website-apps"
-                                                        aria-label="Progressive Web Apps (PWA)">Progressive Web Apps
-                                                        (PWA)</a></li>
-                                </ul>
-                        </li>
-                        <li class="dropdown">
-                                <a href="/android-dev" class="dropbtn" onclick="toggleDropdown(event)"
-                                        aria-label="Android Development">Android
-                                        Development</a>
-                                <ul class="dropdown-content">
-                                        <li><a href="/android-dev/basics-of-android-development"
-                                                        aria-label="Basics of Android Development">Basics of Android
-                                                        Development</a></li>
-                                        <li><a href="/android-dev/user-interface-development-in-android"
-                                                        aria-label="User Interface (UI) Development">User Interface (UI)
-                                                        Development</a></li>
-                                        <li><a href="/android-dev/core-components-of-android"
-                                                        aria-label="Core Components">Core
-                                                        Components</a></li>
-                                        <li><a href="/android-dev/data-storage-and-management-in-android"
-                                                        aria-label="Data Storage and Management">Data
-                                                        Storage and Management</a></li>
-                                        <li><a href="/android-dev/networking-in-android"
-                                                        aria-label="Networking">Networking</a></li>
-                                        <li><a href="/android-dev/android-advanced-concept"
-                                                        aria-label="Advanced Concept">Advanced
-                                                        Concept</a></li>
-                                        <li><a href="/android-dev/working-with-apis-and-libraries-in-android"
-                                                        aria-label="Working with APIs and Libraries">Working with APIs
-                                                        and Libraries</a></li>
-                                        <li><a href="/android-dev/testing-and-debugging-in-android"
-                                                        aria-label="Testing and Debugging">Testing and Debugging</a>
-                                        </li>
-                                        <li><a href="/android-dev/performance-optimization-in-android"
-                                                        aria-label="Performance Optimization">Performance
-                                                        Optimization</a></li>
-                                        <li><a href="/android-dev/publishing-and-maintenance-in-android"
-                                                        aria-label="Publishing and Maintenance">Publishing and
-                                                        Maintenance</a></li>
-                                </ul>
-                        </li>
-                        <li class="dropdown">
-                                <a href="/software-dev" class="dropbtn" onclick="toggleDropdown(event)"
-                                        aria-label="Software Development">Software
-                                        Development</a>
-                                <ul class="dropdown-content">
-                                        <li><a href="/software-dev/software-development-life-cycle"
-                                                        aria-label="Software Development Life Cycle (SDLC)">Software
-                                                        Development Life Cycle
-                                                        (SDLC)</a></li>
-                                        <li><a href="/software-dev/agile-and-scrum-methodologies"
-                                                        aria-label="Agile and Scrum Methodologies">Agile and Scrum
-                                                        Methodologies</a></li>
-                                        <li><a href="/software-dev/version-control-and-ci-cd-pipelines"
-                                                        aria-label="Version Control and CI/CD Pipelines">Version Control
-                                                        and CI/CD Pipelines</a>
-                                        </li>
-                                        <li><a href="/software-dev/unit-testing-integration-testing-and-automation-of-software"
-                                                        aria-label="Unit Testing, Integration Testing, and Automation">Unit
-                                                        Testing, Integration
-                                                        Testing, and Automation</a></li>
-                                        <li><a href="/software-dev/code-reviews-and-team-collaboration-in-software"
-                                                        aria-label="Code Reviews and Team Collaboration">Code Reviews
-                                                        and Team Collaboration</a>
-                                        </li>
-                                        <li><a href="/software-dev/dependency-management-and-package-managers"
-                                                        aria-label="Dependency Management and Package Managers">Dependency
-                                                        Management and Package
-                                                        Managers</a></li>
-                                        <li><a href="/software-dev/application-security-best-practices"
-                                                        aria-label="Application Security Best Practices">Application
-                                                        Security Best Practices</a>
-                                        </li>
-                                        <li><a href="/software-dev/software-documentation"
-                                                        aria-label="Software Documentation">Software
-                                                        Documentation</a></li>
-                                        <li><a href="/software-dev/api-desing-and-sdk-development"
-                                                        aria-label="API Design and SDK Development">API Design and SDK
-                                                        Development</a></li>
-                                        <li><a href="/software-dev/scalability-and-maintainability-of-software"
-                                                        aria-label="Scalability and Maintainability">Scalability and
-                                                        Maintainability</a></li>
-                                </ul>
-                        </li>
-                </ul>
+                <!-- User Dropdown -->
+                <% if (!user) { %>
+                        <a href="/login" class="ham-login-btn">Login</a>
+                        <a href="/register" class="ham-register-btn">Register</a>
+                        <% } else { %>
+                                <i aria-label="Log Out" onclick="showLogOutCard()"
+                                        class="fa-solid fa-power-off ham-power-off"></i>
+                                <% } %>
+                                        <div id="logoutCard">
+                                                <p>Are you sure to log out Beyond Man ?</p>
+                                                <button aria-label="Cancel " id="cancelButton">Cancel</button>
+                                                <button aria-label="Log Out" id="logoutButton">Log
+                                                        Out</button>
+                                        </div>
+
+                                        <div id="overlay" onclick="hideLogOutCard()"></div>
+
+                                        <ul>
+                                                <li class="dropdown">
+                                                        <a aria-label="Programming Languages" href="/programming"
+                                                                class="dropbtn"
+                                                                onclick="toggleDropdown(event)">Programming
+                                                                Languages</a>
+                                                        <ul class="dropdown-content">
+                                                                <li><a aria-label="Programming In C"
+                                                                                href="/programming/programming-in-c">Programming
+                                                                                In C</a></li>
+                                                                <li><a aria-label="Object Oriented Programming"
+                                                                                href="/programming/object-oriented-programming-using-c++">Object-Oriented
+                                                                                Programming Using
+                                                                                C++</a></li>
+                                                                <li><a aria-label="Data Structure And Algorithms Using C++"
+                                                                                href="/programming/data-structure-and-algorithms-using-c++">Data
+                                                                                Structures And
+                                                                                Algorithms Using
+                                                                                C++</a></li>
+                                                                <li><a aria-label="Java Programming"
+                                                                                href="/programming/java-programming">Java
+                                                                                Programming</a></li>
+                                                                <li><a aria-label="Programming With Kotlin"
+                                                                                href="/programming/programming-with-kotlin">Programming
+                                                                                With Kotlin</a>
+                                                                </li>
+                                                                <li><a aria-label="Programming In JavaScript"
+                                                                                href="/programming/programming-in-javascript">Programming
+                                                                                In
+                                                                                JavaScript</a></li>
+                                                                <li><a aria-label="Programming In Python"
+                                                                                href="/programming/programming-in-python">Programming
+                                                                                In
+                                                                                Python</a></li>
+                                                                <li><a aria-label="Programming In Swift"
+                                                                                href="/programming/programming-in-swift">Programming
+                                                                                In
+                                                                                Swift</a></li>
+                                                                <li><a aria-label="Programming In GoLang"
+                                                                                href="/programming/programming-in-golang">Programming
+                                                                                In
+                                                                                Golang</a></li>
+                                                                <li><a aria-label="Programming With PHP"
+                                                                                href="/programming/programming-with-php">Programming
+                                                                                With
+                                                                                PHP</a></li>
+                                                        </ul>
+                                                </li>
+                                                <li class="dropdown">
+                                                        <a href="/website-dev" class="dropbtn"
+                                                                onclick="toggleDropdown(event)"
+                                                                aria-label="Website Development">Website
+                                                                Development</a>
+                                                        <ul class="dropdown-content">
+                                                                <li><a href="/website-dev/html-css-and-javascript"
+                                                                                aria-label="HTML, CSS, and JavaScript">HTML,
+                                                                                CSS,
+                                                                                and JavaScript</a></li>
+                                                                <li><a href="/website-dev/responsive-design-and-css-frameworks"
+                                                                                aria-label="Responsive Design and CSS Frameworks">Responsive
+                                                                                Design and CSS
+                                                                                Frameworks</a>
+                                                                </li>
+                                                                <li><a href="/website-dev/frontend-frameworks"
+                                                                                aria-label="Frontend Frameworks (React, Angular, Vue.js)">Frontend
+                                                                                Frameworks (React,
+                                                                                Angular, Vue.js)</a>
+                                                                </li>
+                                                                <li><a href="/website-dev/backend-developement"
+                                                                                aria-label="Backend Development (Node.js, Django, Flask)">Backend
+                                                                                Development (Node.js,
+                                                                                Django, Flask)</a></li>
+                                                                <li><a href="/website-dev/database-and-orm"
+                                                                                aria-label="Databases and ORM (SQL, MongoDB)">Databases
+                                                                                and ORM (SQL,
+                                                                                MongoDB)</a></li>
+                                                                <li><a href="/website-dev/api-development-and-integration"
+                                                                                aria-label="API Development and Integration (REST, GraphQL)">API
+                                                                                Development and
+                                                                                Integration
+                                                                                (REST, GraphQL)</a></li>
+                                                                <li><a href="/website-dev/authentication-and-authorization"
+                                                                                aria-label="Authentication and Authorization">Authentication
+                                                                                and
+                                                                                Authorization</a></li>
+                                                                <li><a href="/website-dev/website-performance-optimization"
+                                                                                aria-label="Web Performance Optimization">Web
+                                                                                Performance
+                                                                                Optimization</a></li>
+                                                                <li><a href="/website-dev/deployment-and-hosting"
+                                                                                aria-label="Deployment and Hosting (Netlify, Vercel, AWS)">Deployment
+                                                                                and Hosting (Netlify,
+                                                                                Vercel, AWS)</a></li>
+                                                                <li><a href="/website-dev/progressive-website-apps"
+                                                                                aria-label="Progressive Web Apps (PWA)">Progressive
+                                                                                Web Apps
+                                                                                (PWA)</a></li>
+                                                        </ul>
+                                                </li>
+                                                <li class="dropdown">
+                                                        <a href="/android-dev" class="dropbtn"
+                                                                onclick="toggleDropdown(event)"
+                                                                aria-label="Android Development">Android
+                                                                Development</a>
+                                                        <ul class="dropdown-content">
+                                                                <li><a href="/android-dev/basics-of-android-development"
+                                                                                aria-label="Basics of Android Development">Basics
+                                                                                of Android
+                                                                                Development</a></li>
+                                                                <li><a href="/android-dev/user-interface-development-in-android"
+                                                                                aria-label="User Interface (UI) Development">User
+                                                                                Interface (UI)
+                                                                                Development</a></li>
+                                                                <li><a href="/android-dev/core-components-of-android"
+                                                                                aria-label="Core Components">Core
+                                                                                Components</a></li>
+                                                                <li><a href="/android-dev/data-storage-and-management-in-android"
+                                                                                aria-label="Data Storage and Management">Data
+                                                                                Storage and
+                                                                                Management</a></li>
+                                                                <li><a href="/android-dev/networking-in-android"
+                                                                                aria-label="Networking">Networking</a>
+                                                                </li>
+                                                                <li><a href="/android-dev/android-advanced-concept"
+                                                                                aria-label="Advanced Concept">Advanced
+                                                                                Concept</a></li>
+                                                                <li><a href="/android-dev/working-with-apis-and-libraries-in-android"
+                                                                                aria-label="Working with APIs and Libraries">Working
+                                                                                with APIs
+                                                                                and Libraries</a></li>
+                                                                <li><a href="/android-dev/testing-and-debugging-in-android"
+                                                                                aria-label="Testing and Debugging">Testing
+                                                                                and Debugging</a>
+                                                                </li>
+                                                                <li><a href="/android-dev/performance-optimization-in-android"
+                                                                                aria-label="Performance Optimization">Performance
+                                                                                Optimization</a></li>
+                                                                <li><a href="/android-dev/publishing-and-maintenance-in-android"
+                                                                                aria-label="Publishing and Maintenance">Publishing
+                                                                                and
+                                                                                Maintenance</a></li>
+                                                        </ul>
+                                                </li>
+                                                <li class="dropdown">
+                                                        <a href="/software-dev" class="dropbtn"
+                                                                onclick="toggleDropdown(event)"
+                                                                aria-label="Software Development">Software
+                                                                Development</a>
+                                                        <ul class="dropdown-content">
+                                                                <li><a href="/software-dev/software-development-life-cycle"
+                                                                                aria-label="Software Development Life Cycle (SDLC)">Software
+                                                                                Development Life Cycle
+                                                                                (SDLC)</a></li>
+                                                                <li><a href="/software-dev/agile-and-scrum-methodologies"
+                                                                                aria-label="Agile and Scrum Methodologies">Agile
+                                                                                and Scrum
+                                                                                Methodologies</a></li>
+                                                                <li><a href="/software-dev/version-control-and-ci-cd-pipelines"
+                                                                                aria-label="Version Control and CI/CD Pipelines">Version
+                                                                                Control
+                                                                                and CI/CD Pipelines</a>
+                                                                </li>
+                                                                <li><a href="/software-dev/unit-testing-integration-testing-and-automation-of-software"
+                                                                                aria-label="Unit Testing, Integration Testing, and Automation">Unit
+                                                                                Testing, Integration
+                                                                                Testing, and
+                                                                                Automation</a></li>
+                                                                <li><a href="/software-dev/code-reviews-and-team-collaboration-in-software"
+                                                                                aria-label="Code Reviews and Team Collaboration">Code
+                                                                                Reviews
+                                                                                and Team
+                                                                                Collaboration</a>
+                                                                </li>
+                                                                <li><a href="/software-dev/dependency-management-and-package-managers"
+                                                                                aria-label="Dependency Management and Package Managers">Dependency
+                                                                                Management and Package
+                                                                                Managers</a></li>
+                                                                <li><a href="/software-dev/application-security-best-practices"
+                                                                                aria-label="Application Security Best Practices">Application
+                                                                                Security Best
+                                                                                Practices</a>
+                                                                </li>
+                                                                <li><a href="/software-dev/software-documentation"
+                                                                                aria-label="Software Documentation">Software
+                                                                                Documentation</a></li>
+                                                                <li><a href="/software-dev/api-desing-and-sdk-development"
+                                                                                aria-label="API Design and SDK Development">API
+                                                                                Design and SDK
+                                                                                Development</a></li>
+                                                                <li><a href="/software-dev/scalability-and-maintainability-of-software"
+                                                                                aria-label="Scalability and Maintainability">Scalability
+                                                                                and
+                                                                                Maintainability</a></li>
+                                                        </ul>
+                                                </li>
+                                        </ul>
         </div>
 </nav>

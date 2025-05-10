@@ -7,8 +7,6 @@ const contactController = require("../Controllers/contact");
 
 // Render Home Page
 router.get("/", async (req, res) => {
-  const allBlogs = await Blog.find({}).sort({ created_date: -1 }); // Sorting by most recent
-
   const meta = {
     title: "Beyond Man",
     description:
@@ -16,11 +14,43 @@ router.get("/", async (req, res) => {
     keywords:
       "programming, web development, android development, software development, technology",
   };
-  const blog = {};
-  if (req.session.user) {
-    res.render("index.ejs", { blog, user: req.session.user, allBlogs, meta });
-  } else {
-    res.render("index.ejs", { blog, user: null, allBlogs, meta });
+
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 8;
+
+  try {
+    const blogs = await Blog.find()
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .sort({ created_date: -1 }); // newest first
+    const totalBlogs = await Blog.countDocuments();
+    const totalPages = Math.ceil(totalBlogs / limit);
+
+    const blog = {};
+    if (req.session.user) {
+      res.render("index.ejs", {
+        blog,
+        user: req.session.user,
+        allBlogs: blogs,
+        meta,
+        totalPages,
+        limit,
+        currentPage: page,
+      });
+    } else {
+      res.render("index.ejs", {
+        blog,
+        user: null,
+        allBlogs: blogs,
+        meta,
+        totalPages,
+        limit,
+        currentPage: page,
+      });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
   }
 });
 

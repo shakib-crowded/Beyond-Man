@@ -12,7 +12,7 @@ module.exports.authorProfile = async (req, res) => {
   const blog = {};
   const allBlogs = await Blogs.find();
   const meta = {
-    title: "Author Profile",
+    title: "Beyond Man | Author Profile",
   };
 
   res.render("authorProfile", {

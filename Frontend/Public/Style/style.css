@@ -47,7 +47,6 @@ body {
 }
 .desktop-menu {
   display: flex;
-  gap: 10px;
   margin: 0;
   padding: 0;
 }
@@ -59,7 +58,6 @@ body {
   color: #fff;
   font-weight: 550;
   text-decoration: none;
-  padding: 10px 15px;
   display: inline-block;
   font-size: 1.16em;
 }
@@ -97,9 +95,6 @@ body {
 }
 .searchBox {
   --transition-speed: 0.2s;
-
-  width: 100%;
-  max-width: 300px;
   position: relative;
 }
 
@@ -188,6 +183,78 @@ body {
 .dropdown:hover .dropdown-content {
   display: block;
 }
+
+.nav-login-btn {
+  padding: 0.5rem 1rem;
+  margin: 0 1rem;
+  background-color: #ffffff;
+  color: #4361ee;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-family: Arial, sans-serif;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.nav-login-btn:hover {
+  background-color: #edf2ff; /* very light indigo */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.ham-login-btn {
+  padding: 0.5rem 1rem;
+  margin: 0 1rem;
+  background-color: #ffffff;
+  color: #4361ee;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-family: Arial, sans-serif;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.ham-login-btn:hover {
+  background-color: #edf2ff; /* very light indigo */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.ham-register-btn {
+  padding: 8px 18px;
+  margin: 0 1rem;
+  background-color: #ffffff;
+  color: #4361ee;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-family: Arial, sans-serif;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.ham-register-btn:hover {
+  background-color: #edf2ff; /* very light indigo */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.fa-power-off {
+  color: var(--primary-color); /* White icon color */
+  background-color: #fff; /* Red-500 */
+  padding: 10px;
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.fa-power-off:hover {
+  background-color: #dc2626; /* Darker red */
+  transform: scale(1.1); /* Slight zoom on hover */
+}
+
 .mobile-menu {
   display: none;
   position: fixed;
@@ -456,78 +523,6 @@ body {
   pointer-events: none; /* Prevents nodes from interfering with clicks */
 }
 
-@media (max-width: 1024px) {
-  .tech-graph {
-    display: none;
-  }
-}
-
-@keyframes blink {
-  from,
-  to {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-/* Responsive styles */
-@media (max-width: 1024px) {
-  .hero {
-    flex-direction: column;
-    text-align: center;
-    padding-top: 5rem;
-    min-height: auto;
-    gap: 3rem;
-  }
-
-  .hero-content {
-    width: 100%;
-  }
-
-  .hero-content p {
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .hero-buttons {
-    justify-content: center;
-  }
-
-  .hero-image {
-    display: none;
-  }
-}
-
-@media (max-width: 768px) {
-  .hero {
-    padding: 2rem 5%;
-  }
-
-  .hero-content h1 {
-    font-size: 2rem;
-  }
-
-  .hero-buttons {
-    flex-direction: column;
-  }
-
-  .btn {
-    width: 100%;
-    text-align: center;
-  }
-}
-
 .blogs-container {
   padding: 50px 20px;
   max-width: 98%;
@@ -642,6 +637,39 @@ body {
   font-weight: 500;
   color: var(--primary-color);
   font-style: italic;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.page-link {
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  border: 1px solid #ddd;
+  color: #333;
+  border-radius: 50%;
+  /* min-width: 30px; */
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.page-link:hover {
+  background-color: #f0f0f0;
+}
+
+.page-link.current {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.page-dots {
+  padding: 5px 10px;
+  color: #666;
 }
 /* .read-now-btn {
   padding: 10px;
@@ -1345,7 +1373,7 @@ button {
   background-color: #f4f4f4;
   border-radius: 6px;
 }
-.author-title {
+.about-author {
   font-size: 1.5em;
   font-weight: 700;
   color: #444;
@@ -1356,9 +1384,15 @@ button {
   line-height: 1.5rem;
   word-spacing: 4px;
   letter-spacing: 1px;
-  font-style: italic;
+  /* font-style: italic; */
   color: #2f1b13;
   font-weight: 500;
+}
+.author-name {
+  text-align: right;
+  font-weight: 500;
+  font-style: italic;
+  border-bottom: 2px solid #2f1b13;
 }
 
 .category {

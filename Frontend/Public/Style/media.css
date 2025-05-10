@@ -166,13 +166,7 @@ h6 {
 
 /* Navbar Responsiveness Code*/
 
-@media screen and (min-width: 1030px) {
-  .searchInput {
-    width: 16em;
-  }
-}
-
-@media screen and (max-width: 1030px) {
+@media (min-width: 769px) and (max-width: 1030px) {
   .desktop-menu {
     display: grid;
     grid-template-columns: repeat(2, 1fr); /* Two columns */
@@ -181,18 +175,28 @@ h6 {
 
   .desktop-menu li {
     width: 100%;
-    text-align: center;
   }
 
-  .searchBox {
-    width: 20%;
-    margin-top: 0px; /* Adjust as needed */
-  }
   .main-container img {
     width: 100%;
     height: 40vh;
     opacity: 0.3;
     background-size: cover;
+  }
+  .searchBox {
+    position: absolute;
+    top: 90px;
+    left: 1.3rem;
+    width: 96%;
+  }
+  .searchInput {
+    width: 95vw;
+  }
+  .desktop-menu {
+    display: flex;
+  }
+  .navbar {
+    height: 9rem;
   }
 }
 
@@ -217,8 +221,8 @@ h6 {
 
   .searchBox {
     display: block;
-    margin-left: 2rem;
-    width: 60%;
+    width: 100%;
+    margin: 0 1rem;
   }
 
   .dropdown-items {
@@ -227,6 +231,7 @@ h6 {
 
   .hamburger {
     display: flex;
+    margin-right: 0.5rem;
   }
 
   .mobile-menu {
@@ -238,9 +243,22 @@ h6 {
     opacity: 0.3;
     background-size: cover;
   }
+  .nav-login-btn {
+    display: none;
+  }
+
+  .nav-power-off {
+    display: none !important;
+  }
+
+  .ham-power-off {
+    position: absolute;
+    top: 15rem;
+    right: 1rem;
+  }
 }
 
-@media (min-width: 768px) and (max-width: 1031px) {
+/* @media (min-width: 768px) and (max-width: 1031px) {
   .searchBox {
     position: absolute;
     top: 90px;
@@ -248,14 +266,87 @@ h6 {
     width: 96%;
   }
   .searchInput {
-    /* width: 52.5rem; */
-    width: 80vw;
+    width: 95vw;
   }
   .desktop-menu {
     display: flex;
   }
   .navbar {
     height: 9rem;
+  }
+} */
+
+/* Hero Section */
+
+@media (max-width: 1024px) {
+  .tech-graph {
+    display: none;
+  }
+}
+
+@keyframes blink {
+  from,
+  to {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    padding-top: 5rem;
+    min-height: auto;
+    gap: 3rem;
+  }
+
+  .hero-content {
+    width: 100%;
+  }
+
+  .hero-content p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+  }
+
+  .hero-image {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 2rem 5%;
+  }
+
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+    text-align: center;
   }
 }
 
