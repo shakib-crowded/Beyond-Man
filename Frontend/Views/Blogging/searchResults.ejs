@@ -23,13 +23,16 @@
                                 <div class=" blog-card-container">
                                     <div class="blog-meta-data">
                                         <div class="author-in-card">
-                                            <p><i class="fa fa-user" aria-hidden="true"></i>
-                                                <% if(blog.author){ %>
-                                                    <%= blog.author %>
-                                                        <%}else {%>
-                                                            <%= blog.admin %>
-                                                                <%}%>
-                                            </p>
+                                            <a href="/author/<%= blog.admin %>">
+                                                <p>
+                                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                                    <% if (blog.author) { %>
+                                                        <%= blog.author %>
+                                                            <% } else { %>
+                                                                <%= blog.admin %>
+                                                                    <% } %>
+                                                </p>
+                                            </a>
                                         </div>
                                         <div class="created-date">
                                             <p>Created Date: <span class="date-format">
@@ -49,6 +52,30 @@
                         </div>
                         <%} %>
 
+            </div>
+            <div class="pagination">
+                <% const startPage=Math.max(1, currentPage - 2); const endPage=Math.min(totalPages, currentPage + 2);
+                    if(startPage> 1) { %>
+                    <a href="?page=1&limit=<%= limit %>" class="page-link">1</a>
+                    <% if (startPage> 2) { %>
+                        <span class="page-dots">...</span>
+                        <% } } for (let i=startPage; i <=endPage; i++) { %>
+                            <% if (i===currentPage) { %>
+                                <span class="page-link current">
+                                    <%= i %>
+                                </span>
+                                <% } else { %>
+                                    <a href="?page=<%= i %>&limit=<%= limit %>" class="page-link">
+                                        <%= i %>
+                                    </a>
+                                    <% } %>
+                                        <% } if (endPage < totalPages) { if (endPage < totalPages - 1) { %>
+                                            <span class="page-dots">...</span>
+                                            <% } %>
+                                                <a href="?page=<%= totalPages %>&limit=<%= limit %>" class="page-link">
+                                                    <%= totalPages %>
+                                                </a>
+                                                <% } %>
             </div>
         </main>
 

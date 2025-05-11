@@ -54,6 +54,14 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/courses", (req, res) => {
+  const meta = {
+    title: "Beyond Man | Courses",
+  };
+  const blog = {};
+  res.render("courses", { user: req.session.user, meta, blog });
+});
+
 // Render About Page
 router.get("/about", (req, res) => {
   const meta = {
