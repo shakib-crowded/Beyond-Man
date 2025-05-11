@@ -62,7 +62,7 @@ module.exports.searchAll = async (req, res) => {
 
     const totalPages = Math.ceil(totalBlogs / limit);
     const currentPage = page;
-
+    identity = identity.toUpperCase();
     const meta = {
       title: identity ? `Search results for "${identity}"` : "Latest Blogs",
       description: `Page ${currentPage} of blog search results.`,
