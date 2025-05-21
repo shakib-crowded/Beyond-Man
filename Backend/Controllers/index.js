@@ -3,10 +3,8 @@ const Contact = require("../Models/contacts");
 module.exports.home = async (req, res) => {
   const meta = {
     title: "Beyond Man",
-    description:
-      "Read the blogs of different tech stacks like Programming Languages, Website Development, Android Development, and Software Development.",
-    keywords:
-      "programming, web development, android development, software development, technology",
+    description: "Read the blogs of different tech stacks...",
+    keywords: "programming, web development, android development...",
   };
 
   const page = parseInt(req.query.page) || 1;
@@ -16,38 +14,38 @@ module.exports.home = async (req, res) => {
     const blogs = await Blog.find()
       .skip((page - 1) * limit)
       .limit(limit)
-      .sort({ created_date: -1 }); // newest first
+      .sort({ created_date: -1 });
     const totalBlogs = await Blog.countDocuments();
     const totalPages = Math.ceil(totalBlogs / limit);
 
-    const blog = {};
-    if (req.session.user) {
-      res.render("index.ejs", {
-        blog,
-        user: req.session.user,
-        allBlogs: blogs,
-        meta,
-        totalPages,
-        limit,
-        currentPage: page,
-      });
-    } else {
-      res.render("index.ejs", {
-        blog,
-        user: null,
-        allBlogs: blogs,
-        meta,
-        totalPages,
-        limit,
-        currentPage: page,
+    // Check if the request is AJAX
+    if (req.xhr || req.headers.accept.indexOf("json") > -1) {
+      return res.json({
+        blogs,
+        pagination: {
+          totalPages,
+          currentPage: page,
+          limit,
+        },
       });
     }
+
+    // Regular page load
+    const blog = {};
+    res.render("index.ejs", {
+      blog,
+      user: req.session.user || null,
+      allBlogs: blogs,
+      meta,
+      totalPages,
+      limit,
+      currentPage: page,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send("Server Error");
   }
 };
-
 module.exports.courses = (req, res) => {
   const meta = {
     title: "Beyond Man | Courses",
@@ -78,7 +76,7 @@ module.exports.contactPage = (req, res) => {
   };
   const blog = {};
   res.render("contact", { user: req.session.user, meta, blog });
-  res.render("contact", { user: req.session.user });
+  // res.render("contact", { user: req.session.user });
 };
 
 module.exports.submitQueryForm = async (req, res) => {

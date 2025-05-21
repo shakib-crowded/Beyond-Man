@@ -56,8 +56,8 @@ const courseSchema = mongoose.Schema(
       default: "Beginner",
     },
     duration: {
-      type: Number, // in hours
-      min: [1, "Duration must be at least 1 hour"],
+      type: Number, // in minutes
+      min: [1, "Duration must be at least 1 minutes"],
     },
     thumbnail: {
       type: String,
@@ -66,7 +66,7 @@ const courseSchema = mongoose.Schema(
     promoVideo: String,
     instructor: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Admin",
       required: true,
     },
     studentsEnrolled: [
@@ -102,7 +102,7 @@ const courseSchema = mongoose.Schema(
     publishedAt: Date,
     language: {
       type: String,
-      default: "English",
+      default: "Hinglish",
     },
     subtitles: [
       {

@@ -253,6 +253,13 @@ module.exports.admin_update = async (req, res) => {
     // Process tags properly (handle different spacing cases)
     const processedTags = tags ? tags.split(/\s*,\s*/) : [];
 
+    // Create Updated Slug
+    const slug = title.trim().replace(/\s+/g, " ");
+    const updatedSlug = slug
+      .toLowerCase()
+      .replace(/ /g, "-")
+      .replace(/[^\w-]+/g, "");
+
     // Update the blog with the new values
     blog.title = title;
     blog.content = sanitizedContent;
@@ -261,7 +268,7 @@ module.exports.admin_update = async (req, res) => {
     blog.tags = processedTags;
     blog.image = updatedImage; // Update the image if a new one is provided
     blog.updated_date = Date.now();
-
+    blog.slug = updatedSlug;
     // Save the updated blog
     await blog.save();
 

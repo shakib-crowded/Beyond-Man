@@ -1368,10 +1368,10 @@ button {
  } */
 .author-section {
   margin-top: 40px;
-  padding: 12px;
   border: 1px dashed #ccc;
   background-color: #f4f4f4;
   border-radius: 6px;
+  padding: 1rem 0.5rem 2rem 0.5rem;
 }
 .about-author {
   font-size: 1.5em;
@@ -1389,7 +1389,10 @@ button {
   font-weight: 500;
 }
 .author-name {
-  text-align: right;
+  display: inline-block;
+  position: absolute;
+  /* text-align: right; */
+  right: 4rem;
   font-weight: 500;
   font-style: italic;
   border-bottom: 2px solid #2f1b13;

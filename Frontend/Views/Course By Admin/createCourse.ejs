@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Course</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a6bff;
+            --secondary-color: #f8f9fa;
+            --text-color: #333;
+            --light-text: #6c757d;
+            --border-color: #ddd;
+            --error-color: #dc3545;
+            --success-color: #28a745;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .course-form {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            color: var(--light-text);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .form-col {
+            flex: 1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .required-field::after {
+            content: "*";
+            color: var(--error-color);
+            margin-left: 4px;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(74, 107, 255, 0.2);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-help {
+            font-size: 14px;
+            color: var(--light-text);
+            margin-top: 5px;
+        }
+
+        .error-message {
+            color: var(--error-color);
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .form-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+
+        .array-item {
+            background-color: var(--secondary-color);
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .remove-item {
+            /* position: absolute; */
+            /* top: 25px;
+            right: 25px; */
+            background-color: var(--error-color);
+            color: white;
+            border: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .add-item {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .add-item i {
+            margin-right: 5px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .checkbox-group input {
+            width: auto;
+            margin-right: 10px;
+        }
+
+        .submit-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: block;
+            margin: 40px auto 0;
+            width: 200px;
+        }
+
+        .submit-btn:hover {
+            background-color: #3a5ae8;
+        }
+
+        .lecture-item {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .section-item {
+            background-color: var(--secondary-color);
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .form-col {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form class="course-form" id="courseForm" novalidate onsubmit="">
+            <div class="form-header">
+                <h1>Create New Course</h1>
+                <p>Fill out the form below to create your course</p>
+            </div>
+
+            <!-- Basic Information Section -->
+            <div class="form-section">
+                <h2>Basic Information</h2>
+                <div class="form-group">
+                    <label for="title" class="required-field">Course Title</label>
+                    <input type="text" id="title" name="title" required maxlength="100">
+                    <p class="form-help">Maximum 100 characters</p>
+                    <p class="error-message">Please add a course title</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="description" class="required-field">Description</label>
+                    <textarea id="description" name="description" required maxlength="500"></textarea>
+                    <p class="form-help">Maximum 500 characters</p>
+                    <p class="error-message">Please add a description</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="shortDescription">Short Description</label>
+                    <textarea id="shortDescription" name="shortDescription" maxlength="150"></textarea>
+                    <p class="form-help">Maximum 150 characters</p>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="category" class="required-field">Category</label>
+                            <select id="category" name="category" required>
+                                <option value="">Select a category</option>
+                                <option value="Web Development">Web Development</option>
+                                <option value="Mobile Development">Mobile Development</option>
+                                <option value="Data Science">Data Science</option>
+                                <option value="Programming">Programming</option>
+                                <option value="Cyber Security">Cyber Security</option>
+                                <option value="Design">Design</option>
+                                <option value="Business">Business</option>
+                                <option value="Marketing">Marketing</option>
+                            </select>
+                            <p class="error-message">Please select a category</p>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="level">Level</label>
+                            <select id="level" name="level">
+                                <option value="Beginner">Beginner</option>
+                                <option value="Intermediate">Intermediate</option>
+                                <option value="Advanced">Advanced</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="price" class="required-field">Price ($)</label>
+                            <input type="number" id="price" name="price" min="0" step="0.01" required>
+                            <p class="error-message">Please add a course price</p>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="discountedPrice">Discounted Price ($)</label>
+                            <input type="number" id="discountedPrice" name="discountedPrice" min="0" step="0.01">
+                            <p class="error-message">Discounted price must be less than regular price</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="duration">Duration (minutes)</label>
+                            <input type="number" id="duration" name="duration" min="1">
+                            <p class="error-message">Duration must be at least 1 minute</p>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="language">Language</label>
+                            <input type="text" id="language" name="language" value="Hinglish">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Media Section -->
+            <div class="form-section">
+                <h2>Media</h2>
+                <div class="form-group">
+                    <label for="thumbnail" class="required-field">Thumbnail URL</label>
+                    <input type="url" id="thumbnail" name="thumbnail" required>
+                    <p class="error-message">Please add a thumbnail URL</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="promoVideo">Promo Video URL</label>
+                    <input type="url" id="promoVideo" name="promoVideo">
+                </div>
+            </div>
+
+            <!-- Requirements Section -->
+            <div class="form-section">
+                <h2>Requirements</h2>
+                <div id="requirementsContainer">
+                    <!-- Requirements will be added here -->
+                </div>
+                <button type="button" class="add-item" id="addRequirement">
+                    <i class="fas fa-plus"></i> Add Requirement
+                </button>
+            </div>
+
+            <!-- Learning Outcomes Section -->
+            <div class="form-section">
+                <h2>Learning Outcomes</h2>
+                <div id="outcomesContainer">
+                    <!-- Outcomes will be added here -->
+                </div>
+                <button type="button" class="add-item" id="addOutcome">
+                    <i class="fas fa-plus"></i> Add Learning Outcome
+                </button>
+            </div>
+
+            <!-- Course Content Section -->
+            <div class="form-section">
+                <h2>Course Content</h2>
+                <div id="sectionsContainer">
+                    <!-- Sections will be added here -->
+                </div>
+                <button type="button" class="add-item" id="addSection">
+                    <i class="fas fa-plus"></i> Add Section
+                </button>
+            </div>
+
+            <!-- Resources Section -->
+            <div class="form-section">
+                <h2>Resources</h2>
+                <div id="resourcesContainer">
+                    <!-- Resources will be added here -->
+                </div>
+                <button type="button" class="add-item" id="addResource">
+                    <i class="fas fa-plus"></i> Add Resource
+                </button>
+            </div>
+
+            <!-- Subtitles Section -->
+            <div class="form-section">
+                <h2>Subtitles</h2>
+                <div id="subtitlesContainer">
+                    <!-- Subtitles will be added here -->
+                </div>
+                <button type="button" class="add-item" id="addSubtitle">
+                    <i class="fas fa-plus"></i> Add Subtitle
+                </button>
+            </div>
+
+            <!-- Settings Section -->
+            <div class="form-section">
+                <h2>Settings</h2>
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="isFeatured" name="isFeatured">
+                            <label for="isFeatured">Feature this course</label>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="isPublished" name="isPublished">
+                            <label for="isPublished">Publish this course</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Create Course</button>
+        </form>
+    </div>
+
+    <script>
+        // Add requirement
+        document.getElementById('addRequirement').addEventListener('click', function () {
+            const container = document.getElementById('requirementsContainer');
+            const div = document.createElement('div');
+            div.className = 'array-item';
+            div.innerHTML = `
+                <input type="text" name="requirements" placeholder="Enter requirement">
+                <button type="button" class="remove-item">&times;</button>
+            `;
+            container.appendChild(div);
+
+            div.querySelector('.remove-item').addEventListener('click', function () {
+                container.removeChild(div);
+            });
+        });
+
+        // Add learning outcome
+        document.getElementById('addOutcome').addEventListener('click', function () {
+            const container = document.getElementById('outcomesContainer');
+            const div = document.createElement('div');
+            div.className = 'array-item';
+            div.innerHTML = `
+                <input type="text" name="learningOutcomes" placeholder="Enter learning outcome">
+                <button type="button" class="remove-item">&times;</button>
+            `;
+            container.appendChild(div);
+
+            div.querySelector('.remove-item').addEventListener('click', function () {
+                container.removeChild(div);
+            });
+        });
+
+        // Add section with lectures
+        document.getElementById('addSection').addEventListener('click', function () {
+            const container = document.getElementById('sectionsContainer');
+            const div = document.createElement('div');
+            div.className = 'section-item';
+            div.innerHTML = `
+                <div class="section-header">
+                    <input type="text" name="sections[][title]" placeholder="Section title" style="flex-grow: 1;">
+                    <button type="button" class="remove-item">&times;</button>
+                </div>
+                <div class="lectures-container" style="margin-top: 15px;"></div>
+                <button type="button" class="add-item add-lecture" style="margin-top: 10px;">
+                    <i class="fas fa-plus"></i> Add Lecture
+                </button>
+            `;
+            container.appendChild(div);
+
+            div.querySelector('.remove-item').addEventListener('click', function () {
+                container.removeChild(div);
+            });
+
+            // Add lecture to this section
+            div.querySelector('.add-lecture').addEventListener('click', function () {
+                const lecturesContainer = div.querySelector('.lectures-container');
+                const lectureDiv = document.createElement('div');
+                lectureDiv.className = 'lecture-item';
+                lectureDiv.innerHTML = `
+                    <div class="form-row">
+                        <div class="form-col">
+                            <input type="text" name="sections[][lectures][][title]" placeholder="Lecture title" required>
+                        </div>
+                        <div class="form-col">
+                            <input type="number" name="sections[][lectures][][duration]" placeholder="Duration (min)" min="1">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top: 10px;">
+                        <input type="url" name="sections[][lectures][][videoUrl]" placeholder="Video URL">
+                    </div>
+                    <div class="form-group">
+                        <textarea name="sections[][lectures][][description]" placeholder="Lecture description"></textarea>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" name="sections[][lectures][][isPreview]" id="preview">
+                        <label for="preview">Available as preview</label>
+                    </div>
+                    <button type="button" class="remove-item" style="margin-top: 10px;">&times; Remove Lecture</button>
+                `;
+                lecturesContainer.appendChild(lectureDiv);
+
+                lectureDiv.querySelector('.remove-item').addEventListener('click', function () {
+                    lecturesContainer.removeChild(lectureDiv);
+                });
+            });
+        });
+
+        // Add resource
+        document.getElementById('addResource').addEventListener('click', function () {
+            const container = document.getElementById('resourcesContainer');
+            const div = document.createElement('div');
+            div.className = 'array-item';
+            div.innerHTML = `
+                <div class="form-row">
+                    <div class="form-col">
+                        <input type="text" name="resources[][title]" placeholder="Resource title">
+                    </div>
+                    <div class="form-col">
+                        <input type="url" name="resources[][url]" placeholder="Resource URL">
+                    </div>
+                </div>
+                <button type="button" class="remove-item" style="margin-top: 10px;">&times;</button>
+            `;
+            container.appendChild(div);
+
+            div.querySelector('.remove-item').addEventListener('click', function () {
+                container.removeChild(div);
+            });
+        });
+
+        // Add subtitle
+        document.getElementById('addSubtitle').addEventListener('click', function () {
+            const container = document.getElementById('subtitlesContainer');
+            const div = document.createElement('div');
+            div.className = 'array-item';
+            div.innerHTML = `
+                <div class="form-row">
+                    <div class="form-col">
+                        <input type="text" name="subtitles[][language]" placeholder="Language">
+                    </div>
+                    <div class="form-col">
+                        <input type="url" name="subtitles[][url]" placeholder="Subtitle file URL">
+                    </div>
+                </div>
+                <button type="button" class="remove-item" style="margin-top: 10px;">&times;</button>
+            `;
+            container.appendChild(div);
+
+            div.querySelector('.remove-item').addEventListener('click', function () {
+                container.removeChild(div);
+            });
+        });
+
+        // Form validation
+        document.getElementById('courseForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            // Basic validation
+            let isValid = true;
+            const requiredFields = document.querySelectorAll('[required]');
+
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    const errorMsg = field.closest('.form-group').querySelector('.error-message');
+                    errorMsg.style.display = 'block';
+                }
+            });
+
+            // Validate discounted price
+            const price = parseFloat(document.getElementById('price').value);
+            const discountedPrice = parseFloat(document.getElementById('discountedPrice').value);
+
+            if (discountedPrice && discountedPrice >= price) {
+                isValid = false;
+                document.querySelector('#discountedPrice + .error-message').style.display = 'block';
+            }
+
+            if (!isValid) return;
+
+            try {
+                // Collect all form data properly
+                const formData = {
+                    title: document.getElementById('title').value,
+                    description: document.getElementById('description').value,
+                    shortDescription: document.getElementById('shortDescription').value,
+                    price: parseFloat(document.getElementById('price').value),
+                    discountedPrice: document.getElementById('discountedPrice').value
+                        ? parseFloat(document.getElementById('discountedPrice').value)
+                        : undefined,
+                    category: document.getElementById('category').value,
+                    level: document.getElementById('level').value,
+                    duration: document.getElementById('duration').value
+                        ? parseInt(document.getElementById('duration').value)
+                        : undefined,
+                    thumbnail: document.getElementById('thumbnail').value,
+                    promoVideo: document.getElementById('promoVideo').value,
+                    language: document.getElementById('language').value,
+                    isFeatured: document.getElementById('isFeatured').checked,
+                    isPublished: document.getElementById('isPublished').checked,
+
+                    // Handle array fields properly
+                    requirements: Array.from(document.querySelectorAll('#requirementsContainer input[name="requirements"]'))
+                        .map(input => input.value.trim())
+                        .filter(value => value),
+
+                    learningOutcomes: Array.from(document.querySelectorAll('#outcomesContainer input[name="learningOutcomes"]'))
+                        .map(input => input.value.trim())
+                        .filter(value => value),
+
+                    // Handle sections with lectures
+                    sections: Array.from(document.querySelectorAll('#sectionsContainer .section-item')).map(section => {
+                        const title = section.querySelector('input[name="sections[][title]"]').value.trim();
+                        const lectures = Array.from(section.querySelectorAll('.lecture-item')).map(lecture => ({
+                            title: lecture.querySelector('input[name="sections[][lectures][][title]"]').value.trim(),
+                            duration: lecture.querySelector('input[name="sections[][lectures][][duration]"]').value
+                                ? parseInt(lecture.querySelector('input[name="sections[][lectures][][duration]"]').value)
+                                : undefined,
+                            videoUrl: lecture.querySelector('input[name="sections[][lectures][][videoUrl]"]').value.trim(),
+                            description: lecture.querySelector('textarea[name="sections[][lectures][][description]"]').value.trim(),
+                            isPreview: lecture.querySelector('input[name="sections[][lectures][][isPreview]"]').checked
+                        })).filter(lecture => lecture.title); // Filter out empty lectures
+
+                        return { title, lectures };
+                    }).filter(section => section.title), // Filter out empty sections
+
+                    // Handle resources
+                    resources: Array.from(document.querySelectorAll('#resourcesContainer .array-item')).map(item => ({
+                        title: item.querySelector('input[name="resources[][title]"]').value.trim(),
+                        url: item.querySelector('input[name="resources[][url]"]').value.trim()
+                    })).filter(resource => resource.title || resource.url),
+
+                    // Handle subtitles
+                    subtitles: Array.from(document.querySelectorAll('#subtitlesContainer .array-item')).map(item => ({
+                        language: item.querySelector('input[name="subtitles[][language]"]').value.trim(),
+                        url: item.querySelector('input[name="subtitles[][url]"]').value.trim()
+                    })).filter(subtitle => subtitle.language || subtitle.url)
+                };
+
+                console.log("Form Data to be sent:", formData);
+
+                // Send data to backend
+                const response = await fetch('/admin/create-course', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const result = await response.json();
+                alert('Course created successfully!');
+                console.log('Success:', result);
+                // Optionally redirect or reset the form
+                // window.location.href = '/some-success-page';
+                // e.target.reset();
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('There was a problem submitting the form. Please try again.');
+            }
+        });
+
+        // Hide error messages when user starts typing
+        document.querySelectorAll('input, textarea, select').forEach(element => {
+            element.addEventListener('input', function () {
+                const errorMsg = this.closest('.form-group')?.querySelector('.error-message');
+                if (errorMsg) {
+                    errorMsg.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

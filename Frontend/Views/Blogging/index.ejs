@@ -7,8 +7,8 @@
                 <h1 id="typing-title"></h1>
                 <p id="typing-subtitle"></p>
                 <div class="hero-buttons">
-                    <a href="/courses" class="btn btn-primary">Start Learning</a>
-                    <a href="#projects" class="btn btn-secondary">View Projects</a>
+                    <!-- <a href="/courses" class="btn btn-primary">Start Learning</a>
+                    <a href="#projects" class="btn btn-secondary">View Projects</a> -->
                 </div>
             </div>
             <div class="tech-graph">
@@ -171,7 +171,6 @@
                         { name: "HTML5", icon: "fa-brands fa-html5", color: "#DD4B25" },
                         { name: "CSS3", icon: "fa-brands fa-css3-alt", color: "#2961EA" },
                         { name: "AWS", icon: "fa-brands fa-aws", color: "#FF9C08" },
-                        { name: "Perl", icon: "fa-solid fa-p", color: "#003E62" },
 
                     ];
 
@@ -282,6 +281,131 @@
                 }
             });
 
+            document.addEventListener('DOMContentLoaded', function () {
+                // Handle pagination clicks with AJAX
+                document.querySelector('.pagination').addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    if (e.target.tagName === 'A') {
+                        const url = e.target.getAttribute('href');
+                        loadBlogs(url);
+
+                        // Update URL without reload
+                        history.pushState(null, null, url);
+                    }
+                });
+
+                // Handle browser back/forward
+                window.addEventListener('popstate', function () {
+                    loadBlogs(window.location.href);
+                });
+
+                function loadBlogs(url) {
+                    fetch(url, {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Accept': 'application/json'
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            // Update blogs container
+                            const blogsContainer = document.querySelector('.blogs');
+                            blogsContainer.innerHTML = '';
+
+
+
+                            // Recreate blogs from response
+                            data.blogs.forEach(blog => {
+                                const blogElement = document.createElement('div');
+                                blogElement.className = 'blog';
+                                blogElement.innerHTML = `
+          <a aria-label="Read Full Blog" href="/${blog.slug}">
+            <img src="/images/admin_BLOGS/${blog.image.filename.replace('admin_BLOGS/', '')}" alt="Blog Image">
+            <h3 class="heebo-blog-title">${blog.title}</h3>
+          </a>
+          <div class="blog-card-container">
+            <div class="blog-meta-data">
+              <div class="author-in-card">
+                <a href="/author/${blog.admin}">
+                  <p><i class="fa fa-user" aria-hidden="true"></i>${blog.author || blog.admin}</p>
+                </a>
+              </div>
+              <div class="created-date">
+                <p>Created Date: <span class="date-format">${new Date(blog.created_date).toLocaleDateString('en-GB', {
+                                    day: '2-digit',
+                                    month: '2-digit',
+                                    year: 'numeric'
+                                })}</span></p>
+              </div>
+            </div>
+          </div>
+        `;
+                                blogsContainer.appendChild(blogElement);
+                            });
+
+                            // Update pagination
+                            updatePagination(data.pagination);
+
+                            // Scroll to blogs section
+                            document.querySelector('.articles').scrollIntoView({ behavior: 'smooth' });
+                        })
+                        .catch(error => console.error('Error:', error));
+                }
+
+                function updatePagination(pagination) {
+                    const { totalPages, currentPage, limit } = pagination;
+                    const paginationContainer = document.querySelector('.pagination');
+                    paginationContainer.innerHTML = '';
+
+                    const startPage = Math.max(1, currentPage - 2);
+                    const endPage = Math.min(totalPages, currentPage + 2);
+
+                    if (startPage > 1) {
+                        addPageLink(1, limit);
+                        if (startPage > 2) {
+                            addDots();
+                        }
+                    }
+
+                    for (let i = startPage; i <= endPage; i++) {
+                        if (i === currentPage) {
+                            addCurrentPage(i);
+                        } else {
+                            addPageLink(i, limit);
+                        }
+                    }
+
+                    if (endPage < totalPages) {
+                        if (endPage < totalPages - 1) {
+                            addDots();
+                        }
+                        addPageLink(totalPages, limit);
+                    }
+
+                    function addPageLink(page, limit) {
+                        const link = document.createElement('a');
+                        link.href = `?page=${page}&limit=${limit}`;
+                        link.className = 'page-link';
+                        link.textContent = page;
+                        paginationContainer.appendChild(link);
+                    }
+
+                    function addCurrentPage(page) {
+                        const span = document.createElement('span');
+                        span.className = 'page-link current';
+                        span.textContent = page;
+                        paginationContainer.appendChild(span);
+                    }
+
+                    function addDots() {
+                        const span = document.createElement('span');
+                        span.className = 'page-dots';
+                        span.textContent = '...';
+                        paginationContainer.appendChild(span);
+                    }
+                }
+            });
 
 
         </script>
