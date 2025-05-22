@@ -5,7 +5,9 @@
             <div class="search">
                 <div class="search-heading">
                     <h3>Search Results for: <span>
-                            <%= identity %>
+                            <a href="https://www.google.com/search?q=<%= identity %>" target="_blank">
+                                <%= identity %>
+                            </a>
                         </span></h3>
                 </div>
                 <% if(allBlogs.length> 0){ %>
