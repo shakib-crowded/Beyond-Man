@@ -27,8 +27,8 @@ const sessionOptions = {
     expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // fixed Date object
     maxAge: 7 * 24 * 60 * 60 * 1000,
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // add this
-    sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax", // add this
+    secure: true,
+    sameSite: "strict",
   },
 };
 
