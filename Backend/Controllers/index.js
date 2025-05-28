@@ -1,5 +1,8 @@
 const Blog = require("../Models/blogs");
 const Contact = require("../Models/contacts");
+const TechPath = require("../Models/techPath");
+const Course = require("../Models/courses");
+
 module.exports.home = async (req, res) => {
   const meta = {
     title: "Beyond Man",
@@ -30,6 +33,10 @@ module.exports.home = async (req, res) => {
       });
     }
 
+    const categories = await TechPath.find();
+
+    const courses = await Course.find();
+
     // Regular page load
     const blog = {};
     res.render("index.ejs", {
@@ -40,6 +47,8 @@ module.exports.home = async (req, res) => {
       totalPages,
       limit,
       currentPage: page,
+      categories,
+      courses,
     });
   } catch (err) {
     console.error(err);

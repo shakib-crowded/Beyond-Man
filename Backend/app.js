@@ -15,12 +15,10 @@ const adminEnterRouter = require("./Routes/adminEnter.js");
 const userEnterRouter = require("./Routes/userEnter.js");
 const indexRouter = require("./Routes/index.js");
 const searchRouter = require("./Routes/search.js");
-const programmingRouter = require("./Routes/programming.js");
-const webDevRouter = require("./Routes/web-dev.js");
-const androidDevRouter = require("./Routes/android-dev.js");
-const softwareDevRouter = require("./Routes/software-dev.js");
 const queryRouter = require("./Routes/query.js");
 const adminCourseRouter = require("./Routes/adminCourseRouter.js");
+const coursesRouter = require("./Routes/coursesRouter.js");
+const pathRouter = require("./Routes/pathRouter.js");
 const forgotPassword = require("./Routes/forgot-password.js");
 const resetPassword = require("./Routes/reset-password.js");
 const commentRouter = require("./Routes/comment.js");
@@ -59,25 +57,18 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/hexaway", (req, res) => {
-  res.send("nothing");
-});
-
 // Routes
 app.use("/search", searchRouter);
 app.use("/images", imageRouter);
-app.use("/", indexRouter, userEnterRouter, blogRouter);
+app.use("/", indexRouter, userEnterRouter, blogRouter, coursesRouter);
 app.use("/query", queryRouter);
-app.use("/programming", programmingRouter);
-app.use("/website-dev", webDevRouter);
-app.use("/android-dev", androidDevRouter);
-app.use("/software-dev", softwareDevRouter);
 app.use("/admin", adminRouter, adminEnterRouter, adminCourseRouter);
 app.use("/forgot-password", forgotPassword);
 app.use("/reset-password", resetPassword);
 app.use("/comments", commentRouter);
 app.use("/sitemap.xml", sitemap);
 app.use("/author", authorRouter);
+app.use("/path", pathRouter);
 
 app.use((req, res) => {
   res.render("page_not_found");

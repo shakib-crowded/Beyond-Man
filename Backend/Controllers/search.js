@@ -2,11 +2,13 @@ const Blog = require("../Models/blogs");
 const Admin = require("../Models/signUpAdmin");
 
 const sanitizeInput = (input) => {
-  return input
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-zA-Z0-9 ]/g, " ")
-    .replace(/\s+/g, " ");
+  return (
+    input
+      .trim()
+      // .toLowerCase()
+      .replace(/[^a-zA-Z0-9 ]/g, " ")
+      .replace(/\s+/g, " ")
+  );
 };
 
 module.exports.searchAll = async (req, res) => {
@@ -14,7 +16,7 @@ module.exports.searchAll = async (req, res) => {
   identity = sanitizeInput(identity);
 
   const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 4;
+  const limit = parseInt(req.query.limit) || 8;
   const skip = (page - 1) * limit;
 
   try {
@@ -47,7 +49,7 @@ module.exports.searchAll = async (req, res) => {
         totalBlogs = await Blog.countDocuments(regexQuery);
 
         allBlogs = await Blog.find(regexQuery)
-          .sort({ created_date: -1 })
+          // .sort({ created_date: -1 })
           .skip(skip)
           .limit(limit);
       }
@@ -55,14 +57,14 @@ module.exports.searchAll = async (req, res) => {
       // No search term: fetch latest blogs
       totalBlogs = await Blog.countDocuments();
       allBlogs = await Blog.find({})
-        .sort({ created_date: -1 })
+        // .sort({ created_date: -1 })
         .skip(skip)
         .limit(limit);
     }
 
     const totalPages = Math.ceil(totalBlogs / limit);
     const currentPage = page;
-    identity = identity.toUpperCase();
+    // identity = identity.toUpperCase();
     const meta = {
       title: identity ? `Search results for "${identity}"` : "Latest Blogs",
       description: `Page ${currentPage} of blog search results.`,

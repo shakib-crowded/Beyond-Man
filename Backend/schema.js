@@ -1,6 +1,7 @@
 const Joi = require("joi");
 
 const validateBlogSchema = Joi.object({
+  languageName: Joi.string().required(),
   title: Joi.string().required(),
   description: Joi.string().required(),
   content: Joi.string().required(),

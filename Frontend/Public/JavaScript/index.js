@@ -6,6 +6,45 @@ slides.forEach((slide, index) => {
   slide.style.left = `${index * 100}%`;
 });
 
+// Hero Course Card That Show Waiting For Courses
+
+let countdownInterval;
+
+function showBrowseCourseCard() {
+  const card = document.getElementById("hero-course-card");
+  const overlay = document.getElementById("hero-course-card-overlay");
+
+  // Show card
+  card.classList.add("active");
+  overlay.classList.add("active");
+
+  // Start countdown
+  let secondsLeft = 10;
+  const countdownElement = document.getElementById("countdown");
+  countdownElement.textContent = secondsLeft;
+
+  countdownInterval = setInterval(() => {
+    secondsLeft--;
+    countdownElement.textContent = secondsLeft;
+
+    if (secondsLeft <= 0) {
+      closeCourseCard();
+    }
+  }, 1000);
+}
+
+function closeCourseCard() {
+  const card = document.getElementById("hero-course-card");
+  const overlay = document.getElementById("hero-course-card-overlay");
+
+  // Hide card
+  card.classList.remove("active");
+  overlay.classList.remove("active");
+
+  // Clear countdown
+  clearInterval(countdownInterval);
+}
+
 // Index.js Date Format
 // Shorten all date-format elements
 document.querySelectorAll(".date-format").forEach((el) => {
@@ -19,49 +58,95 @@ const searchBlogs = (event) => {
   event.preventDefault();
   console.log(event);
 };
-
 // User Logout
 
-function logoutUser() {
-  // Remove authentication data
-  localStorage.removeItem("authToken"); // If stored in Local Storage
-  sessionStorage.removeItem("authToken"); // If stored in Session Storage
+// function logoutUser() {
+//   // Remove authentication data
+//   localStorage.removeItem("authToken"); // If stored in Local Storage
+//   sessionStorage.removeItem("authToken"); // If stored in Session Storage
 
-  // Expire the cookie (for cookie-based auth)
-  document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+//   // Expire the cookie (for cookie-based auth)
+//   document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
-  // Redirect to login page
-  window.location.href = "/"; // Change this to your actual login page
-}
+//   // Redirect to login page
+//   window.location.href = "/";
+// }
+// Show logout modal
 function showLogOutCard() {
-  document.getElementById("logoutCard").style.display = "block";
-  document.getElementById("overlay").style.display = "block";
+  // Close mobile menu first (if open)
+  const hamburger = document.querySelector(".hamburger");
+  const mobileMenu = document.querySelector(".mobile-menu");
+  const mobileOverlay = document.querySelector(".mobile-overlay");
+
+  if (hamburger && hamburger.classList.contains("active")) {
+    hamburger.classList.remove("active");
+    mobileMenu.classList.remove("active");
+    mobileOverlay.classList.remove("active");
+  }
+
+  // Show logout modal
+  const logoutModal = document.getElementById("logoutModal");
+  const overlay = document.getElementById("overlay");
+
+  logoutModal.style.display = "flex";
+  overlay.style.display = "block";
+
+  // Add show class after a short delay to trigger animation
+  setTimeout(() => {
+    logoutModal.classList.add("show");
+  }, 10);
+
+  // Prevent body scrolling
+  document.body.style.overflow = "hidden";
 }
 
+// Hide logout modal
 function hideLogOutCard() {
-  document.getElementById("logoutCard").style.display = "none";
-  document.getElementById("overlay").style.display = "none";
+  const logoutModal = document.getElementById("logoutModal");
+  const overlay = document.getElementById("overlay");
+
+  logoutModal.classList.remove("show");
+
+  // Wait for animation to complete before hiding
+  setTimeout(() => {
+    logoutModal.style.display = "none";
+    overlay.style.display = "none";
+    document.body.style.overflow = "";
+  }, 300);
 }
 
+// Logout functionality
 document.getElementById("logoutButton").addEventListener("click", function () {
+  console.log("Logout Button");
   fetch("/logout", {
-    method: "GET", // or "GET" based on your API
-    credentials: "include", // ensures cookies are sent if used for authentication
+    method: "POST",
+    credentials: "include",
   })
     .then((response) => {
       if (response.ok) {
-        window.location.href = "/"; // Redirect to login page after logout
+        window.location.href = "/"; // force full page reload
       } else {
-        alert("Logout failed. Please try again.");
+        throw new Error("Logout failed");
       }
     })
-    .catch((error) => console.error("Error logging out:", error));
+    .catch((error) => {
+      console.error("Error:", error);
+      alert("Logout failed. Please try again.");
+    });
 });
 
+// Close modal when clicking cancel or overlay
 document
   .getElementById("cancelButton")
   .addEventListener("click", hideLogOutCard);
+document.getElementById("overlay").addEventListener("click", hideLogOutCard);
 
+// Close modal with Escape key
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape") {
+    hideLogOutCard();
+  }
+});
 // Flash Card Script
 function closeFlash(button) {
   button.parentElement.style.display = "none";

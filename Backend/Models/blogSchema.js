@@ -10,6 +10,7 @@ const slugify = (title) => {
 };
 
 const blogSchema = new Schema({
+  languageName: { type: String, required: true },
   title: { type: String, required: true },
   slug: { type: String, unique: true },
   description: { type: String, required: true },

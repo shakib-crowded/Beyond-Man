@@ -67,6 +67,8 @@
         <h1>Upload Blog</h1>
         <form id="blogForm" action="/admin/upload" method="post" enctype="multipart/form-data">
             <div class="form-group">
+                <label for="languageName"><span style="color: red; font-size: 14px;">* </span>Language Name</label>
+                <input type="text" id="languageName" name="languageName" placeholder="Enter Language Name" required>
                 <label for="title"><span style="color: red; font-size: 14px;">* </span>Blog Title</label>
                 <input type="text" id="title" name="title" placeholder="Enter blog title"
                     oninput="updateTitleCharCount()" required>

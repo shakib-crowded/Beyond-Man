@@ -24,6 +24,6 @@ router
 
 router.get("/verify/:token", userEnterController.verifyUser);
 
-router.get("/logout", userEnterController.logout);
+router.post("/logout", userEnterController.logout);
 
 module.exports = router;

@@ -13,6 +13,9 @@ const courseSchema = mongoose.Schema(
       unique: true,
       lowercase: true,
     },
+    icon: {
+      type: String,
+    },
     description: {
       type: String,
       required: [true, "Please add a description"],

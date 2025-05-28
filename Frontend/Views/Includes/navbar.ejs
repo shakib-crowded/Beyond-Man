@@ -1,382 +1,378 @@
 <nav class="navbar">
-        <div class="navdiv">
+        <div class="nav-container">
                 <!-- Logo -->
                 <div class="logo">
-                        <a href="/"><img src="/Resources/images/Beyond Man Logo (Circle).png" alt="Beyond Man Logo"></a>
+                        <a href="/">
+                                <img src="/Resources/images/Beyond Man Logo (Circle).png" alt="Beyond Man Logo">
+                        </a>
                 </div>
-
-                <!-- Desktop Navigation -->
                 <ul class="desktop-menu">
+                        <li><a href="/#browse-articles" class="nav-link">Explore</a></li>
+
+
                         <li class="dropdown">
-                                <a href="#" class="dropbtn">Programming Languages</a>
-                                <ul class="dropdown-content">
-                                        <li><a href="/programming/programming-in-c">Programming In C</a></li>
-                                        <li><a href="/programming/object-oriented-programming-using-c++">Object-Oriented
-                                                        Programming Using
-                                                        C++</a></li>
-                                        <li><a href="/programming/data-structure-and-algorithms-using-c++">Data
-                                                        Structures and
-                                                        Algorithms Using
-                                                        C++</a></li>
-                                        <li><a href="/programming/java-programming">Java Programming</a></li>
-                                        <li><a href="/programming/programming-with-kotlin">Programming With Kotlin</a>
-                                        </li>
-                                        <li><a href="/programming/programming-in-javascript">Programming In
-                                                        JavaScript</a></li>
-                                        <li><a href="/programming/programming-in-python">Programming In Python</a></li>
-                                        <li><a href="/programming/programming-in-swift">Programming In Swift</a></li>
-                                        <li><a href="/programming/programming-in-golang">Programming In Golang</a></li>
-                                        <li><a href="/programming/programming-with-php">Programming With PHP</a></li>
-                                </ul>
+                                <a href="#" class="nav-link">Courses <i
+                                                class="fas fa-chevron-down dropdown-icon"></i></a>
+                                <div class="dropdown-content">
+                                        <div class="dropdown-grid" id="courses-container">
+                                                <!-- This will be populated dynamically -->
+                                                <div class="no-courses-message"
+                                                        style="display: none; padding: 20px; text-align: center;">
+                                                        <i class="fas fa-book-open"
+                                                                style="font-size: 2rem; margin-bottom: 10px; color: #3f37c9;"></i>
+                                                        <h4>Exciting Courses Coming Soon!</h4>
+                                                        <p>We're preparing some amazing content for you. Stay tuned!</p>
+
+                                                </div>
+                                        </div>
+                                </div>
                         </li>
-                        <li class="dropdown">
-                                <a href="#" class="dropbtn">Website
-                                        Development</a>
-                                <ul class=" dropdown-content">
-                                        <li><a href="/website-dev/html-css-and-javascript">HTML, CSS, and JavaScript</a>
-                                        </li>
-                                        <li><a href="/website-dev/responsive-design-and-css-frameworks">Responsive
-                                                        Design and CSS
-                                                        Frameworks</a></li>
-                                        <li><a href="/website-dev/frontend-frameworks">Frontend Frameworks (React,
-                                                        Angular,
-                                                        Vue.js)</a></li>
-                                        <li><a href="/website-dev/backend-developement">Backend Development (Node.js,
-                                                        Django,
-                                                        Flask)</a></li>
-                                        <li><a href="/website-dev/database-and-orm">Databases and ORM (SQL, MongoDB)</a>
-                                        </li>
-                                        <li><a href="/website-dev/api-development-and-integration">API Development and
-                                                        Integration
-                                                        (REST, GraphQL)</a></li>
-                                        <li><a href="/website-dev/authentication-and-authorization">Authentication and
-                                                        Authorization</a></li>
-                                        <li><a href="/website-dev/website-performance-optimization">Web Performance
-                                                        Optimization</a></li>
-                                        <li><a href="/website-dev/deployment-and-hosting">Deployment and Hosting
-                                                        (Netlify, Vercel,
-                                                        AWS)</a></li>
-                                        <li><a href="/website-dev/progressive-website-apps">Progressive Web Apps
-                                                        (PWA)</a></li>
-                                </ul>
-                        </li>
-                        <li class="dropdown">
-                                <a href="#" class="dropbtn">Android Development</a>
-                                <ul class="dropdown-content">
-                                        <li><a href="/android-dev/basics-of-android-development">Basics of Android
-                                                        Development</a></li>
-                                        <li><a href="/android-dev/user-interface-development-in-android">User Interface
-                                                        (UI)
-                                                        Development ?</a>
-                                        </li>
-                                        <li><a href="/android-dev/core-components-of-android">Core Components</a></li>
-                                        <li><a href="/android-dev/data-storage-and-management">Data Storage and
-                                                        Management</a></li>
-                                        <li><a href="/android-dev/networking-in-android">Networking</a></li>
-                                        <li><a href="/android-dev/android-advanced-concept">Advanced Concept</a></li>
-                                        <li><a href="/android-dev/working-with-apis-and-libraries-in-android">Working
-                                                        with APIs and
-                                                        Libraries</a></li>
-                                        <li><a href="/android-dev/testing-and-debugging-in-android">Testing and
-                                                        Debugging</a></li>
-                                        <li><a href="/android-dev/performance-optimization-in-android">Performance
-                                                        Optimization</a>
-                                        </li>
-                                        <li><a href="/android-dev/publishing-and-maintenance-in-android">Publishing and
-                                                        Maintenance</a></li>
-                                </ul>
-                        </li>
-                        <li class="dropdown">
-                                <a href="#" class="dropbtn">Software Development</a>
-                                <ul class="dropdown-content">
-                                        <li><a href="/software-dev/software-development-life-cycle">Software Development
-                                                        Life Cycle
-                                                        (SDLC)</a></li>
-                                        <li><a href="/software-dev/agile-and-scrum-methodologies">Agile and Scrum
-                                                        Methodologies</a>
-                                        </li>
-                                        <li><a href="/software-dev/version-control-and-ci-cd-pipelines">Version Control
-                                                        and CI/CD
-                                                        Pipelines</a></li>
-                                        <li><a href="/software-dev/unit-testing-integration-testing-and-automation-of-software">Unit
-                                                        Testing, Integration Testing, and Automation</a></li>
-                                        <li><a href="/software-dev/code-reviews-and-team-collaboration-in-software">Code
-                                                        Reviews and
-                                                        Team Collaboration</a></li>
-                                        <li><a href="/software-dev/dependency-management-and-package-managers">Dependency
-                                                        Management
-                                                        and Package Managers</a></li>
-                                        <li><a href="/software-dev/application-security-best-practices">Application
-                                                        Security Best
-                                                        Practices</a></li>
-                                        <li><a href="/software-dev/software-documentation">Software Documentation</a>
-                                        </li>
-                                        <li><a href="/software-dev/api-desing-and-sdk-development">API Design and SDK
-                                                        Development</a>
-                                        </li>
-                                        <li><a href="/software-dev/scalability-and-maintainability-of-software">Scalability
-                                                        and
-                                                        Maintainability</a>
-                                        </li>
-                                </ul>
-                        </li>
+
+                        <li><a href="/about" class="nav-link">About </a></li>
+                        <li><a href="/contact" class="nav-link">Contact</a></li>
                 </ul>
 
-                <div class="searchBox">
-                        <form action="/search/" method="get" class="searchForm">
-                                <input class="searchInput" type="text" name="search" placeholder="Search Here..."
-                                        autocomplete="off" aria-label="Search">
-                                <button type="submit" class="searchButton" aria-label="Submit search">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round">
-                                                <circle cx="11" cy="11" r="8"></circle>
-                                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                                        </svg>
-                                </button>
+                <div class="search-container">
+                        <form action="/search/" method="get" class="search-form">
+                                <div class="search-box">
+                                        <input class="search-input" type="text" name="search"
+                                                placeholder="Search here..." autocomplete="off">
+                                        <button type="submit" class="search-button">
+                                                <i class="fas fa-search"></i>
+                                        </button>
+                                </div>
                         </form>
                 </div>
 
 
-                <% if (!user) { %>
-                        <a href="/login" class="nav-login-btn">Login</a>
-                        <% } else { %>
-                                <i aria-label="Log Out" onclick="showLogOutCard()"
-                                        class="fa-solid fa-power-off nav-power-off" style="margin:0 1rem;"></i>
-                                <% } %>
-                                        <div id="logoutCard">
-                                                <p>Are you sure to log out Beyond Man ?</p>
-                                                <button aria-label="Cancel " id="cancelButton">Cancel</button>
-                                                <button aria-label="Log Out" id="logoutButton">Log
-                                                        Out</button>
-                                        </div>
-                                        <div id="overlay" onclick="hideLogOutCard()"></div>
+                <!-- Desktop Navigation -->
+                <div class="nav-main">
+                        <div class="nav-actions">
 
 
-                                        <!-- Hamburger Icon for Mobile -->
-                                        <div class="hamburger" onclick="toggleMenu()">
-                                                <div class="bar"></div>
-                                                <div class="bar"></div>
-                                                <div class="bar"></div>
+                                <% if (!user) { %>
+                                        <div class="user-menu">
+                                                <div class="user-avatar">
+                                                        <i class="fas fa-user-circle"></i>
+                                                </div>
+                                                <div class="user-dropdown">
+                                                        <div class="auth-buttons">
+                                                                <a href="/login" class="btn btn-login">Login</a>
+                                                                <a href="/register" class="btn btn-primary">Register</a>
+                                                        </div>
+                                                </div>
                                         </div>
 
+                                        <% } else { %>
+                                                <div class="user-menu">
+                                                        <div class="user-avatar">
+                                                                <i class="fas fa-user-circle"></i>
+                                                        </div>
+                                                        <div class="user-dropdown">
+                                                                <a href="/profile"><i class="fas fa-user"></i> My
+                                                                        Profile</a>
+                                                                <a href="/dashboard"><i
+                                                                                class="fas fa-tachometer-alt"></i>
+                                                                        Dashboard</a>
+                                                                <a href="/settings"><i class="fas fa-cog"></i>
+                                                                        Settings</a>
+                                                                <div class="divider"></div>
+                                                                <a onclick="showLogOutCard()" class="logout-btn"><i
+                                                                                class="fas fa-power-off"></i> Log
+                                                                        Out</a>
+                                                        </div>
+                                                </div>
+                                                <% } %>
+
+
+                        </div>
+                </div>
+
+                <!-- Mobile Menu Toggle -->
+                <button class="hamburger" aria-label="Menu" aria-expanded="false">
+                        <span class="hamburger-box">
+                                <span class="hamburger-inner"></span>
+                        </span>
+                </button>
         </div>
-
 
         <!-- Mobile Menu -->
         <div class="mobile-menu">
-                <!-- User Dropdown -->
-                <% if (!user) { %>
-                        <a href="/login" class="ham-login-btn">Login</a>
-                        <a href="/register" class="ham-register-btn">Register</a>
-                        <% } else { %>
-                                <i aria-label="Log Out" onclick="showLogOutCard()"
-                                        class="fa-solid fa-power-off ham-power-off"></i>
-                                <% } %>
-                                        <div id="logoutCard">
-                                                <p>Are you sure to log out Beyond Man ?</p>
-                                                <button aria-label="Cancel " id="cancelButton">Cancel</button>
-                                                <button aria-label="Log Out" id="logoutButton">Log
-                                                        Out</button>
+                <div class="mobile-menu-header">
+                        <% if (!user) { %>
+                                <div class="mobile-auth">
+                                        <a href="/login" class="btn btn-login">Login</a>
+                                        <a href="/register" class="btn btn-primary">Register</a>
+                                </div>
+                                <% } else { %>
+                                        <div class="mobile-user">
+                                                <i class="fas fa-user-circle"></i>
+                                                <span>Welcome back!</span>
                                         </div>
+                                        <% } %>
+                </div>
 
-                                        <div id="overlay" onclick="hideLogOutCard()"></div>
+                <div class="mobile-search">
 
-                                        <ul>
-                                                <li class="dropdown">
-                                                        <a aria-label="Programming Languages" href="/programming"
-                                                                class="dropbtn"
-                                                                onclick="toggleDropdown(event)">Programming
-                                                                Languages</a>
-                                                        <ul class="dropdown-content">
-                                                                <li><a aria-label="Programming In C"
-                                                                                href="/programming/programming-in-c">Programming
-                                                                                In C</a></li>
-                                                                <li><a aria-label="Object Oriented Programming"
-                                                                                href="/programming/object-oriented-programming-using-c++">Object-Oriented
-                                                                                Programming Using
-                                                                                C++</a></li>
-                                                                <li><a aria-label="Data Structure And Algorithms Using C++"
-                                                                                href="/programming/data-structure-and-algorithms-using-c++">Data
-                                                                                Structures And
-                                                                                Algorithms Using
-                                                                                C++</a></li>
-                                                                <li><a aria-label="Java Programming"
-                                                                                href="/programming/java-programming">Java
-                                                                                Programming</a></li>
-                                                                <li><a aria-label="Programming With Kotlin"
-                                                                                href="/programming/programming-with-kotlin">Programming
-                                                                                With Kotlin</a>
-                                                                </li>
-                                                                <li><a aria-label="Programming In JavaScript"
-                                                                                href="/programming/programming-in-javascript">Programming
-                                                                                In
-                                                                                JavaScript</a></li>
-                                                                <li><a aria-label="Programming In Python"
-                                                                                href="/programming/programming-in-python">Programming
-                                                                                In
-                                                                                Python</a></li>
-                                                                <li><a aria-label="Programming In Swift"
-                                                                                href="/programming/programming-in-swift">Programming
-                                                                                In
-                                                                                Swift</a></li>
-                                                                <li><a aria-label="Programming In GoLang"
-                                                                                href="/programming/programming-in-golang">Programming
-                                                                                In
-                                                                                Golang</a></li>
-                                                                <li><a aria-label="Programming With PHP"
-                                                                                href="/programming/programming-with-php">Programming
-                                                                                With
-                                                                                PHP</a></li>
-                                                        </ul>
-                                                </li>
-                                                <li class="dropdown">
-                                                        <a href="/website-dev" class="dropbtn"
-                                                                onclick="toggleDropdown(event)"
-                                                                aria-label="Website Development">Website
-                                                                Development</a>
-                                                        <ul class="dropdown-content">
-                                                                <li><a href="/website-dev/html-css-and-javascript"
-                                                                                aria-label="HTML, CSS, and JavaScript">HTML,
-                                                                                CSS,
-                                                                                and JavaScript</a></li>
-                                                                <li><a href="/website-dev/responsive-design-and-css-frameworks"
-                                                                                aria-label="Responsive Design and CSS Frameworks">Responsive
-                                                                                Design and CSS
-                                                                                Frameworks</a>
-                                                                </li>
-                                                                <li><a href="/website-dev/frontend-frameworks"
-                                                                                aria-label="Frontend Frameworks (React, Angular, Vue.js)">Frontend
-                                                                                Frameworks (React,
-                                                                                Angular, Vue.js)</a>
-                                                                </li>
-                                                                <li><a href="/website-dev/backend-developement"
-                                                                                aria-label="Backend Development (Node.js, Django, Flask)">Backend
-                                                                                Development (Node.js,
-                                                                                Django, Flask)</a></li>
-                                                                <li><a href="/website-dev/database-and-orm"
-                                                                                aria-label="Databases and ORM (SQL, MongoDB)">Databases
-                                                                                and ORM (SQL,
-                                                                                MongoDB)</a></li>
-                                                                <li><a href="/website-dev/api-development-and-integration"
-                                                                                aria-label="API Development and Integration (REST, GraphQL)">API
-                                                                                Development and
-                                                                                Integration
-                                                                                (REST, GraphQL)</a></li>
-                                                                <li><a href="/website-dev/authentication-and-authorization"
-                                                                                aria-label="Authentication and Authorization">Authentication
-                                                                                and
-                                                                                Authorization</a></li>
-                                                                <li><a href="/website-dev/website-performance-optimization"
-                                                                                aria-label="Web Performance Optimization">Web
-                                                                                Performance
-                                                                                Optimization</a></li>
-                                                                <li><a href="/website-dev/deployment-and-hosting"
-                                                                                aria-label="Deployment and Hosting (Netlify, Vercel, AWS)">Deployment
-                                                                                and Hosting (Netlify,
-                                                                                Vercel, AWS)</a></li>
-                                                                <li><a href="/website-dev/progressive-website-apps"
-                                                                                aria-label="Progressive Web Apps (PWA)">Progressive
-                                                                                Web Apps
-                                                                                (PWA)</a></li>
-                                                        </ul>
-                                                </li>
-                                                <li class="dropdown">
-                                                        <a href="/android-dev" class="dropbtn"
-                                                                onclick="toggleDropdown(event)"
-                                                                aria-label="Android Development">Android
-                                                                Development</a>
-                                                        <ul class="dropdown-content">
-                                                                <li><a href="/android-dev/basics-of-android-development"
-                                                                                aria-label="Basics of Android Development">Basics
-                                                                                of Android
-                                                                                Development</a></li>
-                                                                <li><a href="/android-dev/user-interface-development-in-android"
-                                                                                aria-label="User Interface (UI) Development">User
-                                                                                Interface (UI)
-                                                                                Development</a></li>
-                                                                <li><a href="/android-dev/core-components-of-android"
-                                                                                aria-label="Core Components">Core
-                                                                                Components</a></li>
-                                                                <li><a href="/android-dev/data-storage-and-management-in-android"
-                                                                                aria-label="Data Storage and Management">Data
-                                                                                Storage and
-                                                                                Management</a></li>
-                                                                <li><a href="/android-dev/networking-in-android"
-                                                                                aria-label="Networking">Networking</a>
-                                                                </li>
-                                                                <li><a href="/android-dev/android-advanced-concept"
-                                                                                aria-label="Advanced Concept">Advanced
-                                                                                Concept</a></li>
-                                                                <li><a href="/android-dev/working-with-apis-and-libraries-in-android"
-                                                                                aria-label="Working with APIs and Libraries">Working
-                                                                                with APIs
-                                                                                and Libraries</a></li>
-                                                                <li><a href="/android-dev/testing-and-debugging-in-android"
-                                                                                aria-label="Testing and Debugging">Testing
-                                                                                and Debugging</a>
-                                                                </li>
-                                                                <li><a href="/android-dev/performance-optimization-in-android"
-                                                                                aria-label="Performance Optimization">Performance
-                                                                                Optimization</a></li>
-                                                                <li><a href="/android-dev/publishing-and-maintenance-in-android"
-                                                                                aria-label="Publishing and Maintenance">Publishing
-                                                                                and
-                                                                                Maintenance</a></li>
-                                                        </ul>
-                                                </li>
-                                                <li class="dropdown">
-                                                        <a href="/software-dev" class="dropbtn"
-                                                                onclick="toggleDropdown(event)"
-                                                                aria-label="Software Development">Software
-                                                                Development</a>
-                                                        <ul class="dropdown-content">
-                                                                <li><a href="/software-dev/software-development-life-cycle"
-                                                                                aria-label="Software Development Life Cycle (SDLC)">Software
-                                                                                Development Life Cycle
-                                                                                (SDLC)</a></li>
-                                                                <li><a href="/software-dev/agile-and-scrum-methodologies"
-                                                                                aria-label="Agile and Scrum Methodologies">Agile
-                                                                                and Scrum
-                                                                                Methodologies</a></li>
-                                                                <li><a href="/software-dev/version-control-and-ci-cd-pipelines"
-                                                                                aria-label="Version Control and CI/CD Pipelines">Version
-                                                                                Control
-                                                                                and CI/CD Pipelines</a>
-                                                                </li>
-                                                                <li><a href="/software-dev/unit-testing-integration-testing-and-automation-of-software"
-                                                                                aria-label="Unit Testing, Integration Testing, and Automation">Unit
-                                                                                Testing, Integration
-                                                                                Testing, and
-                                                                                Automation</a></li>
-                                                                <li><a href="/software-dev/code-reviews-and-team-collaboration-in-software"
-                                                                                aria-label="Code Reviews and Team Collaboration">Code
-                                                                                Reviews
-                                                                                and Team
-                                                                                Collaboration</a>
-                                                                </li>
-                                                                <li><a href="/software-dev/dependency-management-and-package-managers"
-                                                                                aria-label="Dependency Management and Package Managers">Dependency
-                                                                                Management and Package
-                                                                                Managers</a></li>
-                                                                <li><a href="/software-dev/application-security-best-practices"
-                                                                                aria-label="Application Security Best Practices">Application
-                                                                                Security Best
-                                                                                Practices</a>
-                                                                </li>
-                                                                <li><a href="/software-dev/software-documentation"
-                                                                                aria-label="Software Documentation">Software
-                                                                                Documentation</a></li>
-                                                                <li><a href="/software-dev/api-desing-and-sdk-development"
-                                                                                aria-label="API Design and SDK Development">API
-                                                                                Design and SDK
-                                                                                Development</a></li>
-                                                                <li><a href="/software-dev/scalability-and-maintainability-of-software"
-                                                                                aria-label="Scalability and Maintainability">Scalability
-                                                                                and
-                                                                                Maintainability</a></li>
-                                                        </ul>
-                                                </li>
-                                        </ul>
+                        <form action="/search/" method="get" class="search-form">
+                                <div class="search-box">
+                                        <input class="search-input" type="text" name="search"
+                                                placeholder="Search here..." autocomplete="off">
+                                        <button type="submit" class="search-button">
+                                                <i class="fas fa-search"></i>
+                                        </button>
+                                </div>
+                        </form>
+                </div>
+
+
+                <ul class="mobile-nav">
+                        <li><a href="/#browse-articles" class="nav-link">Explore</a></li>
+
+                        <li class="mobile-dropdown">
+                                <div class="mobile-dropdown-toggle">
+                                        <span><i class="fas fa-book-open"></i> Courses</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <ul class="mobile-dropdown-content" id="mobile-courses-container">
+                                        <!-- Loading spinner -->
+                                        <li class="loading-courses">
+                                                <i class="fas fa-spinner fa-spin"></i> Loading courses...
+                                        </li>
+
+                                        <!-- Fallback for no courses -->
+                                        <li class="no-courses-message" style="display: none;">
+                                                <a href="#">
+                                                        <i class="fas fa-book"></i> New courses coming soon!
+                                                </a>
+                                        </li>
+                                </ul>
+                        </li>
+
+                        <li><a href="/about"><i class="fas fa-info-circle"></i> About Us</a></li>
+                        <li><a href="/contact"><i class="fas fa-envelope"></i> Contact</a></li>
+
+                        <% if (user) { %>
+                                <li class="mobile-user-links">
+                                        <a href="/profile"><i class="fas fa-user"></i> Profile</a>
+                                        <a href="/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                                        <a onclick="showLogOutCard()" class="mobile-logout"><i
+                                                        class="fas fa-power-off"></i> Log
+                                                Out</a>
+                                </li>
+
+                                <% } %>
+
+
+                </ul>
         </div>
+        <!-- Logout Confirmation Modal -->
+        <div id="logoutModal" class="logout-modal">
+                <div class="logout-modal-content">
+                        <div class="logout-modal-header">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <h3>Log Out</h3>
+                        </div>
+                        <div class="logout-modal-body">
+                                <p>Are you sure you want to log out of Beyond Man?</p>
+                        </div>
+                        <div class="logout-modal-footer">
+                                <button id="cancelButton" class="logout-modal-btn cancel-btn">Cancel</button>
+                                <button id="logoutButton" class="logout-modal-btn logout-btn">Log Out</button>
+                        </div>
+                </div>
+        </div>
+
+        <!-- Overlay -->
+        <div id="overlay" class="logout-overlay"></div>
 </nav>
+
+<!-- Overlay for mobile menu -->
+<div class="mobile-overlay"></div>
+
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+                // Function to load courses (reusable for both desktop and mobile)
+                // Modified loadCourses function
+                function loadCourses(containerId, isMobile = false) {
+                        const container = document.getElementById(containerId);
+                        const noCoursesMsg = container.querySelector('.no-courses-message');
+                        const loadingElement = isMobile ? container.querySelector('.loading-courses') : null;
+
+                        // For desktop version, get the parent dropdown-grid element
+                        const dropdownGrid = !isMobile ? container : null;
+
+                        fetch('/nav-courses')
+                                .then(response => {
+                                        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                                        return response.json();
+                                })
+                                .then(courses => {
+                                        if (isMobile && loadingElement) loadingElement.remove();
+
+                                        if (courses && courses.length > 0) {
+                                                container.innerHTML = '';
+
+                                                // For desktop, add dropdown-grid class if courses exist
+                                                if (dropdownGrid) {
+                                                        dropdownGrid.classList.add('dropdown-grid');
+                                                }
+
+                                                courses.forEach(course => {
+                                                        if (isMobile) {
+                                                                // Mobile version - list items
+                                                                const listItem = document.createElement('li');
+                                                                listItem.innerHTML = `
+                            <a href="${course.slug ? '/course/' + course.slug : '#'}">
+                                <i class="${course.icon || 'fas fa-book'}"></i> ${course.title}
+                            </a>
+                        `;
+                                                                container.appendChild(listItem);
+                                                        } else {
+                                                                // Desktop version - cards
+                                                                const courseCard = document.createElement('a');
+                                                                courseCard.href = course.slug ? `/course/${course.slug}` : '#';
+                                                                courseCard.className = 'course-card';
+                                                                courseCard.innerHTML = `
+                            <i class="${course.icon || 'fas fa-book'} course-icon"></i>
+                            <h4>${course.title}</h4>
+                            <p>${course.description}</p>
+                        `;
+                                                                container.appendChild(courseCard);
+                                                        }
+                                                });
+                                        } else {
+                                                // For desktop, remove dropdown-grid class if no courses
+                                                if (dropdownGrid) {
+                                                        dropdownGrid.classList.remove('dropdown-grid');
+                                                }
+                                                noCoursesMsg.style.display = 'block';
+                                                if (isMobile && loadingElement) loadingElement.remove();
+                                        }
+                                })
+                                .catch(error => {
+                                        console.error('Error fetching courses:', error);
+                                        // For desktop, remove dropdown-grid class on error
+                                        if (dropdownGrid) {
+                                                dropdownGrid.classList.remove('dropdown-grid');
+                                        }
+                                        noCoursesMsg.style.display = 'block';
+                                        noCoursesMsg.querySelector('h4').textContent = 'Oops! Something went wrong';
+                                        noCoursesMsg.querySelector('p').textContent = error.message;
+                                        if (isMobile && loadingElement) loadingElement.remove();
+                                });
+                }
+
+                // Load courses for both desktop and mobile
+                loadCourses('courses-container'); // Desktop
+                loadCourses('mobile-courses-container', true); // Mobile
+
+                function courseNotification() {
+                        console.log("Course Notification")
+                }
+
+                // Mobile menu toggle - keep your existing code
+                const hamburger = document.querySelector('.hamburger');
+                const mobileMenu = document.querySelector('.mobile-menu');
+                const mobileOverlay = document.querySelector('.mobile-overlay');
+
+                function toggleMenu() {
+                        hamburger.classList.toggle('active');
+                        mobileMenu.classList.toggle('active');
+                        mobileOverlay.classList.toggle('active');
+
+                        // Optional: Reload mobile courses when menu opens
+                        if (mobileMenu.classList.contains('active')) {
+                                loadCourses('mobile-courses-container', true);
+                        }
+                }
+
+                function closeMenu() {
+                        hamburger.classList.remove('active');
+                        mobileMenu.classList.remove('active');
+                        mobileOverlay.classList.remove('active');
+                }
+
+                hamburger.addEventListener('click', toggleMenu);
+                mobileOverlay.addEventListener('click', closeMenu);
+
+                // Close menu when clicking anywhere outside
+                document.addEventListener('click', function (e) {
+                        if (!mobileMenu.contains(e.target) &&
+                                !hamburger.contains(e.target) &&
+                                mobileMenu.classList.contains('active')) {
+                                closeMenu();
+                        }
+                });
+
+                // Mobile dropdown toggle
+                const mobileDropdownToggles = document.querySelectorAll('.mobile-dropdown-toggle');
+                mobileDropdownToggles.forEach(toggle => {
+                        toggle.addEventListener('click', function () {
+                                const dropdown = this.parentElement;
+                                dropdown.classList.toggle('active');
+
+                                // Rotate chevron icon
+                                const icon = this.querySelector('.fa-chevron-down');
+                                if (icon) {
+                                        icon.classList.toggle('fa-chevron-down');
+                                        icon.classList.toggle('fa-chevron-up');
+                                }
+                        });
+                });
+                // Improved Dropdown Handling
+                const dropdowns = document.querySelectorAll('.dropdown');
+                const userMenu = document.querySelector('.user-menu');
+                const userDropdown = document.querySelector('.user-dropdown');
+
+                // Show dropdown on hover
+                dropdowns.forEach(dropdown => {
+                        dropdown.addEventListener('mouseenter', function () {
+                                this.querySelector('.dropdown-content').style.opacity = '1';
+                                this.querySelector('.dropdown-content').style.visibility = 'visible';
+                                this.querySelector('.dropdown-content').style.transform = 'translateY(0)';
+                        });
+
+                        dropdown.addEventListener('mouseleave', function () {
+                                this.querySelector('.dropdown-content').style.opacity = '0';
+                                this.querySelector('.dropdown-content').style.visibility = 'hidden';
+                                this.querySelector('.dropdown-content').style.transform = 'translateY(10px)';
+                        });
+                });
+
+                // User menu dropdown
+                if (userMenu) {
+                        userMenu.addEventListener('mouseenter', function () {
+                                userDropdown.style.opacity = '1';
+                                userDropdown.style.visibility = 'visible';
+                                userDropdown.style.transform = 'translateY(0)';
+                        });
+
+                        userMenu.addEventListener('mouseleave', function () {
+                                userDropdown.style.opacity = '0';
+                                userDropdown.style.visibility = 'hidden';
+                                userDropdown.style.transform = 'translateY(10px)';
+                        });
+                }
+
+                // Close dropdowns when clicking outside (only for mobile)
+                document.addEventListener('click', function (e) {
+                        if (window.innerWidth <= 768) {
+                                if (!e.target.closest('.dropdown')) {
+                                        document.querySelectorAll('.dropdown-content').forEach(dropdown => {
+                                                dropdown.style.opacity = '0';
+                                                dropdown.style.visibility = 'hidden';
+                                                dropdown.style.transform = 'translateY(10px)';
+                                        });
+                                }
+
+                                if (!e.target.closest('.user-menu')) {
+                                        userDropdown.style.opacity = '0';
+                                        userDropdown.style.visibility = 'hidden';
+                                        userDropdown.style.transform = 'translateY(10px)';
+                                }
+                        }
+                });
+        });
+</script>

@@ -120,12 +120,37 @@ module.exports.login = async (req, res) => {
   }
 };
 
-module.exports.logout = (req, res) => {
-  req.session.destroy((err) => {
+module.exports.logout = (req, res, next) => {
+  // Passport.js logout
+  req.logout(function (err) {
     if (err) {
-      console.error("Error destroying session:", err);
+      console.error("Passport logout error:", err);
       return next(err);
     }
-    res.redirect("/");
+
+    // Clear the session cookie (must match your session config)
+    res.clearCookie("connect.sid", {
+      path: "/",
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // should match session config
+      sameSite: "strict",
+    });
+
+    // Destroy the session
+    req.session.destroy((err) => {
+      if (err) {
+        console.error("Session destruction error:", err);
+        return res
+          .status(500)
+          .json({ success: false, message: "Logout failed" });
+      }
+
+      // For API requests
+      if (req.xhr || req.headers.accept.indexOf("json") > -1) {
+        return res.json({ success: true, redirect: "/" });
+      }
+      // For normal requests
+      return res.redirect("/");
+    });
   });
 };

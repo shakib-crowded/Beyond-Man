@@ -1,85 +1,114 @@
 <% layout("../Layouts/boilerplate") %>
+    <main class="search-results">
 
-    <body>
-        <main>
-            <div class="search">
-                <div class="search-heading">
-                    <h3>Search Results for: <span>
-                            <a href="https://www.google.com/search?q=<%= identity %>" target="_blank">
-                                <%= identity %>
-                            </a>
-                        </span></h3>
-                </div>
-                <% if(allBlogs.length> 0){ %>
-                    <div class="blogs">
-                        <% for(blog of allBlogs) {%>
-                            <div class="blog">
-                                <!-- Blog Link and Image -->
-                                <a aria-label="Read Full Blog" href="/<%= blog.slug %>">
-                                    <img src="/images/admin_BLOGS/<%= blog.image.filename.replace('admin_BLOGS/', '') %>"
-                                        alt="Blog Image">
-                                    <h3 class="heebo-blog-title">
-                                        <%= blog.title %>
-                                    </h3>
-                                </a>
-                                <div class=" blog-card-container">
-                                    <div class="blog-meta-data">
-                                        <div class="author-in-card">
-                                            <a href="/author/<%= blog.admin %>">
-                                                <p>
-                                                    <i class="fa fa-user" aria-hidden="true"></i>
-                                                    <% if (blog.author) { %>
-                                                        <%= blog.author %>
-                                                            <% } else { %>
-                                                                <%= blog.admin %>
-                                                                    <% } %>
-                                                </p>
-                                            </a>
-                                        </div>
-                                        <div class="created-date">
-                                            <p>Created Date: <span class="date-format">
-                                                    <%= blog.created_date %>
-                                                </span></p>
-                                        </div>
 
-                                    </div>
+        <% if(allBlogs.length> 0) { %>
+            <div class="blogs">
+                <% for(blog of allBlogs) { %>
+                    <div class="blog">
+                        <a aria-label="Read '<%= blog.title %>'" href="/<%= blog.slug %>">
+                            <img src="/images/admin_BLOGS/<%= blog.image.filename.replace('admin_BLOGS/', '') %>"
+                                alt="<%= blog.title %>" loading="lazy">
+                            <h3 class="heebo-blog-title">
+                                <%= blog.title %>
+                            </h3>
+                        </a>
+                        <div class="blog-card-container">
+                            <div class="blog-meta-data">
+                                <div class="author-in-card">
+                                    <a href="/author/<%= blog.admin %>">
+                                        <p>
+                                            <i class="fa fa-user" aria-hidden="true"></i>
+                                            <%= blog.author || blog.admin %>
+                                        </p>
+                                    </a>
+                                </div>
+                                <div class="created-date">
+                                    <p>Created: <span class="date-format">
+                                            <%= blog.created_date %>
+                                        </span></p>
                                 </div>
                             </div>
-                            <%} %>
-                    </div>
-                    <%}else{%>
-                        <p class="no-such-blog">No Such Blog</p>
-                        <div class="no-blog-found">
-                            <img src="/Resources/images/no blog found.png" alt="No Blog Found Here">
                         </div>
-                        <%} %>
-
+                    </div>
+                    <% } %>
             </div>
-            <div class="pagination">
-                <% const startPage=Math.max(1, currentPage - 2); const endPage=Math.min(totalPages, currentPage + 2);
-                    if(startPage> 1) { %>
-                    <a href="?page=1&limit=<%= limit %>" class="page-link">1</a>
-                    <% if (startPage> 2) { %>
-                        <span class="page-dots">...</span>
-                        <% } } for (let i=startPage; i <=endPage; i++) { %>
-                            <% if (i===currentPage) { %>
-                                <span class="page-link current">
-                                    <%= i %>
-                                </span>
-                                <% } else { %>
-                                    <a href="?page=<%= i %>&limit=<%= limit %>" class="page-link">
-                                        <%= i %>
-                                    </a>
-                                    <% } %>
-                                        <% } if (endPage < totalPages) { if (endPage < totalPages - 1) { %>
-                                            <span class="page-dots">...</span>
+            <% } else { %>
+                <div class="no-blogs-container">
+                    <h1 class="no-blogs-title">We're Sorry, No Matching Lessons Found</h1>
+                    <p class="no-blogs-subtitle">Our coding instructors haven't covered this topic yet</p>
+
+                    <div class="apology-card">
+                        <p>Dear Learner,</p>
+                        <p>We couldn't find any article that match with <strong>"<%=identity%>"
+                            </strong>. Our team is constantly adding new content, and this topic may be coming soon.
+                        </p>
+                        <p>Here's what you can do:</p>
+                        <ul>
+                            <li>Browse our existing coding tutorials.</li>
+                            <li>Suggest this topic for future content.</li>
+                            <li>Check back later as we add new lessons daily.</li>
+                        </ul>
+                        <p>We appreciate your interest in learning with us!</p>
+                    </div>
+
+                    <div class="no-blogs-actions">
+                        <a href="/courses" class="no-blogs-btn no-blogs-btn-primary">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                            </svg>
+                            Browse All Courses
+                        </a>
+                        <a href="/contact" class="no-blogs-btn no-blogs-btn-outline">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+                                </path>
+                            </svg>
+                            Suggest a Topic
+                        </a>
+                    </div>
+                </div>
+                <% } %>
+
+                    <% if(allBlogs.length> 0) { %>
+                        <div class="pagination">
+                            <% const startPage=Math.max(1, currentPage - 2); const endPage=Math.min(totalPages,
+                                currentPage + 2); %>
+                                <% if(startPage> 1) { %>
+                                    <a href="?page=1&limit=<%= limit %>" class="page-link" aria-label="First page">1</a>
+                                    <% if (startPage> 2) { %>
+                                        <span class="page-dots" aria-hidden="true">...</span>
+                                        <% } %>
                                             <% } %>
-                                                <a href="?page=<%= totalPages %>&limit=<%= limit %>" class="page-link">
-                                                    <%= totalPages %>
-                                                </a>
-                                                <% } %>
-            </div>
-        </main>
 
-        <div id="blogContainer"></div>
-    </body>
+                                                <% for (let i=startPage; i <=endPage; i++) { %>
+                                                    <% if (i===currentPage) { %>
+                                                        <span class="page-link current" aria-current="page">
+                                                            <%= i %>
+                                                        </span>
+                                                        <% } else { %>
+                                                            <a href="?page=<%= i %>&limit=<%= limit %>"
+                                                                class="page-link" aria-label="Page <%= i %>">
+                                                                <%= i %>
+                                                            </a>
+                                                            <% } %>
+                                                                <% } %>
+
+                                                                    <% if (endPage < totalPages) { %>
+                                                                        <% if (endPage < totalPages - 1) { %>
+                                                                            <span class="page-dots"
+                                                                                aria-hidden="true">...</span>
+                                                                            <% } %>
+                                                                                <a href="?page=<%= totalPages %>&limit=<%= limit %>"
+                                                                                    class="page-link"
+                                                                                    aria-label="Last page">
+                                                                                    <%= totalPages %>
+                                                                                </a>
+                                                                                <% } %>
+                        </div>
+                        <% } %>
+    </main>

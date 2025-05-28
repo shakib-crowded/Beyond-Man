@@ -1,0 +1,306 @@
+<% layout("../Layouts/boilerplate") %>
+
+    <body>
+        <!-- Hero Section -->
+        <!-- <section class="hero">
+            <div class="hero-content">
+                <h1 id="typing-title"></h1>
+                <p id="typing-subtitle"></p>
+                <div class="hero-buttons">
+                    <a href="#browse-articles" class="btn btn-primary">Start Learning</a>
+                    <a href=""/courses class="btn btn-secondary">View Projects</a>
+                </div>
+            </div>
+            <div class="tech-graph">
+                <canvas id="languageGraph"></canvas>
+            </div>
+        </section> -->
+        <!-- <div class="articles"> -->
+        <!-- Heading Section -->
+        <!-- <div class="article-heading">
+                <h3>
+                    <%= languageInfo.title%> Articles
+                </h3>
+            </div> -->
+        <% if(allBlogs.length> 0){%>
+            <!-- Blogs Container -->
+            <div class="blogs">
+                <% for(blog of allBlogs) { %>
+                    <div class="blog">
+                        <!-- Blog Link and Image -->
+                        <a aria-label="Read Full Blog" href="/<%= blog.slug %>">
+                            <img src="/images/admin_BLOGS/<%= blog.image.filename.replace('admin_BLOGS/', '') %>"
+                                alt="Blog Image">
+                            <h3 class="heebo-blog-title">
+                                <%= blog.title %>
+                            </h3>
+                        </a>
+
+                        <!-- Blog Meta Data -->
+                        <div class="blog-card-container">
+                            <div class="blog-meta-data">
+
+                                <!-- Author Section -->
+                                <div class="author-in-card">
+                                    <a href="/author/<%= blog.admin %>">
+                                        <p>
+                                            <i class="fa fa-user" aria-hidden="true"></i>
+                                            <% if (blog.author) { %>
+                                                <%= blog.author %>
+                                                    <% } else { %>
+                                                        <%= blog.admin %>
+                                                            <% } %>
+                                        </p>
+                                    </a>
+                                </div>
+
+                                <!-- Created Date -->
+                                <div class="created-date">
+                                    <p>
+                                        Created Date:
+                                        <span class="date-format">
+                                            <%= blog.created_date %>
+                                        </span>
+                                    </p>
+                                </div>
+
+                            </div> <!-- End of Blog Meta Data -->
+                        </div> <!-- End of Blog Card Container -->
+
+                    </div> <!-- End of Blog -->
+                    <% } %>
+            </div> <!-- End of Blogs Container -->
+
+            <!-- </div> End of Articles -->
+
+            <div class="pagination">
+                <% const startPage=Math.max(1, currentPage - 2); const endPage=Math.min(totalPages, currentPage + 2);
+                    if(startPage> 1) { %>
+                    <a href="?page=1&limit=<%= limit %>" class="page-link">1</a>
+                    <% if (startPage> 2) { %>
+                        <span class="page-dots">...</span>
+                        <% } } for (let i=startPage; i <=endPage; i++) { %>
+                            <% if (i===currentPage) { %>
+                                <span class="page-link current">
+                                    <%= i %>
+                                </span>
+                                <% } else { %>
+                                    <a href="?page=<%= i %>&limit=<%= limit %>" class="page-link">
+                                        <%= i %>
+                                    </a>
+                                    <% } %>
+                                        <% } if (endPage < totalPages) { if (endPage < totalPages - 1) { %>
+                                            <span class="page-dots">...</span>
+                                            <% } %>
+                                                <a href="?page=<%= totalPages %>&limit=<%= limit %>" class="page-link">
+                                                    <%= totalPages %>
+                                                </a>
+                                                <% } %>
+            </div>
+            <%}else{%>
+                <div class="no-blogs-container">
+                    <h1 class="no-blogs-title">We're Sorry, No Matching Lessons Found</h1>
+
+                    <p class="no-blogs-subtitle">Our coding instructors haven't covered this topic yet</p>
+
+                    <div class="apology-card">
+                        <p>Dear Learner,</p>
+                        <p>We couldn't find any article that match with <strong>
+                                "<%= languageInfo.title %>"
+                            </strong>. Our team is constantly adding new content, and this topic may be coming soon.
+                        </p>
+                        <p>Here's what you can do:</p>
+                        <ul>
+                            <li>Browse our existing coding tutorials.</li>
+                            <li>Suggest this topic for future content.</li>
+                            <li>Check back later as we add new lessons daily.</li>
+                        </ul>
+                        <p>We appreciate your interest in learning with us!</p>
+                    </div>
+
+                    <div class="no-blogs-actions">
+                        <a onclick="showBrowseCourseCard()" class="no-blogs-btn no-blogs-btn-primary"
+                            style="cursor: pointer;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                            </svg>
+                            Browse All Courses
+                        </a>
+
+                        <a href="/contact" class="no-blogs-btn no-blogs-btn-outline">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+                                </path>
+                            </svg>
+                            Suggest a Topic
+                        </a>
+                    </div>
+                    <!-- Course Card (Hidden by Default) -->
+                    <div id="hero-course-card-overlay" class="hero-course-card-overlay" onclick="closeCourseCard()">
+                    </div>
+                    <div id="hero-course-card" class="hero-course-card">
+                        <button onclick="closeCourseCard()" class="hero-close-btn">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 4L4 12" stroke="#6B7280" stroke-width="2" stroke-linecap="round" />
+                                <path d="M4 4L12 12" stroke="#6B7280" stroke-width="2" stroke-linecap="round" />
+                            </svg>
+                        </button>
+                        <div class="hero-card-content">
+                            <div class="hero-card-icon">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                                        stroke="#3B82F6" stroke-width="2" />
+                                    <path d="M12 8V12L15 15" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" />
+                                </svg>
+                            </div>
+                            <h4>Exciting Courses Coming Soon!</h4>
+                            <p>We're crafting high-quality content to boost your skills.</p>
+                            <div class="countdown-timer">
+                                <span id="countdown">5</span> seconds remaining...
+                            </div>
+                            <button onclick="closeCourseCard()" class="hero-card-action-btn">Got It!</button>
+                        </div>
+                    </div>
+                </div>
+
+                <%} %>
+
+                    <div id="blogContainer"></div>
+                    <script>
+
+                        document.addEventListener('DOMContentLoaded', function () {
+                            // Handle pagination clicks with AJAX
+                            document.querySelector('.pagination').addEventListener('click', function (e) {
+                                e.preventDefault();
+
+                                if (e.target.tagName === 'A') {
+                                    const url = e.target.getAttribute('href');
+                                    loadBlogs(url);
+
+                                    // Update URL without reload
+                                    history.pushState(null, null, url);
+                                }
+                            });
+
+                            // Handle browser back/forward
+                            window.addEventListener('popstate', function () {
+                                loadBlogs(window.location.href);
+                            });
+
+                            function loadBlogs(url) {
+                                fetch(url, {
+                                    headers: {
+                                        'X-Requested-With': 'XMLHttpRequest',
+                                        'Accept': 'application/json'
+                                    }
+                                })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        // Update blogs container
+                                        const blogsContainer = document.querySelector('.blogs');
+                                        blogsContainer.innerHTML = '';
+
+
+
+                                        // Recreate blogs from response
+                                        data.blogs.forEach(blog => {
+                                            const blogElement = document.createElement('div');
+                                            blogElement.className = 'blog';
+                                            blogElement.innerHTML = `
+          <a aria-label="Read Full Blog" href="/${blog.slug}">
+            <img src="/images/admin_BLOGS/${blog.image.filename.replace('admin_BLOGS/', '')}" alt="Blog Image">
+            <h3 class="heebo-blog-title">${blog.title}</h3>
+          </a>
+          <div class="blog-card-container">
+            <div class="blog-meta-data">
+              <div class="author-in-card">
+                <a href="/author/${blog.admin}">
+                  <p><i class="fa fa-user" aria-hidden="true"></i>${blog.author || blog.admin}</p>
+                </a>
+              </div>
+              <div class="created-date">
+                <p>Created Date: <span class="date-format">${new Date(blog.created_date).toLocaleDateString('en-GB', {
+                                                day: '2-digit',
+                                                month: '2-digit',
+                                                year: 'numeric'
+                                            })}</span></p>
+              </div>
+            </div>
+          </div>
+        `;
+                                            blogsContainer.appendChild(blogElement);
+                                        });
+
+                                        // Update pagination
+                                        updatePagination(data.pagination);
+
+                                        // Scroll to blogs section
+                                        document.querySelector('.articles').scrollIntoView({ behavior: 'smooth' });
+                                    })
+                                    .catch(error => console.error('Error:', error));
+                            }
+
+                            function updatePagination(pagination) {
+                                const { totalPages, currentPage, limit } = pagination;
+                                const paginationContainer = document.querySelector('.pagination');
+                                paginationContainer.innerHTML = '';
+
+                                const startPage = Math.max(1, currentPage - 2);
+                                const endPage = Math.min(totalPages, currentPage + 2);
+
+                                if (startPage > 1) {
+                                    addPageLink(1, limit);
+                                    if (startPage > 2) {
+                                        addDots();
+                                    }
+                                }
+
+                                for (let i = startPage; i <= endPage; i++) {
+                                    if (i === currentPage) {
+                                        addCurrentPage(i);
+                                    } else {
+                                        addPageLink(i, limit);
+                                    }
+                                }
+
+                                if (endPage < totalPages) {
+                                    if (endPage < totalPages - 1) {
+                                        addDots();
+                                    }
+                                    addPageLink(totalPages, limit);
+                                }
+
+                                function addPageLink(page, limit) {
+                                    const link = document.createElement('a');
+                                    link.href = `?page=${page}&limit=${limit}`;
+                                    link.className = 'page-link';
+                                    link.textContent = page;
+                                    paginationContainer.appendChild(link);
+                                }
+
+                                function addCurrentPage(page) {
+                                    const span = document.createElement('span');
+                                    span.className = 'page-link current';
+                                    span.textContent = page;
+                                    paginationContainer.appendChild(span);
+                                }
+
+                                function addDots() {
+                                    const span = document.createElement('span');
+                                    span.className = 'page-dots';
+                                    span.textContent = '...';
+                                    paginationContainer.appendChild(span);
+                                }
+                            }
+                        });
+
+
+                    </script>
+    </body>

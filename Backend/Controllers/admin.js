@@ -37,7 +37,15 @@ module.exports.admin_upload = async (req, res) => {
     const adminUsername = admin.username;
 
     // Extract blog details
-    const { title, description, content, author, category, tags } = req.body;
+    const {
+      languageName,
+      title,
+      description,
+      content,
+      author,
+      category,
+      tags,
+    } = req.body;
 
     // Sanitize the content
     const sanitizedContent = domPurify.sanitize(content);
@@ -47,6 +55,7 @@ module.exports.admin_upload = async (req, res) => {
 
     // Create and save the new blog
     const newBlog = new Blog({
+      languageName,
       title,
       description,
       content: sanitizedContent,
@@ -229,7 +238,7 @@ module.exports.admin_update_form = async (req, res) => {
 module.exports.admin_update = async (req, res) => {
   try {
     const { id } = req.params; // Extract blog ID from the URL parameter
-    const { title, content, author, category, tags } = req.body;
+    const { languageName, title, content, author, category, tags } = req.body;
 
     // Find the blog by its ID
     const blog = await Blog.findById(id);
@@ -261,6 +270,7 @@ module.exports.admin_update = async (req, res) => {
       .replace(/[^\w-]+/g, "");
 
     // Update the blog with the new values
+    blog.languageName = languageName;
     blog.title = title;
     blog.content = sanitizedContent;
     blog.author = author;
@@ -269,6 +279,7 @@ module.exports.admin_update = async (req, res) => {
     blog.image = updatedImage; // Update the image if a new one is provided
     blog.updated_date = Date.now();
     blog.slug = updatedSlug;
+
     // Save the updated blog
     await blog.save();
 
