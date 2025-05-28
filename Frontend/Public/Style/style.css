@@ -1005,7 +1005,7 @@ body {
 /* Error State Styles */
 .no-blogs-container {
   /* max-width: 800px; */
-  margin: 2rem auto;
+  margin: 2rem 1rem;
   padding: 2rem;
   text-align: center;
   background-color: white;
@@ -1032,6 +1032,7 @@ body {
   border-radius: 12px;
   box-shadow: var(--shadow-sm);
   text-align: left;
+  padding: 1rem;
 }
 
 .apology-card p {
