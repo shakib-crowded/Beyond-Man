@@ -93,30 +93,32 @@ module.exports.login_form = (req, res) => {
   };
   res.render("../User/login.ejs", { user: req.session.user, blog, meta }); // Login Form
 };
-
 module.exports.login = async (req, res) => {
+  console.log("🧠 Entered userEnterController.login");
+
   req.session.user = {
     id: req.user._id,
     username: req.user.username,
     role: "user",
   };
 
-  // Read the pendingAction cookie
+  console.log("📦 Session user set:", req.session.user);
+
   const pendingAction = req.cookies.pendingAction
     ? JSON.parse(req.cookies.pendingAction)
     : null;
 
   if (pendingAction) {
-    // Clear the pendingAction cookie
     res.clearCookie("pendingAction");
 
     const blog = await Blogs.findById(pendingAction.blogId);
     const blogSlug = blog.slug;
-    // Redirect to the blog page
-    res.redirect(`/${blogSlug}`);
+    console.log("📍 Redirecting to pending action:", blogSlug);
+    return res.redirect(`/${blogSlug}`);
   } else {
     req.flash("success", "Welcome back to BeyondMan");
-    res.redirect("/");
+    console.log("🏠 Redirecting to home");
+    return res.redirect("/");
   }
 };
 
