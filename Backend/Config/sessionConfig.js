@@ -19,16 +19,16 @@ store.on("error", (err) => {
 // Session Configuration
 const sessionOptions = {
   store,
-  name: "connect.sid", // explicitly set cookie name
-  secret: process.env.SECRET_KEY || "Shakib@dev",
+  store,
+  name: "connect.sid",
+  secret: process.env.SECRET_KEY,
   resave: false,
-  saveUninitialized: false, // changed from true for security
+  saveUninitialized: false,
   cookie: {
-    expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // fixed Date object
-    maxAge: 7 * 24 * 60 * 60 * 1000,
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // only secure in production
-    sameSite: "lax", // allows some cross-site usage while still being safe
+    secure: process.env.NODE_ENV === "production", // true on Render
+    sameSite: "lax",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
   },
 };
 

@@ -43,6 +43,11 @@ app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "../Frontend/Public")));
 app.engine("ejs", ejsMate);
 app.use(methodOverride("_method"));
+
+if (process.env.NODE_ENV === "production") {
+  app.set("trust proxy", 1); // 👈 this is critical on Render
+}
+
 app.use(sessionMiddleware);
 app.use(flash());
 
