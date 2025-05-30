@@ -45,7 +45,7 @@ app.engine("ejs", ejsMate);
 app.use(methodOverride("_method"));
 
 if (process.env.NODE_ENV === "production") {
-  app.set("trust proxy", 1); // 👈 this is critical on Render
+  app.set("trust proxy", 1);
 }
 
 app.use(sessionMiddleware);

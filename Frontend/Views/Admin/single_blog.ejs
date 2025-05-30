@@ -4,95 +4,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/Style/style.css">
-    <title>Document</title>
+    <title>
+        <%= blog.title %> | Beyond Man
+    </title>
+    <meta name="description" content="<%= blog.description || 'View blog details' %>">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/Style/Admin/singleBlog.css">
 </head>
 
 <body>
-    <div class="blog">
-        <h4>
-            <%= blog.title %>
-        </h4>
-        <p><strong>Category:</strong>
-            <%= blog.category %>
-        </p>
-        <div class="blog-content">
-            <p>
-                <%- blog.content %>
-            </p>
-        </div>
-        <div class="small-container"
-            style="display: flex; justify-content: space-evenly; align-items: flex-start; flex-wrap: wrap; gap: 20px; padding: 20px; background-color: #f9f9f9; border-radius: 10px;    width: 1200px;">
-            <div class="image-container"
-                style="width: 550px; height: 400px; text-align: center; background: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-                <h2 style="margin-bottom: 10px; font-size: 18px; color: #333;">Blog Picture</h2>
-                <% if (blog.image.url) { %>
-                    <img src="<%= blog.image.url %>" alt="Blog Image"
-                        style="display: block; object-fit: contain; height: auto; width: auto; border-radius: 8px;">
-                    <% } %>
+    <div class="admin-container">
+        <header class="admin-header">
+            <h1>Blog Details</h1>
+            <div class="header-actions">
+                <a href="/admin" class="btn btn-outline" aria-label="Back to All Blogs">
+                    <i class="fas fa-arrow-left"></i> All Blogs
+                </a>
             </div>
+        </header>
 
-            <div class="details-container"
-                style="flex: 1; width: 550px; height: 400px; background: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-                <div class="tags" style="margin-bottom: 15px;">
-                    <% if (Array.isArray(blog.tags) && blog.tags.length> 0) { %>
-                        <% for (let tag of blog.tags) { %>
-                            <span
-                                style="background: #007bff; color: white; padding: 5px 10px; border-radius: 15px; font-size: 14px; margin-right: 5px; display: inline-block;">
-                                #<%= tag.trim() %>
-                            </span>
-                            <% } %>
+        <main class="blog-detail-container">
+            <article class="blog-article">
+                <header class="blog-header">
+                    <h2 class="blog-title">
+                        <%= blog.title %>
+                    </h2>
+                    <div class="blog-meta">
+                        <span class="category-badge">
+                            <%= blog.category %>
+                        </span>
+                        <span class="meta-separator">•</span>
+                        <span class="date-info">
+                            Created: <%= formatDate(blog.created_date) %>
+                                <% if (blog.updated_date) { %>
+                                    <span class="meta-separator">•</span>
+                                    Updated: <%= formatDate(blog.updated_date) %>
+                                        <% } %>
+                        </span>
+                    </div>
+                </header>
+
+                <div class="blog-content">
+                    <%- blog.content %>
+                </div>
+
+                <div class="blog-details-grid">
+                    <div class="image-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-image"></i> Featured Image</h3>
+                        </div>
+                        <div class="card-body">
+                            <% if (blog.image.url) { %>
+                                <img src="<%= blog.image.url %>" alt="Featured image for <%= blog.title %>"
+                                    class="featured-image">
                                 <% } else { %>
-                                    <p style="color: #666; font-size: 14px;">No tags available</p>
+                                    <div class="no-image">
+                                        <i class="fas fa-image"></i>
+                                        <p>No image available</p>
+                                    </div>
                                     <% } %>
-                </div>
-
-                <div class="date">
-                    <div class="create_date" style="margin-bottom: 10px;">
-                        <h4 style="color: #444; font-size: 16px; margin-bottom: 5px;">Created At</h4>
-                        <p style="color: #555; font-size: 14px;">
-                            Time: <%= new Date(blog.created_date).toLocaleString('en-US', { hour: 'numeric' ,
-                                minute: 'numeric' , second: 'numeric' , hour12: true }) %> <br>
-                                Date: <%= new Date(blog.created_date).toLocaleDateString('en-US', { weekday: 'short' ,
-                                    year: 'numeric' , month: 'short' , day: 'numeric' }) %>
-                        </p>
+                        </div>
                     </div>
 
-                    <div class="update_date">
-                        <h4 style="color: #444; font-size: 16px; margin-bottom: 5px;">Updated At</h4>
-                        <% if (blog.updated_date) { %>
-                            <p style="color: #555; font-size: 14px;">
-                                Time: <%= new Date(blog.updated_date).toLocaleString('en-US', { hour: 'numeric' ,
-                                    minute: 'numeric' , second: 'numeric' , hour12: true }) %> <br>
-                                    Date: <%= new Date(blog.updated_date).toLocaleDateString('en-US', { weekday: 'short'
-                                        , year: 'numeric' , month: 'short' , day: 'numeric' }) %>
-                            </p>
-                            <% } else { %>
-                                <h5 style="color: #777; font-size: 14px;">No Updates Yet</h5>
-                                <% } %>
-                    </div>
+                    <div class="details-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-info-circle"></i> Blog Details</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="tags-section">
+                                <h4>Tags</h4>
+                                <% if (Array.isArray(blog.tags) && blog.tags.length> 0) { %>
+                                    <div class="tags-container">
+                                        <% blog.tags.forEach(tag=> { %>
+                                            <span class="tag">#<%= tag.trim() %></span>
+                                            <% }); %>
+                                    </div>
+                                    <% } else { %>
+                                        <p class="no-tags">No tags available</p>
+                                        <% } %>
+                            </div>
 
+                            <div class="dates-section">
+                                <div class="date-info">
+                                    <h4><i class="far fa-calendar-plus"></i> Created</h4>
+                                    <p>
+                                        <%= formatDateTime(blog.created_date) %>
+                                    </p>
+                                </div>
+
+                                <% if (blog.updated_date) { %>
+                                    <div class="date-info">
+                                        <h4><i class="far fa-calendar-check"></i> Updated</h4>
+                                        <p>
+                                            <%= formatDateTime(blog.updated_date) %>
+                                        </p>
+                                    </div>
+                                    <% } else { %>
+                                        <div class="date-info">
+                                            <h4><i class="far fa-calendar-check"></i> Updated</h4>
+                                            <p>No updates yet</p>
+                                        </div>
+                                        <% } %>
+                            </div>
+
+                            <div class="actions-section">
+                                <a href="/admin/<%=blog._id%>/update" class="btn btn-primary" aria-label="Edit Blog">
+                                    <i class="fas fa-edit"></i> Edit Blog
+                                </a>
+                                <button class="btn btn-danger delete-btn" aria-label="Delete Blog"
+                                    data-id="<%= blog._id %>">
+                                    <i class="fas fa-trash-alt"></i> Delete Blog
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="nav">
-                    <a aria-label="Update Blog" href="/admin/<%=blog._id%>/update"><button
-                            style="background-color: green;">Update</button></a>
-                    <button class="delete-button" type="button"
-                        onclick="showDeleteCard('<%= blog._id %>')">Delete</button>
+            </article>
+        </main>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Confirm Deletion</h3>
+                <button class="close-modal" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this blog? This action cannot be undone.</p>
+                <div class="modal-footer">
+                    <button id="cancelDelete" class="btn btn-outline">Cancel</button>
+                    <button id="confirmDelete" class="btn btn-danger">Delete</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Delete confirmation card -->
-    <div id="deleteCard">
-        <p>Are you sure you want to delete this blog?</p>
-        <button id="cancelButton">Cancel</button>
-        <button id="confirmDeleteButton">Delete</button>
-    </div>
-
-    <!-- Overlay -->
-    <div id="overlay" onclick="hideDeleteCard()"></div>
+    <script src="/JavaScript/Admin/singleBlog.js"></script>
 </body>
-<script src="/JavaScript/adminBlock.js"></script>
 
 </html>

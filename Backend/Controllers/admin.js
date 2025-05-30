@@ -90,13 +90,44 @@ module.exports.admin_read = async (req, res) => {
 };
 
 module.exports.admin_read_single_blog = async (req, res) => {
-  let { id } = req.params;
-  let blog = await Blog.findById(id);
-  if (!blog) {
-    req.flash("false", "Blog Doesn't Exists!");
-    res.redirect("/admin/read");
+  try {
+    const blog = await Blog.findById(req.params.id);
+
+    // Define the formatDate function
+    const formatDate = (dateString) => {
+      if (!dateString) return "N/A";
+      const date = new Date(dateString);
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    };
+
+    // Also pass formatDateTime if needed
+    const formatDateTime = (dateString) => {
+      if (!dateString) return "N/A";
+      const date = new Date(dateString);
+      return date.toLocaleString("en-US", {
+        weekday: "short",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
+      });
+    };
+
+    res.render("../Admin/single_blog", {
+      blog,
+      formatDate,
+      formatDateTime,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error");
   }
-  res.render("../Admin/single_blog", { blog });
 };
 
 module.exports.admin_profile_page = (req, res) => {

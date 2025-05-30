@@ -4,51 +4,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/Style/style.css">
-    <title>All Blogs</title>
-
+    <title>Manage Blogs | Beyond Man</title>
+    <meta name="description" content="Manage all your published blog posts">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/Style/Admin/readBlogs.css">
 </head>
 
 <body>
-    <div class="read-container">
-
-        <div class="two-btn" style="display: flex; justify-content: space-around;">
-            <a aria-label="Upload Blog" href="/admin/edit"><button onclick="showPage('upload')">Upload
-                    Blog...</button></a>
-            <a aria-label="Log Out" href="/admin/logout"><button>Log Out</button></a>
-        </div>
-
-
-
-        <div class="articles" style="text-align: center;">
-            <div class="read-blogs">
-                <h1>Read Your All Blogs</h1>
+    <div class="admin-container">
+        <header class="admin-header">
+            <h1>Blog Management</h1>
+            <div class="header-actions">
+                <a href="/admin/edit" class="btn btn-primary" aria-label="Upload New Blog">
+                    <i class="fas fa-plus"></i> New Blog
+                </a>
+                <a href="/admin" class="btn btn-outline" aria-label="Back to Dashboard">
+                    <i class="fas fa-arrow-left"></i> Dashboard
+                </a>
+                <button class="btn btn-danger" aria-label="Log Out" onclick="confirmLogout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
             </div>
-            <% if(blogs.length> 0){ %>
-                <div class="blogs">
-                    <% for(blog of blogs) {%>
-                        <div class="blog">
-                            <img src="<%= blog.image.url %>" alt="">
+        </header>
 
-                            <h3 class="heebo-blog-title"">
-                        <%= blog.title %>
-                    </h3>
-                    <div class=" blog-card-container">
-
-                        </div>
-                        <a aria-label="Read Now" href="read/<%= blog.id %>"><button type="button"
-                                class="read-now-btn">Read
-                                Now</button></a>
+        <main class="blog-management-container">
+            <div class="filter-controls">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="blogSearch" placeholder="Search blogs...">
                 </div>
-                <%} %>
+                <div class="sort-options">
+                    <label for="sortBy">Sort by:</label>
+                    <select id="sortBy">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="title-asc">Title (A-Z)</option>
+                        <option value="title-desc">Title (Z-A)</option>
+                    </select>
+                </div>
+            </div>
 
-                    <%} else {%>
-                        <h3>No Blogs Available</h3>
-                        <%}%>
+            <div class="blog-grid">
+                <% if(blogs.length> 0) { %>
+                    <% blogs.forEach(blog=> { %>
+                        <div class="blog-card" data-id="<%= blog.id %>">
+                            <div class="blog-image-container">
+                                <img src="<%= blog.image.url %>" alt="<%= blog.title %>" class="blog-image">
+                                <div class="blog-actions">
+                                    <button class="action-btn edit-btn" aria-label="Edit Blog"
+                                        onclick="location.href='/admin/<%= blog.id %>/update'">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn delete-btn" aria-label="Delete Blog"
+                                        data-id="<%= blog.id %>">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
 
+                                </div>
+                            </div>
+                            <div class="blog-content">
+                                <h3 class="blog-title">
+                                    <%= blog.title %>
+                                </h3>
+                                <p class="blog-meta">
+                                    <span class="category">
+                                        <%= blog.category %>
+                                    </span>
+                                    <span class="separator">•</span>
+                                    <span class="date">
+                                        <%= new Date(blog.created_date).toLocaleDateString() %>
+                                    </span>
+                                </p>
+                                <p class="blog-description">
+                                    <%= blog.description %>
+                                </p>
+                                <div class="blog-footer">
+                                    <a href="/admin/read/<%= blog.id %>" class="btn btn-outline read-btn"
+                                        aria-label="Read Blog">
+                                        Read Now <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                    <div class="view-count">
+                                        <i class="fas fa-eye"></i>
+                                        <%= blog.views || 0 %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <% }); %>
+                            <% } else { %>
+                                <div class="empty-state">
+                                    <i class="fas fa-book-open"></i>
+                                    <h3>No Blogs Available</h3>
+                                    <p>You haven't created any blogs yet. Get started by clicking the "New Blog" button.
+                                    </p>
+                                    <a href="/admin/edit" class="btn btn-primary">Create Your First Blog</a>
+                                </div>
+                                <% } %>
+            </div>
+        </main>
+
+        <!-- Confirmation Modal -->
+        <div id="confirmationModal" class="modal">
+            <div class="modal-content">
+                <h3 id="modalTitle">Confirm Action</h3>
+                <p id="modalMessage">Are you sure you want to perform this action?</p>
+                <div class="modal-actions">
+                    <button id="modalCancel" class="btn btn-outline">Cancel</button>
+                    <button id="modalConfirm" class="btn btn-danger">Confirm</button>
+                </div>
+            </div>
         </div>
-
-
-
     </div>
+
+    <script src="/JavaScript/Admin/readBlogs.js"></script>
 </body>
+
+</html>

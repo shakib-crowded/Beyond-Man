@@ -15,19 +15,10 @@ router
   .get(isUserNotLoggedIn, userEnterController.login_form)
   .post(
     isUserNotLoggedIn,
-    (req, res, next) => {
-      console.log("📥 Login POST request received");
-      next();
-    },
     passport.authenticate("user", {
       failureRedirect: "/login",
       failureFlash: true,
     }),
-    (req, res, next) => {
-      console.log("✅ Passport authentication successful");
-      console.log("🔐 Authenticated user:", req.user); // should log user info
-      next();
-    },
     userEnterController.login
   );
 

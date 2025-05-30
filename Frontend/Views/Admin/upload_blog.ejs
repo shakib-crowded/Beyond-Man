@@ -4,333 +4,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog Upload</title>
+    <title>Blog Upload | Beyond Man</title>
+    <meta name="description" content="Create and publish new blog posts">
 
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Quill CSS -->
     <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
 
-    <!-- Highlight.js for code syntax -->
+    <!-- Highlight.js -->
     <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
 
-    <!-- KaTeX for Math -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 
-    <!-- Cropper.js for Image Cropping -->
+    <!-- Cropper.js -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
 
-    <!-- My Custom CSS -->
+    <!-- Main Styles -->
+    <link rel="stylesheet" href="/Style/Admin/blogUpload.css">
 
-    <link rel="stylesheet" href="/Style/style.css">
 
 
-    <style>
-        /* Image alignment styles */
-        .ql-editor img {
-            display: inline-block;
-            margin: 10px;
-        }
-
-        .ql-editor img.align-left {
-            float: left;
-            margin-right: 10px;
-        }
-
-        .ql-editor img.align-right {
-            float: right;
-            margin-left: 10px;
-        }
-
-        .ql-editor img.align-center {
-            display: block;
-            margin: 10px auto;
-        }
-
-        /* Cropper Modal */
-        #cropper-container {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #fff;
-            padding: 20px;
-            z-index: 1000;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-    </style>
 </head>
 
 <body>
-    <div class="upload-container">
-        <h1>Upload Blog</h1>
-        <form id="blogForm" action="/admin/upload" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="languageName"><span style="color: red; font-size: 14px;">* </span>Language Name</label>
-                <input type="text" id="languageName" name="languageName" placeholder="Enter Language Name" required>
-                <label for="title"><span style="color: red; font-size: 14px;">* </span>Blog Title</label>
-                <input type="text" id="title" name="title" placeholder="Enter blog title"
-                    oninput="updateTitleCharCount()" required>
-                <p id="charTitleCount" style="font-size: 14px; color: gray; margin-top: 4px;">0/250 characters</p>
-            </div>
-            <div class="form-group">
-                <label for="description"><span style="color: red; font-size: 14px;">* </span>Blog Description</label>
-                <input type="text" id="description" name="description" placeholder="Enter short description..."
-                    oninput="updateDescriptionCharCount()" required>
-                <p id="charDescriptionCount" style="font-size: 14px; color: gray; margin-top: 4px;">0/120 characters</p>
-            </div>
+    <div class="admin-container">
+        <header class="admin-header">
+            <h1>Create New Blog Post</h1>
+            <nav class="admin-nav">
+                <a href="/admin" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+            </nav>
+        </header>
 
-            <div class="form-group">
-                <label for="content">
-                    <span style="color: red; font-size: 14px;">*</span> Content
-                </label>
-                <div id="toolbar-wrapper">
-                    <div id="toolbar-container">
-                        <span class="ql-formats">
-                            <select class="ql-font"></select>
-                            <select class="ql-size"></select>
-                        </span>
-                        <span class="ql-formats">
-                            <button class="ql-bold"></button>
-                            <button class="ql-italic"></button>
-                            <button class="ql-underline"></button>
-                            <button class="ql-strike"></button>
-                        </span>
-                        <span class="ql-formats">
-                            <select class="ql-color"></select>
-                            <select class="ql-background"></select>
-                        </span>
-                        <span class="ql-formats">
-                            <button class="ql-script" value="sub"></button>
-                            <button class="ql-script" value="super"></button>
-                        </span>
-                        <span class="ql-formats">
-                            <button class="ql-header" value="1"></button>
-                            <button class="ql-header" value="2"></button>
-                            <button class="ql-header" value="3">H3</button>
-                            <button class="ql-header" value="4">H4</button>
-                            <button class="ql-header" value="5">H5</button>
-                            <button class="ql-header" value="6">H6</button>
-                            <button class="ql-blockquote"></button>
-                            <button class="ql-code-block"></button>
-                        </span>
-                        <span class="ql-formats">
-                            <button class="ql-list" value="ordered"></button>
-                            <button class="ql-list" value="bullet"></button>
-                            <button class="ql-indent" value="-1"></button>
-                            <button class="ql-indent" value="+1"></button>
-                        </span>
-                        <span class="ql-formats">
-                            <button class="ql-direction" value="rtl"></button>
-                            <select class="ql-align"></select>
-                        </span>
-                        <span class="ql-formats">
-                            <button class="ql-link"></button>
-                            <button class="ql-image"></button>
-                            <button class="ql-video"></button>
-                            <button class="ql-formula"></button>
-                        </span>
-                        <span class="ql-formats">
-                            <button class="ql-clean"></button>
-                        </span>
+        <main class="blog-upload-container">
+            <form id="blogForm" class="blog-form" action="/admin/upload" method="post" enctype="multipart/form-data">
+                <div class="form-section">
+                    <h2 class="section-title">Basic Information</h2>
+
+                    <div class="form-group">
+                        <label for="languageName" class="required">Language Name</label>
+                        <input type="text" id="languageName" name="languageName" placeholder="e.g., JavaScript, Python"
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="title" class="required">Blog Title</label>
+                        <input type="text" id="title" name="title" placeholder="Enter blog title" maxlength="250"
+                            required>
+                        <div class="char-counter" id="charTitleCount">0/250 characters</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description" class="required">Short Description</label>
+                        <textarea id="description" name="description"
+                            placeholder="Brief description for preview cards..." maxlength="120" required></textarea>
+                        <div class="char-counter" id="charDescriptionCount">0/120 characters</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category" class="required">Category</label>
+                        <select id="category" name="category" required>
+                            <option value="">Select a category</option>
+                            <option value="Programming">Programming</option>
+                            <option value="Web-Development">Web Development</option>
+                            <option value="Android-Development">Android Development</option>
+                            <option value="Software-Development">Software Development</option>
+                            <option value="Data-Science">Data Science</option>
+                            <option value="Machine-Learning">Machine Learning</option>
+                        </select>
                     </div>
                 </div>
-                <div id="editor"></div>
-                <input type="hidden" id="content" name="content" />
-            </div>
 
-            <div class="form-group">
-                <label for="author">Author Name</label>
-                <input type="text" id="author" name="author" placeholder="Author name" maxlength="40"
-                    oninput="updateAuthorCharCount()">
-                <p id="charAuthorCount" style="font-size: 14px; color: gray; margin-top: 4px;">0/40 characters</p>
-            </div>
-
-            <div class="form-group">
-                <label for="category"><span style="color: red; font-size: 14px;">* </span>Category</label>
-                <select id="category" name="category" required>
-                    <option value="">Select a category</option>
-                    <option value="Programming">Programming</option>
-                    <option value="Web-Developement">Web Developement</option>
-                    <option value="Android-Development">Android Development</option>
-                    <option value="Software-Development">Software Development</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="tags">Tags</label>
-                <input type="text" id="tags" name="tags" placeholder="Comma-separated tags (e.g., JavaScript, Web)">
-            </div>
-            <div class="form-group" style="font-family: Arial, sans-serif; font-size: 14px;">
-                <label for="image-url" style="font-weight: bold; display: block; margin-bottom: 8px;">
-                    <span style="color: red;">*</span> Upload Image
-                </label>
-                <div style="margin-bottom: 12px; color: #555;">
-                    <p style="margin: 4px 0;">
-                        <strong>Recommended Size:</strong> 1066 x 613 pixels
-                    </p>
-                    <p style="margin: 4px 0;">
-                        <strong>Acceptable Range:</strong> 1050–1080 x 600-620 pixels
-                    </p>
-                    <p style="margin: 4px 0;">
-                        <strong>Supported Formats:</strong> PNG, JPG, JPEG
-                    </p>
-                    <p style="margin: 4px 0;">
-                        <strong>File Size:</strong> 100 KB to 500 KB (Max: 1 MB)
-                    </p>
+                <div class="form-section">
+                    <h2 class="section-title">Featured Image</h2>
+                    <div class="image-upload-container">
+                        <div class="upload-guidelines">
+                            <h4>Image Requirements</h4>
+                            <ul>
+                                <li><i class="fas fa-check-circle"></i> Recommended: 1066 × 613 pixels</li>
+                                <li><i class="fas fa-check-circle"></i> Acceptable Range: 1050–1080 × 600-620 pixels
+                                </li>
+                                <li><i class="fas fa-check-circle"></i> Formats: PNG, JPG, JPEG</li>
+                                <li><i class="fas fa-check-circle"></i> File Size: 100KB - 500KB (Max: 1MB)</li>
+                            </ul>
+                        </div>
+                        <div class="upload-preview">
+                            <div class="image-preview" id="imagePreview">
+                                <i class="fas fa-image"></i>
+                                <span>No image selected</span>
+                            </div>
+                            <label for="image-url" class="btn btn-primary">
+                                <i class="fas fa-upload"></i> Select Image
+                                <input type="file" id="image-url" name="image"
+                                    accept="image/png, image/jpeg, image/jpg">
+                            </label>
+                        </div>
+                    </div>
                 </div>
-                <input type="file" id="image-url" name="image"
-                    style="border: 1px solid #ccc; padding: 8px; width: 100%; border-radius: 4px;">
-            </div>
 
-            <button type="submit">Upload Blog</button>
-        </form>
+                <div class="form-section">
+                    <h2 class="section-title">Blog Content</h2>
+                    <div class="editor-container">
+                        <div id="toolbar-container">
+                            <span class="ql-formats">
+                                <select class="ql-font"></select>
+                                <select class="ql-size"></select>
+                            </span>
+                            <span class="ql-formats">
+                                <button class="ql-bold"></button>
+                                <button class="ql-italic"></button>
+                                <button class="ql-underline"></button>
+                                <button class="ql-strike"></button>
+                            </span>
+                            <span class="ql-formats">
+                                <select class="ql-color"></select>
+                                <select class="ql-background"></select>
+                            </span>
+                            <span class="ql-formats">
+                                <button class="ql-script" value="sub"></button>
+                                <button class="ql-script" value="super"></button>
+                            </span>
+                            <span class="ql-formats">
+                                <button class="ql-header" value="1"></button>
+                                <button class="ql-header" value="2"></button>
+                                <button class="ql-header" value="3"></button>
+                                <button class="ql-blockquote"></button>
+                                <button class="ql-code-block"></button>
+                            </span>
+                            <span class="ql-formats">
+                                <button class="ql-list" value="ordered"></button>
+                                <button class="ql-list" value="bullet"></button>
+                                <button class="ql-indent" value="-1"></button>
+                                <button class="ql-indent" value="+1"></button>
+                            </span>
+                            <span class="ql-formats">
+                                <button class="ql-direction" value="rtl"></button>
+                                <select class="ql-align"></select>
+                            </span>
+                            <span class="ql-formats">
+                                <button class="ql-link"></button>
+                                <button class="ql-image"></button>
+                                <button class="ql-video"></button>
+                                <button class="ql-formula"></button>
+                            </span>
+                            <span class="ql-formats">
+                                <button class="ql-clean"></button>
+                            </span>
+                        </div>
+                        <div id="editor"></div>
+                        <input type="hidden" id="content" name="content">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2 class="section-title">Additional Information</h2>
+
+                    <div class="form-group">
+                        <label for="author">Author Name</label>
+                        <input type="text" id="author" name="author" placeholder="Your name or pseudonym"
+                            maxlength="40">
+                        <div class="char-counter" id="charAuthorCount">0/40 characters</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tags">Tags</label>
+                        <input type="text" id="tags" name="tags"
+                            placeholder="Comma-separated tags (e.g., JavaScript, Web)">
+                        <div class="hint">Tags help readers discover your content</div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" id="previewBtn">
+                        <i class="fas fa-eye"></i> Preview
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-upload"></i> Publish Blog
+                    </button>
+                </div>
+            </form>
+        </main>
+    </div>
+
+    <!-- Cropper Modal -->
+    <div id="cropperModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Crop Image</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="image-container">
+                    <img id="cropperImage" src="">
+                </div>
+                <div class="alignment-controls">
+                    <button class="btn btn-outline align-btn" data-align="left">
+                        <i class="fas fa-align-left"></i> Left
+                    </button>
+                    <button class="btn btn-outline align-btn" data-align="center">
+                        <i class="fas fa-align-center"></i> Center
+                    </button>
+                    <button class="btn btn-outline align-btn" data-align="right">
+                        <i class="fas fa-align-right"></i> Right
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancelCrop">Cancel</button>
+                <button class="btn btn-primary" id="insertImage">Insert Image</button>
+            </div>
+        </div>
     </div>
 
     <!-- Scripts -->
-    <script src="/JavaScript/adminBlock.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/quill-image-resize-module@3.0.0/image-resize.min.js"></script>
-
-
-    <script>
-        // Initialize Quill Editor
-        function initializeQuill() {
-            if (typeof Quill === "undefined") {
-                console.error("Quill is not loaded!");
-                return;
-            }
-
-            // Register the ImageResize module
-            if (typeof ImageResize !== "undefined") {
-                Quill.register('modules/imageResize', ImageResize.default || ImageResize);
-            } else {
-                console.error("ImageResize module is not loaded!");
-                return;
-            }
-
-            // Initialize Quill
-            window.quill = new Quill('#editor', {
-                modules: {
-                    syntax: true,
-                    toolbar: {
-                        container: '#toolbar-container',
-                        handlers: {
-                            image: imageHandler, // Use the imageHandler for image uploads
-                        }
-                    },
-                    imageResize: {
-                        displaySize: true
-                    }
-                },
-                placeholder: 'Write Your Blog Here',
-                theme: 'snow',
-            });
-
-            // Set existing content in Quill editor
-
-
-            // Update the hidden input with the editor's content
-            const contentInput = document.getElementById('content');
-            quill.on('text-change', () => {
-                contentInput.value = quill.root.innerHTML.trim();
-            });
-        }
-
-        // Image Handler for Quill
-        function imageHandler() {
-            const input = document.createElement("input");
-            input.setAttribute("type", "file");
-            input.setAttribute("accept", "image/*");
-            input.click();
-
-            input.onchange = function () {
-                const file = input.files[0];
-                if (!file) return;
-
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = function (event) {
-                    openCropper(event.target.result);
-                };
-            };
-        }
-
-        // Open Cropper for Image Cropping
-        function openCropper(imageSrc) {
-            const modal = document.createElement("div");
-            modal.id = "cropper-modal";
-            modal.innerHTML = `
-                <div id="cropper-container">
-                    <img id="cropper-image" src="${imageSrc}" style="max-width:100%; height: auto;">
-                    <br>
-                    <div style="margin-top: 10px;">
-                        <button id="align-left" style="padding: 5px 10px; background: #007bff; color: white; border: none; cursor: pointer;">Align Left</button>
-                        <button id="align-center" style="padding: 5px 10px; background: #007bff; color: white; border: none; cursor: pointer;">Align Center</button>
-                        <button id="align-right" style="padding: 5px 10px; background: #007bff; color: white; border: none; cursor: pointer;">Align Right</button>
-                    </div>
-                    <button id="crop-image-btn" style="margin-top: 10px; padding: 5px 10px; background: #007bff; color: white; border: none; cursor: pointer;">Crop & Insert</button>
-                </div>
-            `;
-            document.body.appendChild(modal);
-
-            const image = document.getElementById("cropper-image");
-            const cropper = new Cropper(image, {
-                aspectRatio: 0,
-                viewMode: 1,
-            });
-
-            let alignment = "align-left"; // Default alignment
-
-            // Handle alignment button clicks
-            document.getElementById("align-left").addEventListener("click", () => {
-                alignment = "align-left";
-            });
-
-            document.getElementById("align-center").addEventListener("click", () => {
-                alignment = "align-center";
-            });
-
-            document.getElementById("align-right").addEventListener("click", () => {
-                alignment = "align-right";
-            });
-
-            // Handle the crop button click
-            document.getElementById("crop-image-btn").addEventListener("click", () => {
-                if (!window.quill) {
-                    console.error("Quill is not initialized yet!");
-                    return;
-                }
-
-                const canvas = cropper.getCroppedCanvas();
-                if (!canvas) {
-                    console.error("Cropping failed!");
-                    return;
-                }
-
-                const croppedImage = canvas.toDataURL("image/png");
-
-                // Insert the cropped image into the Quill editor with the selected alignment
-                const range = quill.getSelection(true); // Get the current cursor position
-                const imgTag = `<img src="${croppedImage}" class="${alignment}" />`;
-                quill.clipboard.dangerouslyPasteHTML(range.index, imgTag);
-
-                // Cleanup
-                cropper.destroy();
-                document.body.removeChild(modal);
-            });
-        }
-
-        // Initialize Quill after the DOM is loaded
-        document.addEventListener("DOMContentLoaded", function () {
-
-            initializeQuill();
-        });
-    </script>
+    <script src="/JavaScript/Admin/blogUpload.js"></script>
 </body>
 
 </html>

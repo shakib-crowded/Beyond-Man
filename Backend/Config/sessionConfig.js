@@ -19,14 +19,13 @@ store.on("error", (err) => {
 // Session Configuration
 const sessionOptions = {
   store,
-  store,
   name: "connect.sid",
   secret: process.env.SECRET_KEY,
   resave: false,
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // true on Render
+    secure: true,
     sameSite: "lax",
     maxAge: 7 * 24 * 60 * 60 * 1000,
   },

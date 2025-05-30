@@ -4,32 +4,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
-    <link rel="stylesheet" href="/Style/style.css">
+    <title>Admin Panel | Beyond Man</title>
+    <meta name="description" content="Admin dashboard for managing Beyond Man content">
+    <link rel="stylesheet" href="/Style/Admin/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="/JavaScript/Admin/dashboard.js"></script>
 </head>
 
 <body>
-    <div class="admin-panel" style="text-align: center;">
-        <button aria-label="Log Out" onclick="showLogOutCard()" style="margin-bottom: 10px;">Log Out</button>
-        <a aria-label="Complete Your Profile" href="/admin/profile-edit"><button>Edit Your Profile</button></a>
+    <header class="admin-header">
+        <div class="header-content">
+            <h1>Beyond Man Admin Panel</h1>
+            <div class="user-actions">
+                <button class="btn btn-profile" aria-label="Edit Your Profile"
+                    onclick="window.location.href='/admin/profile-edit'">
+                    <i class="fas fa-user-edit"></i> Profile
+                </button>
+                <button class="btn btn-logout" aria-label="Log Out" onclick="showLogOutCard()">
+                    <i class="fas fa-sign-out-alt"></i> Log Out
+                </button>
+            </div>
+        </div>
+    </header>
 
-        <h1>Admin Panel</h1>
-        <div class="nav">
-            <a aria-label="Upload Blog" href="/admin/edit"><button>Upload Blog...</button></a>
-            <a aria-label="Read All Blogs" href="/admin/read"><button>Read All Blogs</button></a>
-            <a aria-label="Create Your Course" href="/admin/create-course"><button>Create A Course</button></a>
-            <a aria-label="Show All Courses" href="/admin/show-courses"><button>Show All Courses</button></a>
+    <main class="admin-main">
+        <section class="dashboard-section">
+            <h2>Content Management</h2>
+            <div class="action-grid">
+                <a href="/admin/edit" class="action-card" aria-label="Upload Blog">
+                    <i class="fas fa-upload"></i>
+                    <h3>Upload Blog</h3>
+                    <p>Create and publish new blog posts</p>
+                </a>
+
+                <a href="/admin/read" class="action-card" aria-label="Read All Blogs">
+                    <i class="fas fa-book-reader"></i>
+                    <h3>Manage Blogs</h3>
+                    <p>View, edit or delete existing blogs</p>
+                </a>
+
+                <a href="/admin/create-course" class="action-card" aria-label="Create Your Course">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h3>Create Course</h3>
+                    <p>Design new educational courses</p>
+                </a>
+
+                <a href="/admin/show-courses" class="action-card" aria-label="Show All Courses">
+                    <i class="fas fa-list-ol"></i>
+                    <h3>Manage Courses</h3>
+                    <p>Organize and update course content</p>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <div id="logoutModal" class="modal">
+        <div class="modal-content">
+            <h3>Confirm Logout</h3>
+            <p>Are you sure you want to log out from Beyond Man?</p>
+            <div class="modal-actions">
+                <button id="cancelButton" class="btn btn-secondary">Cancel</button>
+                <button id="logoutButton" class="btn btn-danger">Log Out</button>
+            </div>
         </div>
     </div>
-    </div>
-    <div id="logoutCard">
-        <p>Are you sure to log out from Beyond Man ?</p>
-        <button aria-label="Cancel" id="cancelButton">Cancel</button>
-        <button aria-label="Logout" id="logoutButton">Log Out</button>
-    </div>
 
-    <div id="overlay" onclick="hideLogOutCard()"></div>
-    <script src="/JavaScript/index.js"></script>
+    <div id="overlay" class="overlay"></div>
+
 </body>
 
 </html>
