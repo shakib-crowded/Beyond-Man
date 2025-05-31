@@ -310,7 +310,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (response.ok) {
         // Clear the textarea
         document.getElementById("commentInput").value = "";
-
+        location.reload();
         // Append new comment to the UI
         addCommentToUI(data.comment);
       } else if (response.status !== 401) {

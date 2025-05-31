@@ -25,9 +25,7 @@
             </div>
 
             <!-- Blog Image -->
-            <div class="blog-image">
-                <img src="/images/admin_BLOGS/<%= blog.image.filename.replace('admin_BLOGS/', '') %>" alt="Blog Image">
-            </div>
+
             <!-- Blog Content -->
             <div class="blog-content">
                 <%- blog.content %>
@@ -54,19 +52,18 @@
 
             <!-- Blog Category -->
             <div class="category">
-                Category: <strong>
+                <strong>
                     <%= blog.category %>
                 </strong>
             </div>
             <br>
             <div class="tag-list">
-                Tags:
                 <strong>
                     <% if (blog.tags && blog.tags.length> 0) { %>
                         <% for (let tag of blog.tags) { %>
                             <span class="tag">
-                                <a aria-label="Tags" style="color: white;" href="/search/?search=<%= tag %>"
-                                    target="_blank">
+                                <a aria-label="Tags" style="color: white;text-decoration: none;"
+                                    href="/search/?search=<%= tag %>" target="_blank">
                                     <%= tag %>
                                 </a>
                             </span>
