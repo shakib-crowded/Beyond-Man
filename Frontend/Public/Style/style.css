@@ -2986,49 +2986,89 @@ footer {
 
 .flash-container {
   position: fixed;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 20px;
+  left: 0;
+  right: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 999;
+  gap: 12px;
+  z-index: 1000;
+  pointer-events: none;
 }
+
 .flash-message {
   background-color: #4caf50;
   color: #fff;
-  padding: 15px;
+  padding: 16px 24px;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-width: 250px;
-  max-width: 400px;
-  opacity: 1;
-  transition: opacity 0.3s ease-out;
+  min-width: 280px;
+  max-width: 90%;
+  width: fit-content;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  pointer-events: auto;
 }
+
+.flash-message.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .flash-message.success {
   background-color: #4caf50;
+  border-left: 4px solid #388e3c;
 }
+
 .flash-message.error {
   background-color: #f44336;
+  border-left: 4px solid #d32f2f;
 }
-.flash-message span {
+
+.flash-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.flash-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.flash-text {
   flex-grow: 1;
   word-break: break-word;
+  line-height: 1.5;
+  font-size: 15px;
 }
-.flash-message button {
-  background: 0 0;
+
+.flash-close {
+  background: transparent;
   border: none;
-  color: #fff;
-  font-size: 1em;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 20px;
   cursor: pointer;
-  flex: 0;
+  margin-left: 16px;
+  padding: 0 0 0 8px;
+  transition: color 0.2s ease;
 }
+
+.flash-close:hover {
+  color: white;
+}
+
+/* Animation for hiding */
 .flash-message.hide {
   opacity: 0;
-  transition: opacity 0.3s ease-out;
+  transform: translateY(-20px);
+  transition: all 0.3s ease-out;
 }
 .forget-password-container {
   display: flex;

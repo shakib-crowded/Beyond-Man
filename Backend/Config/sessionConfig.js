@@ -2,13 +2,16 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo");
 require("dotenv").config();
 
+// Detect environment (true in production)
+const isProduction = process.env.NODE_ENV === "production";
+
 // Session Store
 const store = MongoStore.create({
-  mongoUrl: process.env.ATLASDB_URL, // MongoDB Atlas URI
+  mongoUrl: process.env.ATLASDB_URL,
   crypto: {
-    secret: process.env.SECRET_KEY, // Encryption Secret Key
+    secret: process.env.SECRET_KEY,
   },
-  touchAfter: 24 * 3600, // Reduce session writes (updates once per day)
+  touchAfter: 24 * 3600,
 });
 
 // Error Handling
@@ -25,8 +28,8 @@ const sessionOptions = {
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    secure: true,
-    sameSite: "lax",
+    secure: isProduction,
+    sameSite: isProduction ? "lax" : "strict", // optional, tighter security in dev
     maxAge: 7 * 24 * 60 * 60 * 1000,
   },
 };
