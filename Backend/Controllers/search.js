@@ -2,13 +2,10 @@ const Blog = require("../Models/blogs");
 const Admin = require("../Models/signUpAdmin");
 
 const sanitizeInput = (input) => {
-  return (
-    input
-      .trim()
-      // .toLowerCase()
-      .replace(/[^a-zA-Z0-9 ]/g, " ")
-      .replace(/\s+/g, " ")
-  );
+  return input
+    .trim()
+    .replace(/[^a-zA-Z0-9 ]/g, " ")
+    .replace(/\s+/g, " ");
 };
 
 module.exports.searchAll = async (req, res) => {
@@ -16,28 +13,29 @@ module.exports.searchAll = async (req, res) => {
   identity = sanitizeInput(identity);
 
   const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 8;
+  const limit = parseInt(req.query.limit) || 9;
   const skip = (page - 1) * limit;
 
   try {
     let allBlogs = [];
     let totalBlogs = 0;
+    let query = {};
 
     if (identity) {
       // First: Full-text search
       const textQuery = { $text: { $search: identity } };
-
       totalBlogs = await Blog.countDocuments(textQuery);
 
       if (totalBlogs > 0) {
-        allBlogs = await Blog.find(textQuery, { score: { $meta: "textScore" } })
+        query = textQuery;
+        allBlogs = await Blog.find(query, { score: { $meta: "textScore" } })
           .sort({ score: { $meta: "textScore" }, created_date: -1 })
           .skip(skip)
           .limit(limit);
       } else {
         // Fallback: Regex
         const regex = new RegExp(identity, "i");
-        const regexQuery = {
+        query = {
           $or: [
             { title: regex },
             { author: regex },
@@ -45,26 +43,25 @@ module.exports.searchAll = async (req, res) => {
             { tags: regex },
           ],
         };
-
-        totalBlogs = await Blog.countDocuments(regexQuery);
-
-        allBlogs = await Blog.find(regexQuery)
-          // .sort({ created_date: -1 })
+        totalBlogs = await Blog.countDocuments(query);
+        allBlogs = await Blog.find(query)
+          .sort({ created_date: -1 })
           .skip(skip)
           .limit(limit);
       }
     } else {
       // No search term: fetch latest blogs
-      totalBlogs = await Blog.countDocuments();
-      allBlogs = await Blog.find({})
-        // .sort({ created_date: -1 })
+      query = {};
+      totalBlogs = await Blog.countDocuments(query);
+      allBlogs = await Blog.find(query)
+        .sort({ created_date: -1 })
         .skip(skip)
         .limit(limit);
     }
 
     const totalPages = Math.ceil(totalBlogs / limit);
     const currentPage = page;
-    // identity = identity.toUpperCase();
+
     const meta = {
       title: identity ? `Search results for "${identity}"` : "Latest Blogs",
       description: `Page ${currentPage} of blog search results.`,

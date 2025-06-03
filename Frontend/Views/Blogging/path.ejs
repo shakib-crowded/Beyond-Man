@@ -1,306 +1,546 @@
 <% layout("../Layouts/boilerplate") %>
 
     <body>
-        <!-- Hero Section -->
-        <!-- <section class="hero">
-            <div class="hero-content">
-                <h1 id="typing-title"></h1>
-                <p id="typing-subtitle"></p>
-                <div class="hero-buttons">
-                    <a href="#browse-articles" class="btn btn-primary">Start Learning</a>
-                    <a href=""/courses class="btn btn-secondary">View Projects</a>
-                </div>
-            </div>
-            <div class="tech-graph">
-                <canvas id="languageGraph"></canvas>
-            </div>
-        </section> -->
-        <!-- <div class="articles"> -->
-        <!-- Heading Section -->
-        <!-- <div class="article-heading">
-                <h3>
-                    <%= languageInfo.title%> Articles
-                </h3>
-            </div> -->
-        <% if(allBlogs.length> 0){%>
-            <!-- Blogs Container -->
-            <div class="blogs">
-                <% for(blog of allBlogs) { %>
-                    <div class="blog">
-                        <!-- Blog Link and Image -->
-                        <a aria-label="Read Full Blog" href="/<%= blog.slug %>">
-                            <img src="/images/admin_BLOGS/<%= blog.image.filename.replace('admin_BLOGS/', '') %>"
-                                alt="Blog Image">
-                            <h3 class="heebo-blog-title">
-                                <%= blog.title %>
-                            </h3>
-                        </a>
+        <main class="blog-container">
+            <% if(allBlogs.length> 0){ %>
+                <section class="blog-grid">
+                    <% for(blog of allBlogs) { %>
+                        <article class="blog-card">
+                            <div class="card-image-container">
+                                <a href="/<%= blog.slug %>" class="card-image-link" aria-label="Read <%= blog.title %>">
+                                    <img src="/images/admin_BLOGS/<%= blog.image.filename.replace('admin_BLOGS/', '') %>"
+                                        alt="<%= blog.title %>" class="card-image" loading="lazy">
+                                    <div class="image-overlay"></div>
+                                </a>
+                            </div>
 
-                        <!-- Blog Meta Data -->
-                        <div class="blog-card-container">
-                            <div class="blog-meta-data">
-
-                                <!-- Author Section -->
-                                <div class="author-in-card">
-                                    <a href="/author/<%= blog.admin %>">
-                                        <p>
-                                            <i class="fa fa-user" aria-hidden="true"></i>
-                                            <% if (blog.author) { %>
-                                                <%= blog.author %>
-                                                    <% } else { %>
-                                                        <%= blog.admin %>
-                                                            <% } %>
-                                        </p>
+                            <div class="card-content">
+                                <h3 class="card-title">
+                                    <a href="/<%= blog.slug %>">
+                                        <%= blog.title %>
                                     </a>
+                                </h3>
+
+                                <div class="card-meta">
+                                    <div class="meta-author">
+                                        <a href="/author/<%= blog.admin %>" class="author-link">
+                                            <svg class="meta-icon" viewBox="0 0 24 24" width="16" height="16">
+                                                <path fill="currentColor"
+                                                    d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" />
+                                            </svg>
+                                            <%= blog.author || blog.admin %>
+                                        </a>
+                                    </div>
+
+                                    <div class="meta-date">
+                                        <svg class="meta-icon" viewBox="0 0 24 24" width="16" height="16">
+                                            <path fill="currentColor"
+                                                d="M19,19H5V8H19M16,1V3H8V1H6V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3H18V1M17,12H12V17H17V12Z" />
+                                        </svg>
+                                        <time datetime="<%= new Date(blog.created_date).toISOString() %>">
+                                            <%= new Date(blog.created_date).toLocaleDateString('en-US', {
+                                                year: 'numeric' , month: 'short' , day: 'numeric' }) %>
+                                        </time>
+                                    </div>
                                 </div>
+                            </div>
+                        </article>
+                        <% } %>
+                </section>
 
-                                <!-- Created Date -->
-                                <div class="created-date">
-                                    <p>
-                                        Created Date:
-                                        <span class="date-format">
-                                            <%= blog.created_date %>
-                                        </span>
-                                    </p>
-                                </div>
+                <nav class="pagination-container">
+                    <ul class="pagination-list">
+                        <% const startPage=Math.max(1, currentPage - 2); const endPage=Math.min(totalPages, currentPage
+                            + 2); %>
 
-                            </div> <!-- End of Blog Meta Data -->
-                        </div> <!-- End of Blog Card Container -->
-
-                    </div> <!-- End of Blog -->
-                    <% } %>
-            </div> <!-- End of Blogs Container -->
-
-            <!-- </div> End of Articles -->
-
-            <div class="pagination">
-                <% const startPage=Math.max(1, currentPage - 2); const endPage=Math.min(totalPages, currentPage + 2);
-                    if(startPage> 1) { %>
-                    <a href="?page=1&limit=<%= limit %>" class="page-link">1</a>
-                    <% if (startPage> 2) { %>
-                        <span class="page-dots">...</span>
-                        <% } } for (let i=startPage; i <=endPage; i++) { %>
-                            <% if (i===currentPage) { %>
-                                <span class="page-link current">
-                                    <%= i %>
-                                </span>
-                                <% } else { %>
-                                    <a href="?page=<%= i %>&limit=<%= limit %>" class="page-link">
-                                        <%= i %>
+                            <% if(currentPage> 1) { %>
+                                <li>
+                                    <a href="?page=<%= currentPage - 1 %>&limit=<%= limit %>" class="pagination-link"
+                                        aria-label="Previous page">
+                                        <svg viewBox="0 0 24 24" width="16" height="16">
+                                            <path fill="currentColor"
+                                                d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" />
+                                        </svg>
                                     </a>
-                                    <% } %>
-                                        <% } if (endPage < totalPages) { if (endPage < totalPages - 1) { %>
-                                            <span class="page-dots">...</span>
+                                </li>
+                                <% } %>
+
+                                    <% if(startPage> 1) { %>
+                                        <li>
+                                            <a href="?page=1&limit=<%= limit %>" class="pagination-link">1</a>
+                                        </li>
+                                        <% if(startPage> 2) { %>
+                                            <li class="pagination-ellipsis">...</li>
                                             <% } %>
-                                                <a href="?page=<%= totalPages %>&limit=<%= limit %>" class="page-link">
-                                                    <%= totalPages %>
-                                                </a>
                                                 <% } %>
-            </div>
-            <%}else{%>
-                <div class="no-blogs-container">
-                    <h1 class="no-blogs-title">We're Sorry, No Matching Lessons Found</h1>
 
-                    <p class="no-blogs-subtitle">Our coding instructors haven't covered this topic yet</p>
+                                                    <% for(let i=startPage; i <=endPage; i++) { %>
+                                                        <li>
+                                                            <% if(i===currentPage) { %>
+                                                                <span class="pagination-link current"
+                                                                    aria-current="page">
+                                                                    <%= i %>
+                                                                </span>
+                                                                <% } else { %>
+                                                                    <a href="?page=<%= i %>&limit=<%= limit %>"
+                                                                        class="pagination-link">
+                                                                        <%= i %>
+                                                                    </a>
+                                                                    <% } %>
+                                                        </li>
+                                                        <% } %>
 
-                    <div class="apology-card">
-                        <p>Dear Learner,</p>
-                        <p>We couldn't find any article that match with <strong>
-                                "<%= languageInfo.title %>"
-                            </strong>. Our team is constantly adding new content, and this topic may be coming soon.
-                        </p>
-                        <p>Here's what you can do:</p>
-                        <ul>
-                            <li>Browse our existing coding tutorials.</li>
-                            <li>Suggest this topic for future content.</li>
-                            <li>Check back later as we add new lessons daily.</li>
-                        </ul>
-                        <p>We appreciate your interest in learning with us!</p>
-                    </div>
+                                                            <% if(endPage < totalPages) { %>
+                                                                <% if(endPage < totalPages - 1) { %>
+                                                                    <li class="pagination-ellipsis">...</li>
+                                                                    <% } %>
+                                                                        <li>
+                                                                            <a href="?page=<%= totalPages %>&limit=<%= limit %>"
+                                                                                class="pagination-link">
+                                                                                <%= totalPages %>
+                                                                            </a>
+                                                                        </li>
+                                                                        <% } %>
 
-                    <div class="no-blogs-actions">
-                        <a onclick="showBrowseCourseCard()" class="no-blogs-btn no-blogs-btn-primary"
-                            style="cursor: pointer;">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                                                            <% if(currentPage < totalPages) { %>
+                                                                                <li>
+                                                                                    <a href="?page=<%= currentPage + 1 %>&limit=<%= limit %>"
+                                                                                        class="pagination-link"
+                                                                                        aria-label="Next page">
+                                                                                        <svg viewBox="0 0 24 24"
+                                                                                            width="16" height="16">
+                                                                                            <path fill="currentColor"
+                                                                                                d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
+                                                                                        </svg>
+                                                                                    </a>
+                                                                                </li>
+                                                                                <% } %>
+                    </ul>
+                </nav>
+                <% } else { %>
+                    <section class="no-results">
+                        <div class="no-results-illustration">
+                            <svg viewBox="0 0 24 24" width="80" height="80">
+                                <path fill="#E5E7EB" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
                             </svg>
-                            Browse All Courses
-                        </a>
-
-                        <a href="/contact" class="no-blogs-btn no-blogs-btn-outline">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path
-                                    d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
-                                </path>
-                            </svg>
-                            Suggest a Topic
-                        </a>
-                    </div>
-                    <!-- Course Card (Hidden by Default) -->
-                    <div id="hero-course-card-overlay" class="hero-course-card-overlay" onclick="closeCourseCard()">
-                    </div>
-                    <div id="hero-course-card" class="hero-course-card">
-                        <button onclick="closeCourseCard()" class="hero-close-btn">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 4L4 12" stroke="#6B7280" stroke-width="2" stroke-linecap="round" />
-                                <path d="M4 4L12 12" stroke="#6B7280" stroke-width="2" stroke-linecap="round" />
-                            </svg>
-                        </button>
-                        <div class="hero-card-content">
-                            <div class="hero-card-icon">
-                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
-                                        stroke="#3B82F6" stroke-width="2" />
-                                    <path d="M12 8V12L15 15" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" />
-                                </svg>
-                            </div>
-                            <h4>Exciting Courses Coming Soon!</h4>
-                            <p>We're crafting high-quality content to boost your skills.</p>
-                            <div class="countdown-timer">
-                                <span id="countdown">5</span> seconds remaining...
-                            </div>
-                            <button onclick="closeCourseCard()" class="hero-card-action-btn">Got It!</button>
                         </div>
-                    </div>
-                </div>
 
-                <%} %>
+                        <h1 class="no-results-title">No Lessons Found for "<%= languageInfo.title %>"</h1>
+                        <p class="no-results-subtitle">Our team is working hard to create content for this topic</p>
 
-                    <div id="blogContainer"></div>
-                    <script>
+                        <div class="no-results-message">
+                            <p>We couldn't find any articles matching your search. Here are some suggestions:</p>
+                            <ul>
+                                <li>Browse our existing coding tutorials below</li>
+                                <li>Check back soon as we add new content daily</li>
+                                <li>Suggest this topic for future content</li>
+                            </ul>
+                        </div>
 
-                        document.addEventListener('DOMContentLoaded', function () {
-                            // Handle pagination clicks with AJAX
-                            document.querySelector('.pagination').addEventListener('click', function (e) {
-                                e.preventDefault();
+                        <div class="no-results-actions">
+                            <a href="/" class="action-button primary">
+                                <svg viewBox="0 0 24 24" width="18" height="18">
+                                    <path fill="currentColor" d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z" />
+                                </svg>
+                                Browse All Courses
+                            </a>
+                            <a href="/contact" class="action-button secondary">
+                                <svg viewBox="0 0 24 24" width="18" height="18">
+                                    <path fill="currentColor"
+                                        d="M20,2H4A2,2 0 0,0 2,4V22L6,18H20A2,2 0 0,0 22,16V4A2,2 0 0,0 20,2Z" />
+                                </svg>
+                                Suggest a Topic
+                            </a>
+                        </div>
+                    </section>
+                    <% } %>
+        </main>
+    </body>
 
-                                if (e.target.tagName === 'A') {
-                                    const url = e.target.getAttribute('href');
-                                    loadBlogs(url);
+    <style>
+        .blog-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
 
-                                    // Update URL without reload
-                                    history.pushState(null, null, url);
-                                }
-                            });
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
 
-                            // Handle browser back/forward
-                            window.addEventListener('popstate', function () {
-                                loadBlogs(window.location.href);
-                            });
+        .blog-card {
+            background: white;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
 
-                            function loadBlogs(url) {
-                                fetch(url, {
-                                    headers: {
-                                        'X-Requested-With': 'XMLHttpRequest',
-                                        'Accept': 'application/json'
-                                    }
-                                })
-                                    .then(response => response.json())
-                                    .then(data => {
-                                        // Update blogs container
-                                        const blogsContainer = document.querySelector('.blogs');
-                                        blogsContainer.innerHTML = '';
+        .blog-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
 
+        .card-image-container {
+            position: relative;
+            padding-top: 56.25%;
+            /* 16:9 aspect ratio */
+            overflow: hidden;
+        }
 
+        .card-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
 
-                                        // Recreate blogs from response
-                                        data.blogs.forEach(blog => {
-                                            const blogElement = document.createElement('div');
-                                            blogElement.className = 'blog';
-                                            blogElement.innerHTML = `
-          <a aria-label="Read Full Blog" href="/${blog.slug}">
-            <img src="/images/admin_BLOGS/${blog.image.filename.replace('admin_BLOGS/', '')}" alt="Blog Image">
-            <h3 class="heebo-blog-title">${blog.title}</h3>
-          </a>
-          <div class="blog-card-container">
-            <div class="blog-meta-data">
-              <div class="author-in-card">
-                <a href="/author/${blog.admin}">
-                  <p><i class="fa fa-user" aria-hidden="true"></i>${blog.author || blog.admin}</p>
-                </a>
-              </div>
-              <div class="created-date">
-                <p>Created Date: <span class="date-format">${new Date(blog.created_date).toLocaleDateString('en-GB', {
-                                                day: '2-digit',
-                                                month: '2-digit',
-                                                year: 'numeric'
-                                            })}</span></p>
-              </div>
-            </div>
-          </div>
-        `;
-                                            blogsContainer.appendChild(blogElement);
-                                        });
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
 
-                                        // Update pagination
-                                        updatePagination(data.pagination);
+        .blog-card:hover .image-overlay {
+            opacity: 1;
+        }
 
-                                        // Scroll to blogs section
-                                        document.querySelector('.articles').scrollIntoView({ behavior: 'smooth' });
-                                    })
-                                    .catch(error => console.error('Error:', error));
-                            }
+        .blog-card:hover .card-image {
+            transform: scale(1.05);
+        }
 
-                            function updatePagination(pagination) {
-                                const { totalPages, currentPage, limit } = pagination;
-                                const paginationContainer = document.querySelector('.pagination');
-                                paginationContainer.innerHTML = '';
+        .card-content {
+            padding: 1.25rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
 
-                                const startPage = Math.max(1, currentPage - 2);
-                                const endPage = Math.min(totalPages, currentPage + 2);
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+            color: #1f2937;
+        }
 
-                                if (startPage > 1) {
-                                    addPageLink(1, limit);
-                                    if (startPage > 2) {
-                                        addDots();
-                                    }
-                                }
+        .card-title a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
 
-                                for (let i = startPage; i <= endPage; i++) {
-                                    if (i === currentPage) {
-                                        addCurrentPage(i);
-                                    } else {
-                                        addPageLink(i, limit);
-                                    }
-                                }
+        .card-title a:hover {
+            color: #3b82f6;
+        }
 
-                                if (endPage < totalPages) {
-                                    if (endPage < totalPages - 1) {
-                                        addDots();
-                                    }
-                                    addPageLink(totalPages, limit);
-                                }
+        .card-meta {
+            margin-top: auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
 
-                                function addPageLink(page, limit) {
-                                    const link = document.createElement('a');
-                                    link.href = `?page=${page}&limit=${limit}`;
-                                    link.className = 'page-link';
-                                    link.textContent = page;
-                                    paginationContainer.appendChild(link);
-                                }
+        .meta-author,
+        .meta-date {
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+        }
 
-                                function addCurrentPage(page) {
-                                    const span = document.createElement('span');
-                                    span.className = 'page-link current';
-                                    span.textContent = page;
-                                    paginationContainer.appendChild(span);
-                                }
+        .meta-icon {
+            flex-shrink: 0;
+        }
 
-                                function addDots() {
-                                    const span = document.createElement('span');
-                                    span.className = 'page-dots';
-                                    span.textContent = '...';
-                                    paginationContainer.appendChild(span);
-                                }
+        .author-link {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .author-link:hover {
+            color: #3b82f6;
+        }
+
+        /* Pagination Styles */
+        .pagination-container {
+            margin-top: 3rem;
+        }
+
+        .pagination-list {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .pagination-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 0.375rem;
+            text-decoration: none;
+            color: #4b5563;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .pagination-link:hover {
+            background-color: #f3f4f6;
+            color: #1f2937;
+        }
+
+        .pagination-link.current {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .pagination-ellipsis {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            color: #9ca3af;
+        }
+
+        /* No Results Styles */
+        .no-results {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+        }
+
+        .no-results-illustration {
+            margin-bottom: 1.5rem;
+        }
+
+        .no-results-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .no-results-subtitle {
+            font-size: 1.125rem;
+            color: #6b7280;
+            margin-bottom: 2rem;
+        }
+
+        .no-results-message {
+            background-color: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .no-results-message p {
+            margin-bottom: 1rem;
+            color: #4b5563;
+        }
+
+        .no-results-message ul {
+            padding-left: 1.5rem;
+            color: #4b5563;
+        }
+
+        .no-results-message li {
+            margin-bottom: 0.5rem;
+        }
+
+        .no-results-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .action-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .action-button.primary {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .action-button.primary:hover {
+            background-color: #2563eb;
+        }
+
+        .action-button.secondary {
+            border: 1px solid #d1d5db;
+            color: #4b5563;
+        }
+
+        .action-button.secondary:hover {
+            background-color: #f3f4f6;
+        }
+
+        @media (max-width: 768px) {
+            .blog-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+
+            .no-results-actions {
+                flex-direction: column;
+            }
+
+            .action-button {
+                justify-content: center;
+            }
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const blogContainer = document.querySelector('.blog-container');
+
+            document.querySelector('.pagination-list')?.addEventListener('click', async function (e) {
+                if (e.target.closest('a')) {
+                    e.preventDefault();
+                    const link = e.target.closest('a');
+                    const url = link.getAttribute('href');
+
+                    try {
+                        // Show loading state
+                        blogContainer.classList.add('loading');
+
+                        const response = await fetch(url, {
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'Accept': 'application/json'
                             }
                         });
 
+                        if (!response.ok) throw new Error('Network response was not ok');
 
-                    </script>
-    </body>
+                        const data = await response.json();
+
+                        // Update content
+                        document.querySelector('.blog-grid').innerHTML = data.html;
+
+                        // Update pagination controls
+                        updatePagination(data.pagination);
+
+                        // Update URL without reload
+                        history.pushState(null, null, url);
+
+                        // Smooth scroll to top
+                        window.scrollTo({
+                            top: 0,
+                            behavior: 'smooth'
+                        });
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('Error loading content. Please try again.');
+                    } finally {
+                        blogContainer.classList.remove('loading');
+                    }
+                }
+            });
+
+            // Handle browser back/forward
+            window.addEventListener('popstate', function () {
+                window.location.reload();
+            });
+
+            function updatePagination(pagination) {
+                const { totalPages, currentPage, limit } = pagination;
+
+                // Generate new pagination HTML
+                let paginationHTML = '';
+
+                // Previous button
+                if (currentPage > 1) {
+                    paginationHTML += `
+          <li>
+            <a href="?page=${currentPage - 1}&limit=${limit}" class="pagination-link" aria-label="Previous page">
+              <svg viewBox="0 0 24 24" width="16" height="16">
+                <path fill="currentColor" d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" />
+              </svg>
+            </a>
+          </li>`;
+                }
+
+                // Page numbers
+                const startPage = Math.max(1, currentPage - 2);
+                const endPage = Math.min(totalPages, currentPage + 2);
+
+                if (startPage > 1) {
+                    paginationHTML += `<li><a href="?page=1&limit=${limit}" class="pagination-link">1</a></li>`;
+                    if (startPage > 2) {
+                        paginationHTML += `<li class="pagination-ellipsis">...</li>`;
+                    }
+                }
+
+                for (let i = startPage; i <= endPage; i++) {
+                    if (i === currentPage) {
+                        paginationHTML += `
+            <li>
+              <span class="pagination-link current" aria-current="page">${i}</span>
+            </li>`;
+                    } else {
+                        paginationHTML += `
+            <li>
+              <a href="?page=${i}&limit=${limit}" class="pagination-link">${i}</a>
+            </li>`;
+                    }
+                }
+
+                if (endPage < totalPages) {
+                    if (endPage < totalPages - 1) {
+                        paginationHTML += `<li class="pagination-ellipsis">...</li>`;
+                    }
+                    paginationHTML += `
+          <li>
+            <a href="?page=${totalPages}&limit=${limit}" class="pagination-link">${totalPages}</a>
+          </li>`;
+                }
+
+                // Next button
+                if (currentPage < totalPages) {
+                    paginationHTML += `
+          <li>
+            <a href="?page=${currentPage + 1}&limit=${limit}" class="pagination-link" aria-label="Next page">
+              <svg viewBox="0 0 24 24" width="16" height="16">
+                <path fill="currentColor" d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
+              </svg>
+            </a>
+          </li>`;
+                }
+
+                // Update the pagination container
+                document.querySelector('.pagination-list').innerHTML = paginationHTML;
+            }
+        });
+    </script>
