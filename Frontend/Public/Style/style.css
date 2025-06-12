@@ -1507,9 +1507,9 @@ body {
   font-size: 1.25rem;
   font-style: italic;
   border-left: 4px solid #4361ee;
-  padding: 1rem 1.5rem;
-  margin: 2rem 0;
-  background: #f8f9ff;
+  padding: 0.5rem 1.5rem;
+  /* margin: 2rem 0; */
+  background: #fff;
   color: #555;
   border-radius: 0 4px 4px 0;
 }

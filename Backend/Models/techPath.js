@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const techIconSchema = new mongoose.Schema({
+  order: Number,
   name: String,
   path: String,
   iconUrl: String,

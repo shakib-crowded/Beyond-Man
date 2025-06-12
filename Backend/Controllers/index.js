@@ -33,8 +33,7 @@ module.exports.home = async (req, res) => {
       });
     }
 
-    const categories = await TechPath.find();
-
+    const categories = await TechPath.find().sort({ order: 1 });
     const courses = await Course.find();
 
     // Regular page load
