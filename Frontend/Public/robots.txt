@@ -1,6 +1,4 @@
 User-agent: *
-Disallow: /
+Disallow: /admin/
 
-# This is when i start when sufficiant blogs uploaded.
-# User-agent: *
-# Disallow: /admin/
+Sitemap: https://beyondman.dev/sitemap.xml
