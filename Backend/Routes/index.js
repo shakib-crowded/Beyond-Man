@@ -15,5 +15,6 @@ router
   .post(isUserLoggedIn, wrapAsync(indexController.submitQueryForm));
 router.get("/privacy-policy", indexController.privacyAndPolicy);
 router.get("/terms-and-conditions", indexController.termsAndConditions);
+router.get("/sitemap.xml", indexController.sitemap);
 
 module.exports = router;
