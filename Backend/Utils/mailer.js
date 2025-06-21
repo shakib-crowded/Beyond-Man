@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 const sendResetEmail = async (email, token) => {
-  const resetLink = `https://beyond-man.onrender.com/reset-password/${token}`;
+  const resetLink = `https://beyondman.dev/reset-password/${token}`;
   const logoLink =
     "https://res.cloudinary.com/dsedsszhf/image/upload/v1746165075/Beyond_Man_Logo_Circle_ousnw2.png";
 
@@ -60,7 +60,7 @@ const sendResetEmail = async (email, token) => {
 };
 
 const verifyEmail = async (email, token) => {
-  const verificationUrl = `https://beyond-man.onrender.com/verify/${token}`;
+  const verificationUrl = `https://beyondman.dev/verify/${token}`;
   const logoLink =
     "https://res.cloudinary.com/dsedsszhf/image/upload/v1746165075/Beyond_Man_Logo_Circle_ousnw2.png";
 
