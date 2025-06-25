@@ -6,7 +6,8 @@ const Course = require("../Models/courses");
 module.exports.home = async (req, res) => {
   const meta = {
     title: "Beyond Man",
-    description: "Read the blogs of different tech stacks...",
+    description:
+      "Learn different tech stacks like Programming Languages, Website Development, Android Development, and Software Development in Hinglish.",
     keywords: "programming, web development, android development...",
   };
 
