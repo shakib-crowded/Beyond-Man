@@ -8,32 +8,88 @@ module.exports.path = async (req, res) => {
     const limit = parseInt(req.query.limit) || 9;
     const skip = (page - 1) * limit;
 
-    // Find language info
-    const categories = await TechPath.find();
-    const languageInfo = categories.reduce((found, category) => {
-      const icon = category.techIcons.find((icon) => icon.path === path);
-      return icon ? { ...icon.toObject(), category: category.title } : found;
-    }, null);
+    // Cache control headers for better performance
+    res.set("Cache-Control", "public, max-age=3600"); // Cache for 1 hour
 
-    // Get paginated blogs
+    // Find language info with error handling
+    let categories, languageInfo;
+    try {
+      categories = await TechPath.find().cache(3600); // Assuming you have caching
+      languageInfo = categories.reduce((found, category) => {
+        const icon = category.techIcons.find((icon) => icon.path === path);
+        return icon ? { ...icon.toObject(), category: category.title } : found;
+      }, null);
+    } catch (err) {
+      console.error("Error fetching tech paths:", err);
+      // Continue without languageInfo rather than failing
+    }
+
+    // Get paginated blogs with error handling
     const languageName = path.split("/")[2];
-    const [blogs, totalBlogs] = await Promise.all([
-      Blog.find({ languageName })
-        .sort({ created_date: 1 }) // Sort by newest first
-        .skip(skip)
-        .limit(limit),
-      Blog.countDocuments({ languageName }),
-    ]);
+    let blogs = [],
+      totalBlogs = 0;
+    try {
+      [blogs, totalBlogs] = await Promise.all([
+        Blog.find({ languageName })
+          .sort({ created_date: -1 }) // Changed to -1 for newest first
+          .skip(skip)
+          .limit(limit)
+          .lean(), // Use lean() for better performance
+        Blog.countDocuments({ languageName }),
+      ]);
+    } catch (err) {
+      console.error("Error fetching blogs:", err);
+      // Continue with empty blogs rather than failing
+    }
 
     const totalPages = Math.ceil(totalBlogs / limit);
 
-    // Prepare response data
+    // Enhanced SEO metadata
+    const defaultTitle = `${
+      languageInfo?.title || req.params.path
+    } Programming Tutorials | Beyond Man`;
+    const defaultDescription =
+      languageInfo?.description ||
+      `Learn ${
+        languageInfo?.title || req.params.path
+      } programming with comprehensive tutorials, examples, and best practices from Beyond Man.`;
+
+    const canonicalUrl = `https://beyondman.dev/${path}`;
+
     const meta = {
-      title: languageInfo?.title || "Beyond Man",
-      description:
-        languageInfo?.description || "Learn programming with Beyond Man",
+      title: languageInfo?.title
+        ? `${languageInfo.title} Programming Tutorials`
+        : defaultTitle,
+      description: defaultDescription,
+      keywords:
+        languageInfo?.keywords?.join(", ") ||
+        `${
+          languageInfo?.title || req.params.path
+        }, programming, coding, tutorial, learn ${
+          languageInfo?.title || req.params.path
+        }, web development`,
+      canonical: canonicalUrl,
+      openGraph: {
+        title: defaultTitle,
+        description: defaultDescription,
+        type: "website",
+        url: canonicalUrl,
+        site_name: "Beyond Man",
+      },
+      structuredData: {
+        "@context": "https://schema.org",
+        "@type": "LearningResource",
+        name: defaultTitle,
+        description: defaultDescription,
+        provider: {
+          "@type": "Organization",
+          name: "Beyond Man",
+          url: "https://beyondman.dev",
+        },
+      },
     };
 
+    // Prepare response data
     const responseData = {
       blog: {},
       user: req.session.user || null,
@@ -42,7 +98,18 @@ module.exports.path = async (req, res) => {
       totalPages,
       limit,
       currentPage: page,
-      languageInfo,
+      languageInfo: languageInfo || {
+        title: req.params.path,
+        description: `Learn ${req.params.path} programming with Beyond Man`,
+        category: "Programming",
+      },
+      // Additional SEO-friendly data
+      breadcrumbs: [
+        { name: "Home", url: "/" },
+        { name: "Paths", url: "/paths" },
+        { name: languageInfo?.title || req.params.path, url: path },
+      ],
+      currentPath: path,
     };
 
     // Handle AJAX vs regular request
@@ -57,10 +124,18 @@ module.exports.path = async (req, res) => {
       });
     }
 
+    // Render the page with enhanced SEO data
     res.render("path.ejs", responseData);
   } catch (err) {
     console.error(err);
-    res.status(500).send("Server Error");
+    res.status(500).render("error", {
+      meta: {
+        title: "Server Error | Beyond Man",
+        description: "An error occurred while processing your request.",
+      },
+      statusCode: 500,
+      message: "Sorry, we encountered an error while loading this page.",
+    });
   }
 };
 
