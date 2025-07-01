@@ -94,15 +94,11 @@ module.exports.login_form = (req, res) => {
   res.render("../User/login.ejs", { user: req.session.user, blog, meta }); // Login Form
 };
 module.exports.login = async (req, res) => {
-  console.log("🧠 Entered userEnterController.login");
-
   req.session.user = {
     id: req.user._id,
     username: req.user.username,
     role: "user",
   };
-
-  console.log("📦 Session user set:", req.session.user);
 
   const pendingAction = req.cookies.pendingAction
     ? JSON.parse(req.cookies.pendingAction)
@@ -117,7 +113,6 @@ module.exports.login = async (req, res) => {
     return res.redirect(`/${blogSlug}`);
   } else {
     req.flash("success", "Welcome back to BeyondMan");
-    console.log("🏠 Redirecting to home");
     return res.redirect("/");
   }
 };

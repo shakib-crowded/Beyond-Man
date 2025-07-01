@@ -181,9 +181,9 @@
                             <div id="editCommentBox-<%= comment._id %>" class="comment-edit-box hidden">
                                 <textarea id="editCommentInput-<%= comment._id %>"><%= comment.content %></textarea>
                                 <button aria-label="Save Comment" type="button"
-                                    onclick="saveEditedComment('<%= comment._id %>')">💾 Save</button>
+                                    onclick="saveEditedComment('<%= comment._id %>')">Save</button>
                                 <button aria-label="Cancel" type="button"
-                                    onclick="cancelEditComment('<%= comment._id %>')">❌
+                                    onclick="cancelEditComment('<%= comment._id %>')">
                                     Cancel</button>
                             </div>
 
@@ -272,11 +272,11 @@
                                                         required><%= reply.content %></textarea>
                                                     <button type="button" aria-label="Save Reply"
                                                         onclick="saveEditedReply('<%= comment._id %>', '<%= reply._id %>')">
-                                                        💾 Save
+                                                        Save
                                                     </button>
                                                     <button aria-label="Cancel" type="button"
                                                         onclick="cancelEditReply('<%= reply._id %>')">
-                                                        ❌ Cancel
+                                                        Cancel
                                                     </button>
                                                 </div>
                                             </li>

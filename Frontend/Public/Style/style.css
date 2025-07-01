@@ -906,6 +906,12 @@ body {
   background-color: #f8f9fa;
 }
 
+.browse-paths .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
 .section-title {
   margin-bottom: 3rem;
   font-size: 2rem;
@@ -945,9 +951,9 @@ body {
 
 .tech-icons {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 1.5rem;
-  justify-items: center;
+  justify-content: center;
 }
 
 .tech-icon {
@@ -1760,6 +1766,69 @@ body {
   background-color: transparent;
   color: var(--dark-color);
 }
+
+/* Edit Comment Box */
+.comment-edit-box {
+  margin-top: 0.5rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e1e4e8;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.comment-edit-box textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  resize: vertical;
+  font-size: 0.95rem;
+  margin-bottom: 0.75rem;
+  transition: border-color 0.2s;
+}
+
+.comment-edit-box textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.comment-edit-box button {
+  padding: 0.5rem 1rem;
+  margin-right: 0.75rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.comment-edit-box button:first-of-type {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.comment-edit-box button:first-of-type:hover {
+  background-color: var(--secondary-color);
+}
+
+.comment-edit-box button:last-of-type {
+  background-color: #f1f1f1;
+  color: #333;
+}
+
+.comment-edit-box button:last-of-type:hover {
+  background-color: #e53636;
+  color: var(--light-color);
+}
+
+/* Hidden state */
+.comment-edit-box.hidden {
+  display: none;
+}
+
 .right-section {
   display: flex;
   gap: 10px;
@@ -1925,8 +1994,8 @@ body {
 }
 .reply-box {
   margin-top: 10px;
-  display: flex;
-  flex-direction: column;
+  /* display: flex; */
+  /* flex-direction: column; */
   gap: 8px;
 }
 .reply-box textarea {
@@ -1954,14 +2023,16 @@ body {
 .reply-box button:first-child:hover {
   background: #218838;
 }
+  */
 .reply-box button:last-child {
-  background: #dc3545;
-  color: #fff;
+  background-color: #f1f1f1;
+  color: #333;
   border: none;
 }
 .reply-box button:last-child:hover {
   background: #c82333;
-} */
+  color: var(--white);
+}
 
 .modal {
   position: fixed;
