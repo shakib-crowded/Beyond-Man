@@ -1,16 +1,11 @@
 const { isCompleteProfile } = require("../middleware");
 
 module.exports.sign_up_form = (req, res) => {
-  return res.send(
-    "Underconstruction! Contact With Site Owner : beyondman.dev@gmail.com"
-  );
-  // res.render("../Admin/adminSignUp.ejs");
+  return res.render("../Admin/adminSignUp.ejs");
 };
 
 module.exports.sign_up = async (req, res, next) => {
-  return res.send(
-    "Underconstruction! Contact With Site Owner : beyondman.dev@gmail.com"
-  );
+  return res.render("../Admin/adminSignUp.ejs");
   // const { name, username, email, password, about_admin } = req.body;
 
   // // Check for existing username

@@ -4,26 +4,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../Style/style.css">
-    <title>Admin Login</title>
+    <title>Admin Access Restricted</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --error-color: #ef233c;
+            --text-color: #2b2d42;
+            --light-gray: #edf2f4;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --border-radius: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            padding: 2rem;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 2.5rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1.5rem;
+            display: block;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--error-color);
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            color: #6c757d;
+        }
+
+        .contact-email {
+            display: inline-block;
+            background-color: var(--light-gray);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin: 1rem 0;
+            font-weight: 600;
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .contact-email:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .icon {
+            font-size: 3rem;
+            color: var(--error-color);
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #3a56d4;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        @media (max-width: 576px) {
+            .card {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body>
-    <div class="admin-form-box">
-        <form class="admin-form" method="post" action="/admin/signup">
-            <span class="title">Sign Up</span>
-            <span class="subtitle">We are glad to you become our member</span>
-            <div class="admin-form-container">
-                <input type="text" class="input" placeholder="Name" name="name">
-                <input type="text" class="input" placeholder="Username" name="username">
-                <input type="email" class="input" placeholder="Email" name="email">
-                <input type="password" class="input" placeholder="Password" name="password">
-                <input type="text" class="input" placeholder="About You" name="about_admin">
+    <div class="container">
+        <div class="card">
+            <div class="icon">
+                <i class="fas fa-ban"></i>
             </div>
-            <button aria-label="Sign Up" type="submit">Sign Up</button>
-        </form>
-        <div class="admin-form-section">
-            <p>Are you already member? Just <a aria-label="Login" href="/admin/login">Login</a> </p>
+            <h1>Access Prohibited</h1>
+            <p>Admin signup is restricted to authorized personnel only. If you believe you should have access to this
+                system, please contact the administrator with your request.</p>
+
+            <a href="mailto:beyondman.dev@gmail.com" class="contact-email">
+                <i class="fas fa-envelope"></i> beyondman.dev@gmail.com
+            </a>
+
+            <div style="margin-top: 2rem;">
+                <a href="/" class="btn">
+                    <i class="fas fa-home"></i> Return Home
+                </a>
+                <a href="/admin/login" class="btn btn-outline" style="margin-left: 0.5rem;">
+                    <i class="fas fa-sign-in-alt"></i> Admin Login
+                </a>
+            </div>
         </div>
     </div>
 </body>

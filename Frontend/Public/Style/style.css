@@ -951,7 +951,7 @@ body {
 
 .tech-icons {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(168px, 1fr));
   gap: 1.5rem;
   justify-content: center;
 }
