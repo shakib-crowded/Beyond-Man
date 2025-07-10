@@ -26,10 +26,18 @@ document.addEventListener("DOMContentLoaded", function () {
         theme: "snow",
       });
 
-      // Update hidden input with editor content
+      // ⬇️ Load saved content from localStorage (if any)
+      const savedContent = localStorage.getItem("draft-content");
+      if (savedContent) {
+        quill.root.innerHTML = savedContent;
+      }
+
+      // ⬇️ Update hidden input and save content to localStorage on change
       const contentInput = document.getElementById("content");
       quill.on("text-change", () => {
-        contentInput.value = quill.root.innerHTML;
+        const html = quill.root.innerHTML;
+        contentInput.value = html;
+        localStorage.setItem("draft-content", html); // Auto-save here
       });
     } else {
       console.error("Required libraries not loaded");
@@ -199,6 +207,13 @@ document.addEventListener("DOMContentLoaded", function () {
       alert("Preview functionality would show your formatted blog here");
     });
   };
+
+  const form = document.getElementById("blogForm");
+  if (form) {
+    form.addEventListener("submit", function () {
+      localStorage.removeItem("draft-content");
+    });
+  }
 
   // Initialize all components
   initializeEditor();

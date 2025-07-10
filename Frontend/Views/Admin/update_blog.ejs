@@ -244,7 +244,6 @@
     <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/quill-image-resize-module@3.0.0/image-resize.min.js"></script>
-    <script src="/JavaScript/Admin/updateBlog.js"></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -276,20 +275,37 @@
                     });
 
                     // Set existing content
+                    // const existingContent = `<%- blog.content %>`;
+                    // if (existingContent) {
+                    //     quill.root.innerHTML = existingContent;
+                    // }
+
+                    const contentInput = document.getElementById("content");
+
                     const existingContent = `<%- blog.content %>`;
-                    if (existingContent) {
+                    const savedDraft = localStorage.getItem("draft-content");
+
+                    // ✅ Use savedDraft if available (prioritize user's last typed version)
+                    if (savedDraft && savedDraft.trim() !== "") {
+                        quill.root.innerHTML = savedDraft;
+                        contentInput.value = savedDraft;
+                    } else if (existingContent && existingContent.trim() !== "") {
                         quill.root.innerHTML = existingContent;
+                        contentInput.value = existingContent;
                     }
 
-                    // Update hidden input with editor content
-                    const contentInput = document.getElementById("content");
+                    // Update input and save to localStorage on typing
                     quill.on("text-change", () => {
-                        contentInput.value = quill.root.innerHTML;
+                        const html = quill.root.innerHTML;
+                        contentInput.value = html;
+                        localStorage.setItem("draft-content", html);
                     });
                 } else {
                     console.error("Required libraries not loaded");
                 }
+
             };
+
 
             // Handle image uploads
             const handleImageUpload = () => {
