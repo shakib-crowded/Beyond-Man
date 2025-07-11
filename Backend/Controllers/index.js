@@ -23,7 +23,7 @@ module.exports.home = async (req, res) => {
     const totalPages = Math.ceil(totalBlogs / limit);
 
     // Check if the request is AJAX
-    if (req.xhr || req.headers.accept.indexOf("json") > -1) {
+    if (req.xhr || req.headers.accept?.indexOf("json") > -1) {
       return res.json({
         blogs,
         pagination: {
