@@ -14,7 +14,7 @@ module.exports.path = async (req, res) => {
     // Find language info with error handling
     let categories, languageInfo;
     try {
-      categories = await TechPath.find().cache(3600); // Assuming you have caching
+      categories = await TechPath.find();
       languageInfo = categories.reduce((found, category) => {
         const icon = category.techIcons.find((icon) => icon.path === path);
         return icon ? { ...icon.toObject(), category: category.title } : found;
@@ -43,31 +43,29 @@ module.exports.path = async (req, res) => {
     }
 
     const totalPages = Math.ceil(totalBlogs / limit);
+    const rawTitle = languageInfo?.title || req.params.path;
 
-    // Enhanced SEO metadata
-    const defaultTitle = `${
-      languageInfo?.title || req.params.path
-    } Programming Tutorials | Beyond Man`;
+    const formattedTitle = rawTitle
+      .split("-")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+
+    const title = `${formattedTitle} Programming Tutorials`;
+
+    // Use formattedTitle instead of languageInfo.title in metadata
+    const defaultTitle = `${formattedTitle} Programming Tutorials | Beyond Man`;
     const defaultDescription =
       languageInfo?.description ||
-      `Learn ${
-        languageInfo?.title || req.params.path
-      } programming with comprehensive tutorials, examples, and best practices from Beyond Man.`;
+      `Learn ${formattedTitle} programming with comprehensive tutorials, examples, and best practices from Beyond Man.`;
 
     const canonicalUrl = `https://beyondman.dev/${path}`;
 
     const meta = {
-      title: languageInfo?.title
-        ? `${languageInfo.title} Programming Tutorials`
-        : defaultTitle,
+      title,
       description: defaultDescription,
       keywords:
         languageInfo?.keywords?.join(", ") ||
-        `${
-          languageInfo?.title || req.params.path
-        }, programming, coding, tutorial, learn ${
-          languageInfo?.title || req.params.path
-        }, web development`,
+        `${formattedTitle}, programming, coding, tutorial, learn ${formattedTitle}, web development`,
       canonical: canonicalUrl,
       openGraph: {
         title: defaultTitle,
@@ -141,8 +139,6 @@ module.exports.path = async (req, res) => {
 
 // Helper function to render the blogs partial for AJAX requests
 function renderBlogsPartial(data) {
-  // You might want to use a template engine here or keep the HTML string
-  // This is a simplified version - consider using EJS.renderFile or similar
   if (data.allBlogs.length === 0) {
     return `<section class="no-results">
       <h1>No results found</h1>

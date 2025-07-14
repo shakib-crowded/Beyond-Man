@@ -28,70 +28,155 @@
         </div>
     </section> -->
 
+    <style>
+        /* General Section Styling */
+        .about {
+            padding: 50px 20px;
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Section Title */
+        .about-section h2 {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        /* About Content Wrapper */
+        .about-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        /* Reverse Flex Direction */
+        .about-content.reverse {
+            flex-direction: row-reverse;
+        }
+
+        /* Image Styling */
+        .about-image {
+            width: 300px;
+            max-width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            object-fit: cover;
+        }
+
+        /* Text Block Styling */
+        .about-text {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .about-text p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #444;
+            margin-bottom: 15px;
+        }
+
+        .about-text ul {
+            padding-left: 20px;
+            color: #444;
+        }
+
+        .about-text ul li {
+            list-style-type: disc;
+            margin-bottom: 10px;
+        }
+
+        /* Personal Name Highlight */
+        .about-text strong {
+            color: #007bff;
+            font-weight: 600;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .about-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .about-content.reverse {
+                flex-direction: column;
+            }
+
+            .about-text {
+                padding: 0 10px;
+            }
+
+            .about-image {
+                width: 200px;
+            }
+        }
+    </style>
     <section id="about" class="about">
-        <!-- Section 1: Who We Are -->
+        <!-- Section 1: Who I Am -->
         <div class="about-section">
-            <h2>Who We Are</h2>
+            <h2>Who I Am</h2>
             <div class="about-content">
-                <img src="" alt="Our Team" class="about-image">
+                <img src="Resources/images/My Photo 2.jpg" alt="Shakib Ansari" class="about-image">
                 <div class="about-text">
-                    <p>We are a group of tech enthusiasts passionate about sharing knowledge and helping others grow in
-                        the field of programming and development. This blog is built by self-driven learners who believe
-                        in the power of open learning and community-driven growth.</p>
-                    <p>Our team brings together experience in web development, app development, and computer science
-                        fundamentals to create content that is both practical and beginner-friendly. We’re here to
-                        simplify complex concepts and inspire the next generation of developers.</p>
+                    <p>Hi, I'm <a href="/author/shakib@dev" style="text-decoration: none;"><strong>Shakib
+                                Ansari</strong></a>, a
+                        self-taught developer and tech
+                        enthusiast who loves to
+                        explore and share knowledge about programming and software development. This is the self
+                        learning platform where anyone can learn by themself.</p>
+                    <p>I specialize in web and app development, with a strong foundation in computer science concepts.
+                        My goal is to simplify tough topics, break down real-world projects, and inspire
+                        others—especially beginners—to build and create with confidence.</p>
                 </div>
             </div>
         </div>
 
-        <!-- Section 2: Our Aim -->
+        <!-- Section 2: My Mission -->
         <div class="about-section">
-            <h2>Our Mission</h2>
+            <h2>My Mission</h2>
             <div class="about-content reverse">
-                <img src="Resources/images/aim-photo.jpg" alt="Our Aim" class="about-image">
-
+                <img src="Resources/images/e-learning.webp" alt="My Mission" class="about-image">
                 <div class="about-text">
-                    <p>Our mission is to make programming and technology education accessible to everyone. Through
-                        well-crafted tutorials, guides, and project-based learning, we aim to empower individuals to
-                        turn their coding passion into real-world skills.</p>
-                    <p>We’re committed to:</p>
+                    <p>My mission is to make programming and technology education accessible and beginner-friendly.
+                        Through detailed tutorials, step-by-step guides, and practical projects, I aim to help others
+                        turn their curiosity into skills and their skills into careers.</p>
+                    <p>Here's what I stand for:</p>
                     <ul>
-                        <li>Providing high-quality, easy-to-understand content</li>
-                        <li>Encouraging consistent learning through hands-on projects</li>
-                        <li>Staying updated with modern tools and best practices</li>
-                        <li>Creating a supportive space for learners at all levels</li>
+                        <li>Delivering high-quality, easy-to-understand content</li>
+                        <li>Encouraging hands-on learning through real projects</li>
+                        <li>Keeping up with the latest tools, frameworks, and best practices</li>
+                        <li>Creating a space where learners feel motivated and supported</li>
                     </ul>
                 </div>
             </div>
         </div>
 
-
-        <!-- Section 3: Team Members -->
+        <!-- Section 3: About Me -->
         <div class="about-section">
-            <h2>Our Team</h2>
-            <div class="team-grid">
-                <div class="team-member">
-                    <img src="Resources/images/shakib_image.jpg" alt="Team Member 1">
-                    <h3>Shakib Ansari</h3>
-                    <p>Founder and Chief Editor</p>
-                    <p>Web and App Developer, Passionate About Programming
-                </div>
-                <div class="team-member">
-                    <img src="Resources/images/sahib_image.jpg" alt="Team Member 2">
-                    <h3>Sahib Choudhry</h3>
-                    <p>Security Manager</p>
-                    <p>Ethical Hacker, Cyber Security Expert</p>
-                </div>
-                <div class="team-member">
-                    <img src="Resources/images/arman_image.jpg" alt="Team Member 3">
-                    <h3>Arman Saifi</h3>
-                    <p>Marketer and Researcher</p>
-                    <p>Social Media Account Handler, Writer</p>
+            <h2>About Me</h2>
+            <div class="about-content">
+                <img src="Resources/images/shakib_image.jpg" alt="Shakib Ansari" class="about-image">
+                <div class="about-text">
+                    <p><a href="/author/shakib@dev" style="text-decoration: none;"><strong>Shakib
+                                Ansari</strong></a></p>
+                    <p>Founder, Developer, and Content Creator</p>
+                    <p>I manage everything on this platform—from designing and developing the site to writing article
+                        posts
+                        and engaging with the community. I believe in continuous learning and sharing what I know to
+                        make tech easier for others.</p>
                 </div>
             </div>
         </div>
     </section>
+
     <!-- 
 
     <section id="portfolio" class="portfolio">
