@@ -194,8 +194,8 @@ document.addEventListener("DOMContentLoaded", function () {
         alert("Please upload a featured image for your blog");
         return;
       }
-
-      // Additional validation can be added here
+      // Clear localStorage only if form is actually valid and submitting
+      localStorage.removeItem("draft-content");
     });
   };
 
