@@ -25,7 +25,7 @@ module.exports.blogs = async (req, res, next) => {
       comments: blog.comments,
       meta: {
         title: blog.title,
-        desctiption: blog.description,
+        description: blog.description,
         url: `${process.env.BASE_URL + "/" + blog.slug}`,
       },
     });

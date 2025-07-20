@@ -416,6 +416,7 @@
 
                 form.addEventListener("submit", (e) => {
                     const content = document.getElementById("content").value;
+                    const image = document.getElementById("image-url").files[0];
 
                     if (!content || content.trim().length < 50) {
                         e.preventDefault();
@@ -425,7 +426,9 @@
                         return;
                     }
 
-                    // Additional validation can be added here
+
+                    // Clear localStorage only if form is actually valid and submitting
+                    localStorage.removeItem("draft-content");
                 });
             };
 

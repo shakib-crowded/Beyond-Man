@@ -296,9 +296,10 @@ module.exports.admin_update = async (req, res) => {
     // Create Updated Slug
     const slug = title.trim().replace(/\s+/g, " ");
     const updatedSlug = slug
+      .replace(/\+\+/g, "pp") // Replace '++' with 'pp'
       .toLowerCase()
-      .replace(/ /g, "-")
-      .replace(/[^\w-]+/g, "");
+      .replace(/[^a-z0-9\s]/g, "") // Remove special characters except spaces
+      .replace(/\s+/g, "-"); // Replace spaces with hyphens
 
     // Update the blog with the new values
     blog.languageName = languageName;

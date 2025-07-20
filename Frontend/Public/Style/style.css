@@ -2015,23 +2015,16 @@ body {
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
-/* .reply-box button:first-child {
-  background: #28a745;
-  color: #fff;
-  border: none;
-}
-.reply-box button:first-child:hover {
-  background: #218838;
-}
-  */
-.reply-box button:last-child {
+
+.cancel-btn {
   background-color: #f1f1f1;
   color: #333;
   border: none;
 }
-.reply-box button:last-child:hover {
-  background: #c82333;
-  color: var(--white);
+.cancel-btn:hover {
+  background-color: #ff0000;
+  color: #fff;
+  border: none;
 }
 
 .modal {

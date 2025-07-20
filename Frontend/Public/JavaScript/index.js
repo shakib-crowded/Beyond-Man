@@ -56,7 +56,6 @@ document.querySelectorAll(".date-format").forEach((el) => {
 
 const searchBlogs = (event) => {
   event.preventDefault();
-  console.log(event);
 };
 // User Logout
 
@@ -117,7 +116,6 @@ function hideLogOutCard() {
 
 // Logout functionality
 document.getElementById("logoutButton").addEventListener("click", function () {
-  console.log("Logout Button");
   fetch("/logout", {
     method: "POST",
     credentials: "include",

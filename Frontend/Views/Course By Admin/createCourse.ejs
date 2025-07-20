@@ -645,7 +645,6 @@
                     })).filter(subtitle => subtitle.language || subtitle.url)
                 };
 
-                console.log("Form Data to be sent:", formData);
 
                 // Send data to backend
                 const response = await fetch('/admin/create-course', {
@@ -662,7 +661,6 @@
 
                 const result = await response.json();
                 alert('Course created successfully!');
-                console.log('Success:', result);
                 // Optionally redirect or reset the form
                 // window.location.href = '/some-success-page';
                 // e.target.reset();

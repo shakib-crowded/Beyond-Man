@@ -1,6 +1,7 @@
 const Comment = require("../Models/comments");
 const { userSignUp } = require("../Models/signUpUser");
 const Blog = require("../Models/blogs");
+const { adminSignUp } = require("../Models/signUpAdmin");
 
 // Create a new comment
 exports.createComment = async (req, res) => {
@@ -16,7 +17,12 @@ exports.createComment = async (req, res) => {
 
     const username = user.username;
 
-    const comment = new Comment({ content, username, user: userId });
+    const comment = new Comment({
+      content,
+      username,
+      user: userId,
+      name: user.name,
+    });
     await comment.save();
 
     // Find the blog and push the comment ID into the comments array
@@ -149,7 +155,10 @@ exports.replyToComment = async (req, res) => {
     const { content } = req.body;
 
     const userId = req.user.id;
-    const user = await userSignUp.findById(userId);
+    const user =
+      (await userSignUp.findById(userId)) ||
+      (await adminSignUp.findById(userId));
+
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
@@ -159,10 +168,13 @@ exports.replyToComment = async (req, res) => {
       return res.status(404).json({ error: "Comment not found" });
     }
 
+    const name = user.role === "admin" ? `${user.name} (Author)` : user.name;
+
     const reply = new Comment({
       content,
       user: user._id,
       username: user.username,
+      name,
     });
     await reply.save();
     if (!parentComment) {

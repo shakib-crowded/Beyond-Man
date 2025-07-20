@@ -109,7 +109,6 @@ module.exports.login = async (req, res) => {
 
     const blog = await Blogs.findById(pendingAction.blogId);
     const blogSlug = blog.slug;
-    console.log("📍 Redirecting to pending action:", blogSlug);
     return res.redirect(`/${blogSlug}`);
   } else {
     req.flash("success", "Welcome back to BeyondMan");

@@ -146,7 +146,7 @@
                                                 user._id.toString()===comment.user.toString()) { %>
                                                 You
                                                 <%} else{%>
-                                                    <%= comment.username %>
+                                                    <%= comment.name %>
                                                         <% } %>
                                         </b>
                                         <span class="timestamp">
@@ -182,7 +182,7 @@
                                 <textarea id="editCommentInput-<%= comment._id %>"><%= comment.content %></textarea>
                                 <button aria-label="Save Comment" type="button"
                                     onclick="saveEditedComment('<%= comment._id %>')">Save</button>
-                                <button aria-label="Cancel" type="button"
+                                <button class="cancel-btn" aria-label="Cancel" type="button"
                                     onclick="cancelEditComment('<%= comment._id %>')">
                                     Cancel</button>
                             </div>
@@ -231,7 +231,7 @@
                                                                     user._id.toString()===reply.user.toString()) { %>
                                                                     You
                                                                     <% } else { %>
-                                                                        <%= reply.username %>
+                                                                        <%= reply.name %>
                                                                             <% } %>
                                                             </b>
                                                             <span class="timestamp">

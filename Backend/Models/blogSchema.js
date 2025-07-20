@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-// Function to convert title into a slug
 const slugify = (title) => {
   return title
+    .replace(/\+\+/g, "pp") // Replace '++' with 'pp'
     .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, "") // Remove special characters
+    .replace(/[^a-z0-9\s]/g, "") // Remove special characters except spaces
     .replace(/\s+/g, "-"); // Replace spaces with hyphens
 };
 

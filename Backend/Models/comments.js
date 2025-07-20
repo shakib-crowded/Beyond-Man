@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const CommentSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.ObjectId, ref: "User" },
+  name: { type: String, required: true },
   content: { type: String, required: true },
   username: { type: String, required: true }, // Ensure username is stored
   likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User", default: [] }],
