@@ -62,10 +62,10 @@
                     <div class="form-group">
                         <label for="description" class="required">Short Description</label>
                         <textarea id="description" name="description"
-                            placeholder="Brief description for preview cards..." maxlength="120"
+                            placeholder="Brief description for preview cards..." maxlength="150"
                             required><%= blog.description %></textarea>
                         <div class="char-counter" id="charDescriptionCount">
-                            <%= blog.description.length || 0 %>/120 characters
+                            <%= blog.description.length || 0 %>/150 characters
                         </div>
                     </div>
                 </div>
@@ -406,7 +406,7 @@
                 };
 
                 updateCounter("title", "charTitleCount", 250);
-                updateCounter("description", "charDescriptionCount", 120);
+                updateCounter("description", "charDescriptionCount", 150);
                 updateCounter("author", "charAuthorCount", 40);
             };
 

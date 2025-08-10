@@ -6,7 +6,7 @@ function updateTitleCharCount() {
 function updateDescriptionCharCount() {
   const descriptionInput = document.getElementById("description");
   const charDescriptionCount = document.getElementById("charDescriptionCount");
-  charDescriptionCount.textContent = `${descriptionInput.value.length}/120 characters`;
+  charDescriptionCount.textContent = `${descriptionInput.value.length}/150 characters`;
 }
 function updateAuthorCharCount() {
   const authorInput = document.getElementById("author");

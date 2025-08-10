@@ -64,10 +64,6 @@ body {
   transition: var(--transition);
 }
 
-.logo:hover img {
-  transform: rotate(10deg);
-}
-
 .logo-text {
   font-size: 1.25rem;
   font-weight: 700;

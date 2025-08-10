@@ -147,7 +147,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     updateCounter("title", "charTitleCount", 250);
-    updateCounter("description", "charDescriptionCount", 120);
+    updateCounter("description", "charDescriptionCount", 150);
     updateCounter("author", "charAuthorCount", 40);
   };
 
