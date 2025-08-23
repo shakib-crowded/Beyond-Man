@@ -7,6 +7,7 @@ const techIconSchema = new mongoose.Schema({
   iconUrl: String,
   altText: String,
   title: String,
+  metaDescription: String,
 });
 
 const categorySchema = new mongoose.Schema({

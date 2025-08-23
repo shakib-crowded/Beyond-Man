@@ -16,8 +16,24 @@ module.exports.path = async (req, res) => {
     try {
       categories = await TechPath.find();
       languageInfo = categories.reduce((found, category) => {
-        const icon = category.techIcons.find((icon) => icon.path === path);
-        return icon ? { ...icon.toObject(), category: category.title } : found;
+        if (found) return found; // agar mil gaya to stop
+
+        const icon = category.techIcons.find(
+          (icon) => icon.path.toLowerCase() === path.toLowerCase()
+        );
+
+        if (icon) {
+          return {
+            ...icon.toObject(),
+            category: category.title,
+            // fallback agar metaDescription na ho
+            metaDescription:
+              icon.metaDescription ||
+              `Learn ${icon.title} programming with tutorials and examples.`,
+          };
+        }
+
+        return null;
       }, null);
     } catch (err) {
       console.error("Error fetching tech paths:", err);
@@ -50,26 +66,32 @@ module.exports.path = async (req, res) => {
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(" ");
 
-    const title = `${formattedTitle} Programming Tutorials`;
+    // const title = `${formattedTitle} Articles`;
 
     // Use formattedTitle instead of languageInfo.title in metadata
-    const defaultTitle = `${formattedTitle} Programming Tutorials | Beyond Man`;
-    const defaultDescription =
-      languageInfo?.description ||
-      `Learn ${formattedTitle} programming with comprehensive tutorials, examples, and best practices from Beyond Man.`;
+    // const defaultTitle = `${formattedTitle} Articles | Beyond Man`;
+    // const defaultDescription =
+    //   languageInfo?.description ||
+    //   `Learn ${formattedTitle} programming with comprehensive tutorials, examples, and best practices from Beyond Man.`;
 
-    const canonicalUrl = `https://beyondman.dev/${path}`;
+    const pathTitle = `${formattedTitle} Articles`;
+    const pathMetaDescription =
+      languageInfo?.metaDescription ||
+      `Learn ${formattedTitle} programming with tutorials and examples.`;
+    const pathKeywords =
+      languageInfo && languageInfo.keywords && languageInfo.keywords.length > 0
+        ? languageInfo.keywords.join(", ")
+        : `${formattedTitle}, programming, coding, tutorial, learn ${formattedTitle}, web development`;
+    const canonicalUrl = `https://beyondman.dev${path}`;
 
     const meta = {
-      title,
-      description: defaultDescription,
-      keywords:
-        languageInfo?.keywords?.join(", ") ||
-        `${formattedTitle}, programming, coding, tutorial, learn ${formattedTitle}, web development`,
+      pathTitle,
+      description: pathMetaDescription,
+      keywords: pathKeywords,
       canonical: canonicalUrl,
       openGraph: {
-        title: defaultTitle,
-        description: defaultDescription,
+        title: pathTitle,
+        description: pathMetaDescription,
         type: "website",
         url: canonicalUrl,
         site_name: "Beyond Man",
@@ -77,8 +99,8 @@ module.exports.path = async (req, res) => {
       structuredData: {
         "@context": "https://schema.org",
         "@type": "LearningResource",
-        name: defaultTitle,
-        description: defaultDescription,
+        name: pathTitle,
+        description: pathMetaDescription,
         provider: {
           "@type": "Organization",
           name: "Beyond Man",
@@ -86,6 +108,8 @@ module.exports.path = async (req, res) => {
         },
       },
     };
+
+    console.log("Language Info: ", languageInfo);
 
     // Prepare response data
     const responseData = {
@@ -97,8 +121,8 @@ module.exports.path = async (req, res) => {
       limit,
       currentPage: page,
       languageInfo: languageInfo || {
-        title: req.params.path,
-        description: `Learn ${req.params.path} programming with Beyond Man`,
+        title: pathTitle,
+        description: pathMetaDescription,
         category: "Programming",
       },
       // Additional SEO-friendly data
