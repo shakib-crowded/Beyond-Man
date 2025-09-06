@@ -1,135 +1,105 @@
 const Blog = require("../Models/blogs");
 const TechPath = require("../Models/techPath");
 
+// Helper function to format title
+const formatTitle = (str) => {
+  if (!str) return "";
+  return str
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};
+
+// Helper function to generate meta description
+const generateMetaDescription = (title, customDescription) => {
+  if (customDescription) return customDescription;
+  return `Learn ${title} programming with comprehensive tutorials, examples, and best practices from Beyond Man.`;
+};
+
 module.exports.path = async (req, res) => {
   try {
     const path = `/path/${req.params.path}`;
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 9;
     const skip = (page - 1) * limit;
-
-    // Cache control headers for better performance
-    res.set("Cache-Control", "public, max-age=3600"); // Cache for 1 hour
-
-    // Find language info with error handling
-    let categories, languageInfo;
-    try {
-      categories = await TechPath.find();
-      languageInfo = categories.reduce((found, category) => {
-        if (found) return found; // agar mil gaya to stop
-
-        const icon = category.techIcons.find(
-          (icon) => icon.path.toLowerCase() === path.toLowerCase()
-        );
-
-        if (icon) {
-          return {
-            ...icon.toObject(),
-            category: category.title,
-            // fallback agar metaDescription na ho
-            metaDescription:
-              icon.metaDescription ||
-              `Learn ${icon.title} programming with tutorials and examples.`,
-          };
-        }
-
-        return null;
-      }, null);
-    } catch (err) {
-      console.error("Error fetching tech paths:", err);
-      // Continue without languageInfo rather than failing
-    }
-
-    // Get paginated blogs with error handling
     const languageName = path.split("/")[2];
-    let blogs = [],
-      totalBlogs = 0;
-    try {
-      [blogs, totalBlogs] = await Promise.all([
-        Blog.find({ languageName })
-          .sort({ created_date: -1 }) // Changed to -1 for newest first
-          .skip(skip)
-          .limit(limit)
-          .lean(), // Use lean() for better performance
-        Blog.countDocuments({ languageName }),
-      ]);
-    } catch (err) {
-      console.error("Error fetching blogs:", err);
-      // Continue with empty blogs rather than failing
+
+    // Set cache headers
+    res.set("Cache-Control", "public, max-age=3600");
+
+    // Fetch categories and language info in parallel
+    const [categories, blogs, totalBlogs] = await Promise.all([
+      TechPath.find().catch((err) => {
+        console.error("Error fetching tech paths:", err);
+        return [];
+      }),
+      Blog.find({ languageName })
+        .sort({ created_date: -1 })
+        .skip(skip)
+        .limit(limit)
+        .lean()
+        .catch((err) => {
+          console.error("Error fetching blogs:", err);
+          return [];
+        }),
+      Blog.countDocuments({ languageName }).catch((err) => {
+        console.error("Error counting blogs:", err);
+        return 0;
+      }),
+    ]);
+
+    // Find language info
+    let languageInfo = null;
+    for (const category of categories) {
+      const icon = category.techIcons.find(
+        (icon) => icon.path.toLowerCase() === path.toLowerCase()
+      );
+
+      if (icon) {
+        languageInfo = {
+          ...icon.toObject(),
+          category: category.title,
+          metaDescription: icon.metaDescription || null,
+        };
+        break;
+      }
     }
 
-    const totalPages = Math.ceil(totalBlogs / limit);
-    const rawTitle = languageInfo?.title || req.params.path;
-
-    const formattedTitle = rawTitle
-      .split("-")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-
-    // const title = `${formattedTitle} Articles`;
-
-    // Use formattedTitle instead of languageInfo.title in metadata
-    // const defaultTitle = `${formattedTitle} Articles | Beyond Man`;
-    // const defaultDescription =
-    //   languageInfo?.description ||
-    //   `Learn ${formattedTitle} programming with comprehensive tutorials, examples, and best practices from Beyond Man.`;
-
-    const pathTitle = `${formattedTitle} Articles`;
-    const pathMetaDescription =
-      languageInfo?.metaDescription ||
-      `Learn ${formattedTitle} programming with tutorials and examples.`;
-    const pathKeywords =
-      languageInfo && languageInfo.keywords && languageInfo.keywords.length > 0
-        ? languageInfo.keywords.join(", ")
-        : `${formattedTitle}, programming, coding, tutorial, learn ${formattedTitle}, web development`;
+    const formattedTitle = formatTitle(languageInfo?.title || req.params.path);
+    const pageTitle = `${formattedTitle} Articles`;
+    const pageDescription = generateMetaDescription(
+      formattedTitle,
+      languageInfo?.metaDescription
+    );
     const canonicalUrl = `https://beyondman.dev${path}`;
 
-    const meta = {
-      pathTitle,
-      description: pathMetaDescription,
-      keywords: pathKeywords,
-      canonical: canonicalUrl,
-      openGraph: {
-        title: pathTitle,
-        description: pathMetaDescription,
-        type: "website",
-        url: canonicalUrl,
-        site_name: "Beyond Man",
-      },
-      structuredData: {
-        "@context": "https://schema.org",
-        "@type": "LearningResource",
-        name: pathTitle,
-        description: pathMetaDescription,
-        provider: {
-          "@type": "Organization",
-          name: "Beyond Man",
-          url: "https://beyondman.dev",
-        },
-      },
-    };
-
-    console.log("Language Info: ", languageInfo);
+    const totalPages = Math.ceil(totalBlogs / limit);
 
     // Prepare response data
     const responseData = {
       blog: {},
       user: req.session.user || null,
       allBlogs: blogs,
-      meta,
+      meta: {
+        title: pageTitle,
+        description: pageDescription,
+        keywords:
+          languageInfo?.keywords?.join(", ") ||
+          `${formattedTitle}, programming, coding, tutorial`,
+        url: canonicalUrl,
+      },
       totalPages,
       limit,
       currentPage: page,
       languageInfo: languageInfo || {
-        title: pathTitle,
-        description: pathMetaDescription,
+        title: formattedTitle,
+        description: pageDescription,
         category: "Programming",
       },
-      // Additional SEO-friendly data
       breadcrumbs: [
         { name: "Home", url: "/" },
         { name: "Paths", url: "/paths" },
-        { name: languageInfo?.title || req.params.path, url: path },
+        { name: formattedTitle, url: path },
       ],
       currentPath: path,
     };
@@ -146,10 +116,10 @@ module.exports.path = async (req, res) => {
       });
     }
 
-    // Render the page with enhanced SEO data
+    // Render the page
     res.render("path.ejs", responseData);
   } catch (err) {
-    console.error(err);
+    console.error("Path route error:", err);
     res.status(500).render("error", {
       meta: {
         title: "Server Error | Beyond Man",

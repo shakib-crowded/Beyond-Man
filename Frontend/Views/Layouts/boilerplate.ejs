@@ -2,45 +2,52 @@
 <html lang="en">
 
 <head>
-    <title>
-        <%= meta ? meta.title : "Beyond Man" %>
-    </title>
+    <% const pageTitle=meta && meta.title ? meta.title : "Beyond Man" ; const pageDescription=meta && meta.description ?
+        meta.description
+        : 'Learn different tech stacks like Programming Languages, Website Development, Android Development, and Software Development in Hinglish.'
+        ; const pageKeywords=meta && meta.keywords ? meta.keywords
+        : 'Programming, Web Development, Android, Software Development' ; const pageUrl=meta && meta.url ? meta.url
+        : 'https://beyondman.dev' ; const blogImage=blog && blog.image ? blog.image
+        : 'https://res.cloudinary.com/dsedsszhf/image/upload/v1746165075/Beyond_Man_Logo_Circle_ousnw2.png' ; const
+        blogCreatedDate=blog && blog.created_date ? blog.created_date : '2025-03-08' ; const blogUpdatedDate=blog &&
+        blog.updated_date ? blog.updated_date : '2025-03-08' ; %>
 
-    <meta name="description"
-        content="<%= meta ? meta.description : 'Learn different tech stacks like Programming Languages, Website Development, Android Development, and Software Development in Hinglish.' %>">
-    <meta name="keywords"
-        content="<%= meta ? meta.keywords : 'Programming, Web Development, Android, Software Development' %>">
-    <meta property="og:title" content="<%= meta ? meta.title : 'Beyond Man' %>">
-    <meta property="og:description"
-        content="<%= meta ? meta.description : 'Learn different tech stacks like Programming Languages, Website Development, Android Development, and Software Development in Hinglish.' %>">
-    <meta property="og:image"
-        content="https://res.cloudinary.com/dsedsszhf/image/upload/v1746165075/Beyond_Man_Logo_Circle_ousnw2.png">
-    <meta property="og:url" content="<%= meta ? meta.url : 'https://beyond-man.onrender.com' %>">
+        <title>
+            <%= pageTitle %>
+        </title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta property="og:type" content="article">
-    <meta property="og:site_name" content="Beyond Man">
-    <meta property="og:locale" content="en_US">
+        <!-- Primary Meta Tags -->
+        <meta name="description" content="<%= pageDescription %>">
+        <meta name="keywords" content="<%= pageKeywords %>">
 
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="<%= meta ? meta.title : 'Beyond Man' %>">
-    <meta name="twitter:description"
-        content="<%= meta ? meta.description : 'Learn the best tech stacks thorogh Hinglish articles.' %>">
-    <meta name="twitter:image"
-        content="<%= blog ? blog.image: 'https://res.cloudinary.com/dsedsszhf/image/upload/v1746165075/Beyond_Man_Logo_Circle_ousnw2.png' %>">
-    <meta name="twitter:site" content="@BeyondmanDev">
-    <meta property="og:locale" content="en_IN">
-    <meta property="og:locale:alternate" content="hi_IN">
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="article">
+        <meta property="og:title" content="<%= pageTitle %>">
+        <meta property="og:description" content="<%= pageDescription %>">
+        <meta property="og:image" content="<%= blogImage %>">
+        <meta property="og:url" content="<%= pageUrl %>">
+        <meta property="og:site_name" content="Beyond Man">
+        <meta property="og:locale" content="en_US">
+        <meta property="og:locale:alternate" content="hi_IN">
 
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="<%= pageTitle %>">
+        <meta name="twitter:description" content="<%= pageDescription %>">
+        <meta name="twitter:image" content="<%= blogImage %>">
+        <meta name="twitter:site" content="@BeyondmanDev">
 
-
-    <script type="application/ld+json">
+        <!-- Structured Data -->
+        <script type="application/ld+json">
         {
           "@context": "https://schema.org",
           "@type": "BlogPosting",
-          "headline": "<%= meta ? meta.title : 'Beyond Man' %>",
-          "description": "<%= meta ? meta.description : 'Tech blog on various programming stacks' %>",
-          "image": "<%= blog ? blog.image: 'https://res.cloudinary.com/dsedsszhf/image/upload/v1746165075/Beyond_Man_Logo_Circle_ousnw2.png' %>",
-          "url": "<%= meta ? meta.url : 'https://beyondman.dev' %>",
+          "headline": "<%= pageTitle %>",
+          "description": "<%= pageDescription %>",
+          "image": "<%= blogImage %>",
+          "url": "<%= pageUrl %>",
           "author": {
             "@type": "Person",
             "name": "Shakib Ansari"
@@ -53,38 +60,36 @@
               "url": "https://res.cloudinary.com/dsedsszhf/image/upload/v1750840592/Beyond_Man_Logo_Circle_cvcaqp.png"
             }
           },
-          "datePublished": "<%= blog ? blog.created_date : '2025-03-08' %>",
-          "dateModified": "<%= blog ? blog.updated_date: '2025-03-08' %>"
+          "datePublished": "<%= blogCreatedDate %>",
+          "dateModified": "<%= blogUpdatedDate %>"
         }
-        </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/Style/style.css">
-    <link rel="stylesheet" href="/Style/media.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
-        rel="stylesheet">
-
-    <!-- Highlight.js CSS (Choose a Theme) -->
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
-    <link rel="icon" href="/Resources/icons/Beyond Man Logo (Circle).ico" type="image/png">
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-V21LY1HJRK"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'G-V21LY1HJRK');
     </script>
+
+        <!-- Stylesheets -->
+        <link rel="stylesheet" href="/Style/style.css">
+        <link rel="stylesheet" href="/Style/media.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+            integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+            rel="stylesheet">
+
+        <!-- Highlight.js CSS -->
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+        <link rel="icon" href="/Resources/icons/Beyond Man Logo (Circle).ico" type="image/png">
+
+        <!-- Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-V21LY1HJRK"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-V21LY1HJRK');
+        </script>
 </head>
 
 <body>
@@ -95,15 +100,12 @@
         </div>
         <%- include("../Includes/footer.ejs") %>
 
+            <!-- Scripts -->
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-                crossorigin="anonymous">
-                </script>
-            <!-- Highlight.js JS -->
+                crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-
             <script src="/JavaScript/index.js"></script>
-
 </body>
 
 </html>
