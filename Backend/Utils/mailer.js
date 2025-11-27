@@ -1,15 +1,14 @@
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
-const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST,
-  port: process.env.EMAIL_PORT,
-  secure: false,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+const Brevo = require("@getbrevo/brevo");
+
+const client = new Brevo.TransactionalEmailsApi();
+client.setApiKey(
+  Brevo.TransactionalEmailsApiApiKeys.apiKey,
+  process.env.BREVO_API_KEY
+);
+
 const sendResetEmail = async (email, token) => {
   const resetLink = `https://beyondman.dev/reset-password/${token}`;
   const logoLink =
@@ -51,12 +50,19 @@ const sendResetEmail = async (email, token) => {
       </div>
     `;
 
-  await transporter.sendMail({
-    from: `"Beyond Man" <${process.env.EMAIL_USER}>`,
-    to: email,
+  await client.sendTransacEmail({
+    sender: { name: "Beyond Man", email: "<noreply>@beyondman.dev" },
+    to: [{ email }],
     subject: "🔒 Reset Your Password",
-    html: emailTemplate,
+    htmlContent: emailTemplate,
   });
+
+  // await transporter.sendMail({
+  //   from: `"Beyond Man" <${process.env.EMAIL_USER}>`,
+  //   to: email,
+  //   subject: "🔒 Reset Your Password",
+  //   html: emailTemplate,
+  // });
 };
 
 const verifyEmail = async (email, token) => {
