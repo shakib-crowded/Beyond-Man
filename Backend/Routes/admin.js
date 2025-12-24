@@ -3,34 +3,34 @@ const router = express.Router({ mergeParams: true });
 const wrapAsync = require("../Utils/wrapAsync");
 const {
   validateBlog,
-  isCompleteProfile,
-  isNotCompleteProfile,
+  adminAuth,
+  isProfileComplete,
+  redirectAdminIfAuthenticated,
 } = require("../middleware");
-const { isAdminLoggedIn, isAdminBlogOwner } = require("../middleware");
+const { isAdminBlogOwner } = require("../middleware");
 const adminController = require("../Controllers/admin");
 const multer = require("multer");
 const {
   blogStorage,
-  authorProfileStorage,
+  adminProfileStorage,
 } = require("../Config/cloudConfig.js");
 const uploadBlogStorage = multer({ storage: blogStorage });
-const uploadAuthorProfileStorage = multer({ storage: authorProfileStorage });
+const uploadAdminProfileStorage = multer({ storage: adminProfileStorage });
 const {
   validateUploadImage,
   validateUpdateImage,
 } = require("../middleware.js");
 
+router.get("/", redirectAdminIfAuthenticated, wrapAsync(adminController.home));
+
 // Render Profile Page
-router.get(
-  "/profile",
-  isAdminLoggedIn,
-  isNotCompleteProfile,
-  wrapAsync(adminController.admin_profile_page)
-);
+router.get("/profile", adminAuth, wrapAsync(adminController.show_profile_page));
+
 router.post(
   "/profile",
+  adminAuth,
   (req, res, next) => {
-    uploadAuthorProfileStorage.single("profile_image")(req, res, (err) => {
+    uploadAdminProfileStorage.single("profile_image")(req, res, (err) => {
       if (err) {
         console.error("Multer Error:", err);
         return next(err);
@@ -38,20 +38,21 @@ router.post(
       next();
     });
   },
-  wrapAsync(adminController.admin_profile)
+  wrapAsync(adminController.profile_complete)
 );
 
 router.get(
   "/profile-edit",
-  isAdminLoggedIn,
-  wrapAsync(adminController.admin_profile_update_page)
+  adminAuth,
+  isProfileComplete,
+  wrapAsync(adminController.profile_update_page)
 );
 
 router.put(
   "/profile-edit",
-  isAdminLoggedIn,
+  adminAuth,
   (req, res, next) => {
-    uploadAuthorProfileStorage.single("profile_image")(req, res, (err) => {
+    uploadAdminProfileStorage.single("profile_image")(req, res, (err) => {
       if (err) {
         console.error("Multer Error: ", err);
         return next(err);
@@ -59,70 +60,67 @@ router.put(
       next();
     });
   },
-  wrapAsync(adminController.admin_profile_update)
+  wrapAsync(adminController.profile_update)
 );
-
-// Admin Route Where User Get Login And Sign Up
-router.get("/", adminController.admin_block);
 
 // Render Admin Page If User If Logged In
 router.get(
   "/dashboard",
-  isAdminLoggedIn,
-  isCompleteProfile,
-  adminController.admin_dashboard
+  adminAuth,
+  isProfileComplete,
+  adminController.dashboard
 );
 
 // Render Upload Blog Page
 router.get(
-  "/edit",
-  isAdminLoggedIn,
-  isCompleteProfile,
-  wrapAsync(adminController.admin_edit)
+  "/upload",
+  adminAuth,
+  isProfileComplete,
+  wrapAsync(adminController.upload_form)
 );
 
 // Upload Blog API
 router.post(
   "/upload",
-  isAdminLoggedIn,
-  isCompleteProfile,
+  adminAuth,
+  isProfileComplete,
   uploadBlogStorage.single("image"),
-  // validateUploadImage,
+  validateUploadImage,
   validateBlog,
-  wrapAsync(adminController.admin_upload)
+  wrapAsync(adminController.upload)
 );
 
 // Render Blogs for Admin to Read
 router.get(
-  "/read",
-  isAdminLoggedIn,
-  isCompleteProfile,
-  wrapAsync(adminController.admin_read)
-);
-
-// Edit Blog
-router.get(
-  "/:id/update",
-  isAdminLoggedIn,
-  isCompleteProfile,
-  isAdminBlogOwner,
-  wrapAsync(adminController.admin_update_form)
+  "/reads",
+  adminAuth,
+  isProfileComplete,
+  wrapAsync(adminController.reads)
 );
 
 // Read Single Blog
 router.get(
   "/read/:id",
-  isAdminLoggedIn,
-  isCompleteProfile,
+  adminAuth,
+  isProfileComplete,
   isAdminBlogOwner,
-  wrapAsync(adminController.admin_read_single_blog)
+  wrapAsync(adminController.read)
+);
+// Edit Blog
+router.get(
+  "/:id/update",
+  adminAuth,
+  isProfileComplete,
+  isAdminBlogOwner,
+  validateUpdateImage,
+  wrapAsync(adminController.update_form)
 );
 
 // Update Blog
 router.put(
   "/:id",
-  isAdminLoggedIn,
-  isCompleteProfile,
+  adminAuth,
+  isProfileComplete,
   isAdminBlogOwner,
   (req, res, next) => {
     uploadBlogStorage.single("image")(req, res, (err) => {
@@ -135,15 +133,15 @@ router.put(
   },
   // validateUpdateImage,
   validateBlog,
-  wrapAsync(adminController.admin_update)
+  wrapAsync(adminController.update)
 );
 
 router.delete(
   "/delete/:id",
-  isAdminLoggedIn,
-  isCompleteProfile,
+  adminAuth,
+  isProfileComplete,
   isAdminBlogOwner,
-  wrapAsync(adminController.admin_destroy)
+  wrapAsync(adminController.destroy)
 );
 
 module.exports = router;

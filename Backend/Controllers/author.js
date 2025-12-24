@@ -1,13 +1,9 @@
-const Admin = require("../Models/signUpAdmin");
-const Blogs = require("../Models/blogs");
-const AuthorProfile = require("../Models/authorProfile");
+const Admin = require("../Models/Admin");
+const Blogs = require("../Models/Blog");
 
 module.exports.authorProfile = async (req, res) => {
   const authorUsername = req.params.username;
-  const author = await Admin.adminSignUp.findOne({ username: authorUsername });
-  const authorProfile = await AuthorProfile.findOne({
-    username: authorUsername,
-  });
+  const author = await Admin.findOne({ username: authorUsername });
 
   const blog = {};
   const allBlogs = await Blogs.find();
@@ -15,9 +11,8 @@ module.exports.authorProfile = async (req, res) => {
     title: "Beyond Man | Author Profile",
   };
 
-  res.render("authorProfile", {
+  res.render("author_profile", {
     author,
-    authorProfile,
     meta,
     blog,
     allBlogs,

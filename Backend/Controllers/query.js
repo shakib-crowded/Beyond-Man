@@ -16,7 +16,6 @@ module.exports.submitQuery = async (req, res) => {
     await emailQuery.save();
     res.status(200).json({ message: "Email Added" });
   } catch (error) {
-    console.log(`Error: ${error}`);
     res.status(500).json({ message: error.message });
   }
 };

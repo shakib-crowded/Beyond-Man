@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | Secure Access</title>
+    <link rel="stylesheet" href="../Style/Admin/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Notification Styles */
+        .notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .notification {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            background: white;
+            animation: slideIn 0.3s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .notification::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+        }
+
+        .notification.success::before {
+            background: #10b981;
+        }
+
+        .notification.error::before {
+            background: #ef4444;
+        }
+
+        .notification.warning::before {
+            background: #f59e0b;
+        }
+
+        .notification.info::before {
+            background: #3b82f6;
+        }
+
+        .notification-icon {
+            font-size: 24px;
+            margin-top: 2px;
+        }
+
+        .notification.success .notification-icon {
+            color: #10b981;
+        }
+
+        .notification.error .notification-icon {
+            color: #ef4444;
+        }
+
+        .notification.warning .notification-icon {
+            color: #f59e0b;
+        }
+
+        .notification.info .notification-icon {
+            color: #3b82f6;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+
+        .notification-message {
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.4;
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .notification-close:hover {
+            background: #f3f4f6;
+            color: #4b5563;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .notification.fade-out {
+            animation: slideOut 0.3s ease-out forwards;
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+
+        /* Loading state for button */
+        .login-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .login-btn .spinner {
+            display: none;
+            animation: spin 1s linear infinite;
+        }
+
+        .login-btn.loading .spinner {
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Mobile responsiveness for notifications */
+        @media (max-width: 768px) {
+            .notification-container {
+                left: 20px;
+                right: 20px;
+                max-width: none;
+            }
+
+            .notification {
+                padding: 12px;
+            }
+
+            .notification-icon {
+                font-size: 20px;
+            }
+
+            .notification-title {
+                font-size: 13px;
+            }
+
+            .notification-message {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Notification Container -->
+    <div class="notification-container" id="notificationContainer"></div>
+
+    <div class="admin-container">
+        <div class="admin-form-box">
+            <div class="admin-header">
+                <i class="fas fa-lock"></i>
+                <h1>Admin Portal</h1>
+                <p>Restricted access - authorized personnel only</p>
+            </div>
+
+            <form class="admin-form" id="adminLoginForm">
+                <div class="admin-form-group">
+                    <label for="username">Username</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="username" name="username" placeholder="Enter admin username" required
+                            autocomplete="username">
+                    </div>
+                </div>
+
+                <div class="admin-form-group">
+                    <label for="password">Password</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-key"></i>
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required
+                            autocomplete="current-password">
+                    </div>
+                </div>
+
+                <div class="admin-form-options">
+                    <a href="/admin/forgot-password" class="forgot-password">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="login-btn" id="loginBtn">
+                    <i class="fas fa-spinner spinner"></i>
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+
+                <div class="security-notice">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>This is a secure system. Unauthorized access is prohibited.</span>
+                </div>
+            </form>
+
+            <div class="admin-footer">
+                <p>Need admin access? <a href="/admin/register">Request credentials</a></p>
+                <p class="copyright">&copy; 2023 Your Company. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const elements = {
+            loginForm: document.getElementById('adminLoginForm'),
+            usernameInput: document.getElementById('username'),
+            passwordInput: document.getElementById('password'),
+            loginBtn: document.getElementById('loginBtn'),
+            notificationContainer: document.getElementById('notificationContainer')
+        };
+
+        // Notification System
+        class NotificationSystem {
+            constructor() {
+                this.container = elements.notificationContainer;
+                this.notifications = [];
+                this.autoCloseDelay = 5000;
+            }
+
+            show(title, message, type = 'info', duration = 5000) {
+                const notification = this.createNotification(title, message, type);
+                this.container.appendChild(notification);
+                this.notifications.push(notification);
+
+                const autoRemove = setTimeout(() => {
+                    this.remove(notification);
+                }, duration);
+
+                const closeBtn = notification.querySelector('.notification-close');
+                closeBtn.addEventListener('click', () => {
+                    clearTimeout(autoRemove);
+                    this.remove(notification);
+                });
+
+                return notification;
+            }
+
+            createNotification(title, message, type) {
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+
+                let icon = 'info-circle';
+                switch (type) {
+                    case 'success': icon = 'check-circle'; break;
+                    case 'error': icon = 'exclamation-circle'; break;
+                    case 'warning': icon = 'exclamation-triangle'; break;
+                    case 'info': icon = 'info-circle'; break;
+                }
+
+                notification.innerHTML = `
+                    <i class="fas fa-${icon} notification-icon"></i>
+                    <div class="notification-content">
+                        <div class="notification-title">${title}</div>
+                        <div class="notification-message">${message}</div>
+                    </div>
+                    <button class="notification-close" aria-label="Close notification">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+
+                return notification;
+            }
+
+            remove(notification) {
+                if (!notification.parentNode) return;
+
+                notification.classList.add('fade-out');
+
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        this.container.removeChild(notification);
+                    }
+                    const index = this.notifications.indexOf(notification);
+                    if (index > -1) {
+                        this.notifications.splice(index, 1);
+                    }
+                }, 300);
+            }
+
+            clearAll() {
+                this.notifications.forEach(notification => {
+                    this.remove(notification);
+                });
+            }
+        }
+
+        // Initialize notification system
+        const Notifications = new NotificationSystem();
+
+        // Admin Login Handler
+        class AdminLoginHandler {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                this.checkUrlNotifications();
+                this.setupEventListeners();
+            }
+
+            setupEventListeners() {
+                elements.loginForm.addEventListener('submit', (e) => this.handleLogin(e));
+            }
+
+            async handleLogin(e) {
+                e.preventDefault();
+
+                const username = elements.usernameInput.value.trim();
+                const password = elements.passwordInput.value;
+
+                // Validation
+                if (!username || !password) {
+                    Notifications.show(
+                        'Validation Error',
+                        'Please fill in all fields',
+                        'error'
+                    );
+                    return;
+                }
+
+                // Show loading state
+                this.setLoading(true);
+
+                try {
+                    const response = await fetch('/admin/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ username, password }),
+                        credentials: 'include' // Important for cookies
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok && data.success) {
+                        // Store token in localStorage if provided
+                        if (data.token) {
+                            localStorage.setItem('adminToken', data.token);
+                        }
+
+                        // Show success notification
+                        Notifications.show(
+                            'Login Successful',
+                            data.message || 'Welcome back, Admin!',
+                            'success',
+                            2000
+                        );
+
+                        // Redirect after short delay
+                        setTimeout(() => {
+                            window.location.href = data.redirectUrl || '/admin/dashboard';
+                        }, 1500);
+
+                    } else {
+                        // Handle error response
+                        Notifications.show(
+                            'Login Failed',
+                            data.message || 'Invalid credentials. Please try again.',
+                            'error'
+                        );
+                        this.setLoading(false);
+                    }
+
+                } catch (error) {
+                    console.error('Login error:', error);
+                    Notifications.show(
+                        'Connection Error',
+                        'Unable to connect to the server. Please try again later.',
+                        'error'
+                    );
+                    this.setLoading(false);
+                }
+            }
+
+            setLoading(isLoading) {
+                if (isLoading) {
+                    elements.loginBtn.disabled = true;
+                    elements.loginBtn.classList.add('loading');
+                } else {
+                    elements.loginBtn.disabled = false;
+                    elements.loginBtn.classList.remove('loading');
+                }
+            }
+
+            checkUrlNotifications() {
+                const urlParams = new URLSearchParams(window.location.search);
+
+                if (urlParams.has('verified') && urlParams.get('verified') === 'true') {
+                    Notifications.show(
+                        'Email Verified',
+                        'Email verified successfully! You can now log in.',
+                        'success'
+                    );
+                }
+
+                if (urlParams.has('logout') && urlParams.get('logout') === 'true') {
+                    Notifications.show(
+                        'Logged Out',
+                        'You have been logged out successfully.',
+                        'info'
+                    );
+                }
+
+                if (urlParams.has('session_expired') && urlParams.get('session_expired') === 'true') {
+                    Notifications.show(
+                        'Session Expired',
+                        'Your session has expired. Please log in again.',
+                        'warning'
+                    );
+                }
+
+                if (urlParams.has('registered') && urlParams.get('registered') === 'true') {
+                    Notifications.show(
+                        'Registration Successful',
+                        'Registration successful! Please log in with your credentials.',
+                        'success'
+                    );
+                }
+
+                if (urlParams.has('error')) {
+                    const errorMessage = urlParams.get('error');
+                    Notifications.show(
+                        'Error',
+                        decodeURIComponent(errorMessage),
+                        'error'
+                    );
+                }
+
+                if (urlParams.has('message')) {
+                    const message = urlParams.get('message');
+                    Notifications.show(
+                        'Notice',
+                        decodeURIComponent(message),
+                        'info'
+                    );
+                }
+
+                // Clean up URL parameters after showing notifications
+                if (urlParams.toString()) {
+                    const cleanUrl = window.location.pathname;
+                    window.history.replaceState({}, document.title, cleanUrl);
+                }
+            }
+        }
+
+        // Initialize the login handler when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            new AdminLoginHandler();
+        });
+    </script>
+</body>
+
+</html>

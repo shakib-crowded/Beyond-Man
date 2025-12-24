@@ -1,4 +1,4 @@
-const Blog = require("../Models/blogs");
+const Blog = require("../Models/Blog");
 const TechPath = require("../Models/techPath");
 
 // Helper function to format title
@@ -17,12 +17,14 @@ const generateMetaDescription = (title, customDescription) => {
 };
 
 module.exports.path = async (req, res) => {
+  console.log("This endpoint hits");
+
   try {
     const path = `/path/${req.params.path}`;
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 9;
     const skip = (page - 1) * limit;
-    const languageName = path.split("/")[2];
+    const blogPath = path.split("/")[2];
 
     // Set cache headers
     res.set("Cache-Control", "public, max-age=3600");
@@ -33,7 +35,8 @@ module.exports.path = async (req, res) => {
         console.error("Error fetching tech paths:", err);
         return [];
       }),
-      Blog.find({ languageName })
+      Blog.find({ path: blogPath })
+        .populate("author", "name username")
         .sort({ created_date: -1 })
         .skip(skip)
         .limit(limit)
@@ -42,7 +45,7 @@ module.exports.path = async (req, res) => {
           console.error("Error fetching blogs:", err);
           return [];
         }),
-      Blog.countDocuments({ languageName }).catch((err) => {
+      Blog.countDocuments({ blogPath }).catch((err) => {
         console.error("Error counting blogs:", err);
         return 0;
       }),
@@ -71,15 +74,15 @@ module.exports.path = async (req, res) => {
       formattedTitle,
       languageInfo?.metaDescription
     );
-    const canonicalUrl = `https://beyondman.dev${path}`;
+    const canonicalUrl = `${process.env.BASE_URL}${path}`;
 
     const totalPages = Math.ceil(totalBlogs / limit);
-
     // Prepare response data
     const responseData = {
+      user: req.user || null,
       blog: {},
-      user: req.session.user || null,
       allBlogs: blogs,
+      blogPath,
       meta: {
         title: pageTitle,
         description: pageDescription,
@@ -94,7 +97,6 @@ module.exports.path = async (req, res) => {
       languageInfo: languageInfo || {
         title: formattedTitle,
         description: pageDescription,
-        category: "Programming",
       },
       breadcrumbs: [
         { name: "Home", url: "/" },
@@ -144,9 +146,9 @@ function renderBlogsPartial(data) {
       (blog) => `
     <article class="blog-card">
       <div class="card-image-container">
-          <a href="/${blog.slug}" class="card-image-link" aria-label="Read ${
-        blog.title
-      }">
+          <a href="/${
+            blogPath / blog.slug
+          }" class="card-image-link" aria-label="Read ${blog.title}">
             <img src="/images/admin_BLOGS/${blog.image.filename.replace(
               "admin_BLOGS/",
               ""
@@ -157,16 +159,18 @@ function renderBlogsPartial(data) {
         </div>
         <div class="card-content">
           <h3 class="card-title">
-            <a href="/${blog.slug}">${blog.title}</a>
+            <a href="/${blogPath / blog.slug}">${blog.title}</a>
           </h3>
           <div class="card-meta">
             <div class="meta-author">
-              <a href="/author/${blog.admin}" class="author-link">
+              <a href="/author/${
+                blog.author?.name || "Unknown Author"
+              }" class="author-link">
                 <svg class="meta-icon" viewBox="0 0 24 24" width="16" height="16">
                   <path fill="currentColor"
                     d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" />
                 </svg>
-                ${blog.author || blog.admin}
+                ${blog.author?.username || "Username Didn't Find!"}
               </a>
             </div>
             <div class="meta-date">

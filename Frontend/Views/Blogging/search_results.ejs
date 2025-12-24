@@ -1,0 +1,630 @@
+<% layout("../Layouts/boilerplate") %>
+
+    <main class="search-results-container">
+        <!-- Results Header -->
+        <header class="results-header">
+            <h1 class="results-title">
+
+                <% if (blogMeta.searchTerm && blogMeta.searchTerm.length> 0) { %>
+                    Search Results for "<%= blogMeta.searchTerm %>"
+                        <% } else { %>
+                            All Articles
+                            <% } %>
+            </h1>
+
+            <% if (data && data.length> 0) { %>
+                <p class="results-count">
+                    Showing <%= Math.min(blogMeta.pagination.limit, data.length) %> of <%=
+                            blogMeta.pagination.totalResults %>
+                            result<%= blogMeta.pagination.totalResults !==1 ? 's' : '' %>
+                                <% if (blogMeta.pagination.currentPage> 1) { %>
+                                    (Page <%= blogMeta.pagination.currentPage %> of <%= blogMeta.pagination.totalPages
+                                            %>)
+                                            <% } %>
+                </p>
+                <% } %>
+        </header>
+
+
+
+        <!-- Results Grid -->
+        <% if (data && data.length> 0) { %>
+            <section class="search-results-grid">
+                <% for (let blog of data) { %>
+                    <article class="result-card">
+                        <div class="card-image-wrapper">
+                            <a href="/<%= blog.path %>/<%= blog.slug %>" aria-label="Read '<%= blog.title %>'">
+                                <% if (blog.image && blog.image.filename) { %>
+                                    <img src="/images/admin_BLOGS/<%= blog.image.filename.replace('admin_BLOGS/', '') %>"
+                                        alt="<%= blog.image.alt || blog.title %>" loading="lazy" class="card-image"
+                                        width="280" height="157">
+                                    <% } else { %>
+                                        <div class="card-image-placeholder">
+                                            <svg viewBox="0 0 24 24" width="48" height="48">
+                                                <path fill="#6B7280"
+                                                    d="M21,3H3C1.9,3 1,3.9 1,5V19C1,20.1 1.9,21 3,21H21C22.1,21 23,20.1 23,19V5C23,3.9 22.1,3 21,3M21,19H3V5H21M5,7H9C9.55,7 10,7.45 10,8V16C10,16.55 9.55,17 9,17H5C4.45,17 4,16.55 4,16V8C4,7.45 4.45,7 5,7M6,9V15H8V9M10,10H14V11H10M15,7H19C19.55,7 20,7.45 20,8V16C20,16.55 19.55,17 19,17H15C14.45,17 14,16.55 14,16V8C14,7.45 14.45,7 15,7M16,9V15H18V9M10,13H14V14H10V13Z" />
+                                            </svg>
+                                        </div>
+                                        <% } %>
+                                            <div class="image-overlay"></div>
+                            </a>
+                        </div>
+
+                        <div class="card-content">
+                            <h3 class="card-title">
+                                <a href="/<%=blog.path%>/<%= blog.slug %>">
+                                    <%= blog.title %>
+                                </a>
+                            </h3>
+
+                            <% if (blog.description) { %>
+                                <p class="card-description">
+                                    <%= blog.description.substring(0, 120) %>
+                                        <%= blog.description.length> 120 ? '...' : '' %>
+                                </p>
+                                <% } %>
+
+                                    <div class="card-meta">
+                                        <div class="meta-item author">
+                                            <a href="/author/<%= blog.author.username || blog.author._id %>">
+                                                <svg class="meta-icon" viewBox="0 0 24 24" width="16" height="16">
+                                                    <path fill="currentColor"
+                                                        d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" />
+                                                </svg>
+                                                <%= blog.author.name || 'Unknown Author' %>
+                                            </a>
+                                        </div>
+
+                                        <div class="meta-item date">
+                                            <svg class="meta-icon" viewBox="0 0 24 24" width="16" height="16">
+                                                <path fill="currentColor"
+                                                    d="M19,19H5V8H19M16,1V3H8V1H6V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3H18V1M17,12H12V17H17V12Z" />
+                                            </svg>
+                                            <time datetime="<%= new Date(blog.created_date).toISOString() %>">
+                                                <%= new Date(blog.created_date).toLocaleDateString('en-US', {
+                                                    year: 'numeric' , month: 'short' , day: 'numeric' }) %>
+                                            </time>
+                                        </div>
+
+
+                                    </div>
+
+                                    <% if (blog.tags && blog.tags.length> 0) { %>
+                                        <div class="card-tags">
+                                            <% for (let tag of blog.tags.slice(0, 3)) { %>
+                                                <span class="tag">
+                                                    <%= tag %>
+                                                </span>
+                                                <% } %>
+                                                    <% if (blog.tags.length> 3) { %>
+                                                        <span class="tag-more">+<%= blog.tags.length - 3 %> more</span>
+                                                        <% } %>
+                                        </div>
+                                        <% } %>
+                        </div>
+                    </article>
+                    <% } %>
+            </section>
+
+            <!-- Pagination -->
+            <% if (blogMeta.pagination.totalPages> 1) { %>
+                <nav class="pagination-wrapper" aria-label="Search results pagination">
+                    <ul class="pagination-list">
+                        <!-- Previous Page -->
+                        <% if (blogMeta.pagination.hasPrevPage) { %>
+                            <li>
+                                <a href="?q=<%= encodeURIComponent(blogMeta.searchTerm || '') %>&page=<%= blogMeta.pagination.currentPage - 1 %>&limit=<%= blogMeta.pagination.limit %>"
+                                    class="pagination-link prev" aria-label="Previous page">
+                                    <svg viewBox="0 0 24 24" width="16" height="16">
+                                        <path fill="currentColor"
+                                            d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" />
+                                    </svg>
+                                    Previous
+                                </a>
+                            </li>
+                            <% } %>
+
+                                <!-- Page Numbers -->
+                                <% const startPage=Math.max(1, blogMeta.pagination.currentPage - 2); const
+                                    endPage=Math.min(blogMeta.pagination.totalPages, blogMeta.pagination.currentPage +
+                                    2); %>
+
+                                    <% if (startPage> 1) { %>
+                                        <li>
+                                            <a href="?q=<%= encodeURIComponent(blogMeta.searchTerm || '') %>&page=1&limit=<%= blogMeta.pagination.limit %>"
+                                                class="pagination-link">
+                                                1
+                                            </a>
+                                        </li>
+                                        <% if (startPage> 2) { %>
+                                            <li class="pagination-ellipsis" aria-hidden="true">...</li>
+                                            <% } %>
+                                                <% } %>
+
+                                                    <% for (let i=startPage; i <=endPage; i++) { %>
+                                                        <li>
+                                                            <% if (i===blogMeta.pagination.currentPage) { %>
+                                                                <span class="pagination-link current"
+                                                                    aria-current="page">
+                                                                    <%= i %>
+                                                                </span>
+                                                                <% } else { %>
+                                                                    <a href="?q=<%= encodeURIComponent(blogMeta.searchTerm || '') %>&page=<%= i %>&limit=<%= blogMeta.pagination.limit %>"
+                                                                        class="pagination-link">
+                                                                        <%= i %>
+                                                                    </a>
+                                                                    <% } %>
+                                                        </li>
+                                                        <% } %>
+
+                                                            <% if (endPage < blogMeta.pagination.totalPages) { %>
+                                                                <% if (endPage < blogMeta.pagination.totalPages - 1) {
+                                                                    %>
+                                                                    <li class="pagination-ellipsis" aria-hidden="true">
+                                                                        ...</li>
+                                                                    <% } %>
+                                                                        <li>
+                                                                            <a href="?q=<%= encodeURIComponent(blogMeta.searchTerm || '') %>&page=<%= blogMeta.pagination.totalPages %>&limit=<%= blogMeta.pagination.limit %>"
+                                                                                class="pagination-link">
+                                                                                <%= blogMeta.pagination.totalPages %>
+                                                                            </a>
+                                                                        </li>
+                                                                        <% } %>
+
+                                                                            <!-- Next Page -->
+                                                                            <% if (blogMeta.pagination.hasNextPage) { %>
+                                                                                <li>
+                                                                                    <a href="?q=<%= encodeURIComponent(blogMeta.searchTerm || '') %>&page=<%= blogMeta.pagination.currentPage + 1 %>&limit=<%= blogMeta.pagination.limit %>"
+                                                                                        class="pagination-link next"
+                                                                                        aria-label="Next page">
+                                                                                        Next
+                                                                                        <svg viewBox="0 0 24 24"
+                                                                                            width="16" height="16">
+                                                                                            <path fill="currentColor"
+                                                                                                d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
+                                                                                        </svg>
+                                                                                    </a>
+                                                                                </li>
+                                                                                <% } %>
+                    </ul>
+
+                    <div class="pagination-info">
+                        Page <%= blogMeta.pagination.currentPage %> of <%= blogMeta.pagination.totalPages %>
+                    </div>
+                </nav>
+                <% } %>
+
+
+                    <% } else { %>
+                        <!-- No Results -->
+                        <section class="no-results-section">
+                            <div class="no-results-illustration">
+                                <svg viewBox="0 0 24 24" width="80" height="80" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill="#DC2626"
+                                        d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2z" />
+
+                                    <path fill="#FFFFFF"
+                                        d="M15.59 7L12 10.59L8.41 7L7 8.41L10.59 12L7 15.59L8.41 17L12 13.41L15.59 17L17 15.59L13.41 12L17 8.41L15.59 7z" />
+                                </svg>
+
+                            </div>
+
+                            <h1 class="no-results-title">
+                                <% if (blogMeta.searchTerm && blogMeta.searchTerm.length> 0) { %>
+                                    No Results Found for "<%= blogMeta.searchTerm %>"
+                                        <% } else { %>
+                                            No Blog Posts Available
+                                            <% } %>
+                            </h1>
+
+                            <p class="no-results-subtitle">
+                                <% if (blogMeta.searchTerm && blogMeta.searchTerm.length> 0) { %>
+                                    We couldn't find any matching articles with your query
+                                    <% } else { %>
+                                        There are no published blog posts yet
+                                        <% } %>
+                            </p>
+
+
+
+                        </section>
+                        <% } %>
+    </main>
+
+    <style>
+        .search-results-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            min-height: 70vh;
+        }
+
+        .results-header {
+            text-align: center;
+        }
+
+        .results-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .results-count {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+
+        .search-filters {
+            margin-bottom: 1.5rem;
+        }
+
+        .active-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .filter-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            background-color: #e5e7eb;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+        }
+
+        .remove-filter {
+            color: #6b7280;
+            text-decoration: none;
+            font-size: 1.25rem;
+            line-height: 1;
+        }
+
+        .remove-filter:hover {
+            color: #ef4444;
+        }
+
+        .search-results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .result-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .result-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-image-wrapper {
+            position: relative;
+            padding-top: 56.25%;
+            overflow: hidden;
+            background-color: #f3f4f6;
+        }
+
+        .card-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card-image-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #e5e7eb;
+        }
+
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.3), transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .result-card:hover .image-overlay {
+            opacity: 1;
+        }
+
+        .result-card:hover .card-image {
+            transform: scale(1.05);
+        }
+
+        .card-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+            color: #1f2937;
+        }
+
+        .card-title a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .card-title a:hover {
+            color: #3b82f6;
+        }
+
+        .card-description {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+
+        .card-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-bottom: 1rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+        }
+
+        .meta-icon {
+            flex-shrink: 0;
+        }
+
+        .meta-item a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .meta-item a:hover {
+            color: #3b82f6;
+        }
+
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.375rem;
+            margin-top: auto;
+        }
+
+        .tag {
+            font-size: 0.75rem;
+            padding: 0.125rem 0.5rem;
+            background-color: #e5e7eb;
+            border-radius: 9999px;
+            color: #4b5563;
+        }
+
+        .tag-more {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            align-self: center;
+        }
+
+        /* Pagination Styles */
+        .pagination-wrapper {
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .pagination-list {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1rem;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .pagination-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 2.5rem;
+            height: 2.5rem;
+            padding: 0 0.75rem;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #4b5563;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .pagination-link:hover {
+            background-color: #f3f4f6;
+            color: #1f2937;
+            border-color: #d1d5db;
+        }
+
+        .pagination-link.current {
+            background-color: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+
+        .pagination-link.prev,
+        .pagination-link.next {
+            gap: 0.5rem;
+        }
+
+        .pagination-ellipsis {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            color: #9ca3af;
+        }
+
+        .pagination-info {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        /* No Results Styles */
+        .no-results-section {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .no-results-illustration {
+            margin-bottom: 1.5rem;
+        }
+
+        .no-results-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .no-results-subtitle {
+            font-size: 1.125rem;
+            color: #6b7280;
+        }
+
+        .no-results-message {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .no-results-message p {
+            margin-bottom: 1rem;
+            color: #4b5563;
+            line-height: 1.5;
+        }
+
+        .no-results-message ul {
+            padding-left: 1.5rem;
+            color: #4b5563;
+            line-height: 1.6;
+        }
+
+        .no-results-message li {
+            margin-bottom: 0.5rem;
+        }
+
+        .no-results-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .action-btn.primary {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .action-btn.primary:hover {
+            background-color: #2563eb;
+            transform: translateY(-1px);
+        }
+
+        .action-btn.secondary {
+            border: 1px solid #d1d5db;
+            color: #4b5563;
+        }
+
+        .action-btn.secondary:hover {
+            background-color: #f3f4f6;
+            border-color: #9ca3af;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .search-results-container {
+                padding: 1rem;
+            }
+
+            .results-title {
+                font-size: 1.5rem;
+            }
+
+            .search-results-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .pagination-list {
+                gap: 0.25rem;
+            }
+
+            .pagination-link {
+                min-width: 2.25rem;
+                height: 2.25rem;
+                padding: 0 0.5rem;
+                font-size: 0.875rem;
+            }
+
+            .no-results-actions {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>

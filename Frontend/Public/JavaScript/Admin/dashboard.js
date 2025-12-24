@@ -17,13 +17,13 @@ document.addEventListener("DOMContentLoaded", function () {
   cancelButton.addEventListener("click", hideLogOutCard);
 
   // Logout functionality - replace with your actual logout logic
-  logoutButton.addEventListener("click", function () {
+  logoutButton.addEventListener("click", function (e) {
     // Here you would typically:
     // 1. Send a request to your server to invalidate the session
     // 2. Redirect to the login page or home page
 
     // Example:
-    fetch("/logout", {
+    fetch("/admin/logout", {
       method: "POST",
       credentials: "include",
     })

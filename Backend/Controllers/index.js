@@ -1,4 +1,4 @@
-const Blog = require("../Models/blogs");
+const Blog = require("../Models/Blog");
 const Contact = require("../Models/contacts");
 const TechPath = require("../Models/techPath");
 const Course = require("../Models/courses");
@@ -40,8 +40,8 @@ module.exports.home = async (req, res) => {
     // Regular page load
     const blog = {};
     res.render("index.ejs", {
+      user: req.user,
       blog,
-      user: req.session.user || null,
       allBlogs: blogs,
       meta,
       totalPages,
@@ -50,17 +50,24 @@ module.exports.home = async (req, res) => {
       categories,
       courses,
     });
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error(error);
+    if (req.accepts("html")) {
+      res.status(500).render("error.ejs", {
+        message: "An error occurred on home. Please try again.",
+        error: process.env.NODE_ENV === "development" ? error : {},
+      });
+    }
     res.status(500).send("Server Error");
   }
 };
+
 module.exports.courses = (req, res) => {
   const meta = {
     title: "Beyond Man | Courses",
   };
   const blog = {};
-  res.render("courses", { user: req.session.user, meta, blog });
+  res.render("courses", { user: req.user || null, meta, blog });
 };
 
 module.exports.about = (req, res) => {
@@ -68,29 +75,61 @@ module.exports.about = (req, res) => {
     title: "Beyond Man | About Us",
   };
   const blog = {};
-  res.render("about", { user: req.session.user, meta, blog });
+  res.render("about", { user: req.user || null, meta, blog });
 };
-
-// module.exports.contact = (req, res) => {
-//   const meta = {
-//     title: "Beyond Man | Contact Us",
-//   };
-//   const blog = {};
-//   res.render("contact", { user: req.session.user, meta, blog });
-// };
 
 module.exports.contactPage = (req, res) => {
   const meta = {
     title: "Beyond Man | Contact Us",
   };
   const blog = {};
-  res.render("contact", { user: req.session.user, meta, blog });
-  // res.render("contact", { user: req.session.user });
+  res.render("contact", { user: req.user || null, meta, blog });
+};
+
+module.exports.submitQueryForm = async (req, res) => {
+  try {
+    const { subject, message } = req.body;
+
+    const newContactQuery = new Contact({
+      subject,
+      message,
+      userId: req.user._id,
+    });
+
+    await newContactQuery.save();
+    res.status(201).json({
+      success: true,
+      message: "We’ve received your request successfully.",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).render("error.ejs", {
+      success: false,
+      message:
+        "An error occurred while Submitting your query. Please try again.",
+      error: process.env.NODE_ENV === "development" ? error : {},
+    });
+  }
+};
+
+module.exports.privacyAndPolicy = (req, res) => {
+  const meta = {
+    title: "Beyond Man | Privacy Policy",
+  };
+  res.render("privacy_policy", { meta });
+};
+
+module.exports.termsAndConditions = (req, res) => {
+  const meta = {
+    title: "Beyond Man | Terms and Conditions",
+  };
+  res.render("terms_and_conditions", { meta });
 };
 
 module.exports.sitemap = async (req, res) => {
   try {
     const blogs = await Blog.find();
+    Blog.find;
 
     // Static pages
     const staticUrls = [
@@ -205,49 +244,4 @@ module.exports.sitemap = async (req, res) => {
     console.error("Sitemap generation error:", error);
     res.status(500).send("Could not generate sitemap");
   }
-};
-
-module.exports.submitQueryForm = async (req, res) => {
-  try {
-    const { subject, message } = req.body;
-
-    const newContactQuery = new Contact({
-      subject,
-      message,
-      userId: req.user._id,
-    });
-    await newContactQuery.save();
-
-    req.flash("success", "Message sent successfully!");
-    res.redirect("/contact"); // Redirect to the contact page (or any desired route)
-  } catch (error) {
-    console.error(error);
-    // Contact validation failed: subject: Path `subject` is required., message: Path `message` is required
-
-    // Path `subject` is required. Path `message` is required.
-    if (error.name === "ValidationError") {
-      const messages = Object.values(error.errors).map((err) =>
-        err.message.replace("Path ", "").replace(/`/g, "")
-      );
-      req.flash("error", messages.join(`\n`));
-    } else {
-      req.flash("error", error.message);
-    }
-
-    res.redirect("/contact"); // Redirect back to show the error message
-  }
-};
-
-module.exports.privacyAndPolicy = (req, res) => {
-  const meta = {
-    title: "Beyond Man | Privacy Policy",
-  };
-  res.render("privacy_policy", { user: req.session.user, meta });
-};
-
-module.exports.termsAndConditions = (req, res) => {
-  const meta = {
-    title: "Beyond Man | Terms and Conditions",
-  };
-  res.render("terms_and_conditions", { user: req.session.user, meta });
 };

@@ -1,0 +1,697 @@
+<% layout("../Layouts/boilerplate") %>
+    <style>
+        /* Notification System Styles (same as signup page) */
+        .notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 350px;
+        }
+
+        .notification {
+            padding: 16px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideIn 0.3s ease-out;
+            transform: translateX(0);
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+            opacity: 1;
+            backdrop-filter: blur(10px);
+        }
+
+        .notification.fade-out {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+
+        .notification.success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border-left: 4px solid #047857;
+        }
+
+        .notification.error {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            border-left: 4px solid #b91c1c;
+        }
+
+        .notification.info {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            border-left: 4px solid #1e40af;
+        }
+
+        .notification.warning {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            border-left: 4px solid #b45309;
+        }
+
+        .notification-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .notification-message {
+            font-size: 13px;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            padding: 4px;
+            font-size: 14px;
+            transition: color 0.2s;
+            flex-shrink: 0;
+        }
+
+        .notification-close:hover {
+            color: white;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Email Verification Page Styles */
+        .email-verify-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            padding: 20px;
+            background-color: #f4f4f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .email-verify-container .container {
+            text-align: center;
+            background-color: #ffffff;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            width: 90%;
+            max-width: 420px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .email-verify-container h1 {
+            font-size: 1.75rem;
+            color: #2d3748;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .email-verify-container p {
+            font-size: 1rem;
+            color: #4a5568;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .email-verify-container .email {
+            font-weight: 600;
+            color: #4361ee;
+            word-break: break-all;
+        }
+
+        .email-verify-container .icon {
+            font-size: 3.5rem;
+            color: #4361ee;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .otp-input {
+            width: 100%;
+            padding: 0.9rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            letter-spacing: 8px;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            outline: none;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+            background: #f8fafc;
+        }
+
+        .otp-input:focus {
+            border-color: #4361ee;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+            background: white;
+        }
+
+        .otp-input::placeholder {
+            color: #a0aec0;
+            letter-spacing: 4px;
+        }
+
+        .verify-form {
+            margin-bottom: 1.5rem;
+        }
+
+        .submit-btn {
+            padding: 0.9rem 2rem;
+            background: linear-gradient(135deg, #4361ee 0%, #3a56d4 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #3a56d4 0%, #3046b9 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            background: #a0aec0;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .resend {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: #718096;
+        }
+
+        .resend a {
+            color: #4361ee;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .resend a:hover {
+            color: #3a56d4;
+            text-decoration: underline;
+        }
+
+        .back-btn {
+            padding: 0.8rem 1.5rem;
+            background: #718096;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-btn:hover {
+            background: #4a5568;
+            transform: translateY(-1px);
+        }
+
+        .timer {
+            color: #e53e3e;
+            font-weight: 600;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .notification-container {
+                top: 10px;
+                right: 10px;
+                left: 10px;
+                max-width: none;
+            }
+
+            .notification {
+                width: 100%;
+            }
+
+            .email-verify-container {
+                padding: 10px;
+            }
+
+            .email-verify-container .container {
+                padding: 1.5rem;
+            }
+
+            .email-verify-container h1 {
+                font-size: 1.5rem;
+            }
+
+            .otp-input {
+                font-size: 1.1rem;
+                padding: 0.8rem;
+            }
+        }
+    </style>
+
+    <body>
+        <!-- Notification Container -->
+        <div class="notification-container" id="notificationContainer"></div>
+
+        <div class="email-verify-container">
+            <div class="container">
+                <div class="icon">🔐</div>
+                <h1>Verify Your Email</h1>
+
+                <p>We've sent a 6-digit verification code to<br><span class="email">
+                        <%= email %>
+                    </span></p>
+
+                <form class="verify-form" id="verifyForm" action="/verify-otp" method="POST">
+                    <input type="hidden" name="email" value="<%= email %>">
+
+                    <input type="text" maxlength="6" class="otp-input" name="otp" placeholder="______" required
+                        autocomplete="one-time-code" inputmode="numeric" pattern="\d{6}" title="Enter 6-digit OTP">
+
+                    <button type="submit" id="submitBtn" class="submit-btn">
+                        <span class="btn-text">Verify OTP</span>
+                        <span class="btn-loader" style="display: none;">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </span>
+                    </button>
+                </form>
+
+                <div class="resend">
+                    <p>Didn't receive the code?
+                        <a href="/resend-otp" id="resendLink">Resend OTP</a>
+                        <span id="timer" class="timer" style="display: none;"></span>
+                    </p>
+                </div>
+
+                <br>
+                <a href="/register" class="back-btn">
+                    Change Email Address
+                </a>
+            </div>
+        </div>
+
+        <script>
+            // Notification System
+            class NotificationSystem {
+                constructor() {
+                    this.container = document.getElementById('notificationContainer');
+                    this.notifications = [];
+                    this.autoCloseDelay = 5000;
+                }
+
+                show(title, message, type = 'info', duration = 5000) {
+                    const notification = this.createNotification(title, message, type);
+                    this.container.appendChild(notification);
+                    this.notifications.push(notification);
+
+                    const autoRemove = setTimeout(() => {
+                        this.remove(notification);
+                    }, duration);
+
+                    const closeBtn = notification.querySelector('.notification-close');
+                    closeBtn.addEventListener('click', () => {
+                        clearTimeout(autoRemove);
+                        this.remove(notification);
+                    });
+
+                    return notification;
+                }
+
+                createNotification(title, message, type) {
+                    const notification = document.createElement('div');
+                    notification.className = `notification ${type}`;
+
+                    let icon = 'info-circle';
+                    switch (type) {
+                        case 'success': icon = 'check-circle'; break;
+                        case 'error': icon = 'exclamation-circle'; break;
+                        case 'warning': icon = 'exclamation-triangle'; break;
+                        case 'info': icon = 'info-circle'; break;
+                    }
+
+                    notification.innerHTML = `
+                    <i class="fas fa-${icon} notification-icon"></i>
+                    <div class="notification-content">
+                        <div class="notification-title">${title}</div>
+                        <div class="notification-message">${message}</div>
+                    </div>
+                    <button class="notification-close" aria-label="Close notification">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+
+                    return notification;
+                }
+
+                remove(notification) {
+                    if (!notification.parentNode) return;
+
+                    notification.classList.add('fade-out');
+
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            this.container.removeChild(notification);
+                        }
+                        const index = this.notifications.indexOf(notification);
+                        if (index > -1) {
+                            this.notifications.splice(index, 1);
+                        }
+                    }, 300);
+                }
+
+                clearAll() {
+                    this.notifications.forEach(notification => {
+                        this.remove(notification);
+                    });
+                }
+            }
+
+            // Initialize notification system
+            const Notifications = new NotificationSystem();
+
+            // UI Helper Functions
+            const UI = {
+                showNotification(message, type = 'info') {
+                    const titles = {
+                        success: 'Success!',
+                        error: 'Error!',
+                        warning: 'Warning!',
+                        info: 'Notice'
+                    };
+
+                    Notifications.show(titles[type] || titles.info, message, type);
+                },
+
+                setLoadingState(loading) {
+                    const submitBtn = document.getElementById('submitBtn');
+                    const btnText = submitBtn.querySelector('.btn-text');
+                    const btnLoader = submitBtn.querySelector('.btn-loader');
+
+                    if (loading) {
+                        submitBtn.disabled = true;
+                        btnText.style.display = 'none';
+                        btnLoader.style.display = 'inline-block';
+                    } else {
+                        submitBtn.disabled = false;
+                        btnText.style.display = 'inline-block';
+                        btnLoader.style.display = 'none';
+                    }
+                }
+            };
+
+            // Handle form submission with AJAX
+            document.getElementById('verifyForm').addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                const formData = new FormData(this);
+                const otp = formData.get('otp').trim();
+
+                // Basic OTP validation
+                if (!otp || otp.length !== 6 || !/^\d{6}$/.test(otp)) {
+                    UI.showNotification('Please enter a valid 6-digit OTP', 'error');
+                    return;
+                }
+
+                UI.setLoadingState(true);
+
+                try {
+                    const response = await fetch('/verify-otp', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            email: formData.get('email'),
+                            otp: otp
+                        })
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        UI.showNotification(result.message || 'Email verified successfully!', 'success');
+
+                        // Redirect to login or dashboard after success
+                        setTimeout(() => {
+                            window.location.href = '/login?verified=true';
+                        }, 2000);
+                    } else {
+                        UI.showNotification(result.message || 'Verification failed', 'error');
+                        UI.setLoadingState(false);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    UI.showNotification('Network error. Please try again.', 'error');
+                    UI.setLoadingState(false);
+                }
+            });
+
+            // Auto-focus OTP input
+            document.querySelector('.otp-input').focus();
+
+            // Auto move between OTP digits (optional enhancement)
+            const otpInput = document.querySelector('.otp-input');
+            otpInput.addEventListener('input', function (e) {
+                if (this.value.length === 6) {
+                    document.getElementById('submitBtn').focus();
+                }
+            });
+
+            // Handle OTP paste
+            otpInput.addEventListener('paste', (e) => {
+                e.preventDefault();
+                const pastedData = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
+                otpInput.value = pastedData;
+
+                if (pastedData.length === 6) {
+                    document.getElementById('submitBtn').focus();
+                }
+            });
+
+            (() => {
+                const COOLDOWN = 5; // seconds
+                let remaining = 0;
+                let intervalId = null;
+
+                const resendLink = document.getElementById('resendLink');
+                const timerElement = document.getElementById('timer');
+
+                function setLinkDisabled(disabled) {
+                    if (disabled) {
+                        resendLink.setAttribute('aria-disabled', 'true');
+                        resendLink.style.pointerEvents = 'none';
+                        resendLink.style.opacity = '0.6';
+                    } else {
+                        resendLink.removeAttribute('aria-disabled');
+                        resendLink.style.pointerEvents = 'auto';
+                        resendLink.style.opacity = '1';
+                    }
+                }
+
+                function updateTimerUI() {
+                    if (remaining > 0) {
+                        timerElement.style.display = 'inline';
+                        timerElement.textContent = ` (${remaining}s)`;
+                    } else {
+                        timerElement.style.display = 'none';
+                        timerElement.textContent = '';
+                    }
+                }
+
+                function startResendTimer(seconds = COOLDOWN) {
+                    // clear any existing interval
+                    if (intervalId) {
+                        clearInterval(intervalId);
+                        intervalId = null;
+                    }
+
+                    remaining = seconds;
+                    setLinkDisabled(true);
+                    updateTimerUI();
+
+                    intervalId = setInterval(() => {
+                        remaining--;
+                        updateTimerUI();
+
+                        if (remaining <= 0) {
+                            clearInterval(intervalId);
+                            intervalId = null;
+                            setLinkDisabled(false);
+                        }
+                    }, 1000);
+                }
+
+                // click handler
+                resendLink.addEventListener('click', async function (e) {
+                    e.preventDefault();
+
+                    // if cooling down, ignore click
+                    if (remaining > 0 || resendLink.getAttribute('aria-disabled') === 'true') {
+                        return;
+                    }
+
+                    // get email from query string or an input on the page
+                    const email = new URLSearchParams(window.location.search).get('email') ||
+                        (document.querySelector('input[name="email"]') || {}).value;
+
+                    if (!email) {
+                        // fallback notification if email not found
+                        if (window.UI && typeof UI.showNotification === 'function') {
+                            UI.showNotification('Email not found. Please provide your email.', 'error');
+                        } else {
+                            alert('Email not found. Please provide your email.');
+                        }
+                        return;
+                    }
+
+                    try {
+                        // immediately start cooldown to avoid double submits (optional)
+                        startResendTimer();
+
+                        const response = await fetch('/resend-otp', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ email })
+                        });
+
+                        const result = await response.json();
+
+                        if (result && result.success) {
+                            if (window.UI && typeof UI.showNotification === 'function') {
+                                UI.showNotification('New OTP sent to your email', 'success');
+                            } else {
+                                alert('New OTP sent to your email');
+                            }
+                            // restart timer (ensures full cooldown after success)
+                            startResendTimer(COOLDOWN);
+                        } else {
+                            // stop the timer so user can try again quickly (or optionally keep cooldown)
+                            if (intervalId) {
+                                clearInterval(intervalId);
+                                intervalId = null;
+                            }
+                            setLinkDisabled(false);
+                            updateTimerUI();
+
+                            const msg = (result && result.message) ? result.message : 'Failed to resend OTP';
+                            if (window.UI && typeof UI.showNotification === 'function') {
+                                UI.showNotification(msg, 'error');
+                            } else {
+                                alert(msg);
+                            }
+                        }
+                    } catch (error) {
+                        // network error: cancel cooldown so user can retry quickly
+                        if (intervalId) {
+                            clearInterval(intervalId);
+                            intervalId = null;
+                        }
+                        setLinkDisabled(false);
+                        updateTimerUI();
+
+                        if (window.UI && typeof UI.showNotification === 'function') {
+                            UI.showNotification('Network error. Please try again.', 'error');
+                        } else {
+                            alert('Network error. Please try again.');
+                        }
+                        console.error('Resend OTP error:', error);
+                    }
+                });
+
+                // Start cooldown on page load (so user must wait initial 5s before sending)
+                startResendTimer(COOLDOWN);
+
+                // Show notifications if URL params present
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.has('resent')) {
+                    if (window.UI && typeof UI.showNotification === 'function') {
+                        UI.showNotification('OTP resent successfully! Check your email.', 'success');
+                    } else {
+                        alert('OTP resent successfully! Check your email.');
+                    }
+                }
+                if (urlParams.has('error')) {
+                    const err = urlParams.get('error');
+                    if (window.UI && typeof UI.showNotification === 'function') {
+                        UI.showNotification(err, 'error');
+                    } else {
+                        alert(err);
+                    }
+                }
+            })();
+
+
+            // Check for URL parameters to show messages
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('resent')) {
+                UI.showNotification('OTP resent successfully! Check your email.', 'success');
+            }
+            if (urlParams.has('error')) {
+                UI.showNotification(urlParams.get('error'), 'error');
+            }
+        </script>
+    </body>

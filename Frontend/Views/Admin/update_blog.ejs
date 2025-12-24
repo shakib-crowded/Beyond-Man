@@ -32,7 +32,7 @@
         <header class="admin-header">
             <h1>Update Blog Post</h1>
             <nav class="admin-nav">
-                <a href="/admin/read" class="btn btn-outline">
+                <a href="/admin/reads" class="btn btn-outline">
                     <i class="fas fa-arrow-left"></i> Back to Blogs
                 </a>
             </nav>
@@ -45,9 +45,9 @@
                     <h2 class="section-title">Basic Information</h2>
 
                     <div class="form-group">
-                        <label for="languageName" class="required">Language Name</label>
-                        <input type="text" id="languageName" name="languageName" placeholder="e.g., JavaScript, Python"
-                            value="<%= blog.languageName %>" required>
+                        <label for="path" class="required">Language Name</label>
+                        <input type="text" id="path" name="path" placeholder="e.g., JavaScript, Python"
+                            value="<%= blog.path %>" required>
                     </div>
 
                     <div class="form-group">
@@ -127,30 +127,6 @@
 
                 <div class="form-section">
                     <h2 class="section-title">Additional Information</h2>
-
-                    <div class="form-group">
-                        <label for="author">Author Name</label>
-                        <input type="text" id="author" name="author" placeholder="Your name or pseudonym"
-                            value="<%= blog.author %>" maxlength="40">
-                        <div class="char-counter" id="charAuthorCount">
-                            <%= blog.author ? blog.author.length : 0 %>/40 characters
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="category" class="required">Category</label>
-                        <select id="category" name="category" required>
-                            <option value="<%= blog.category %>">
-                                <%= blog.category %>
-                            </option>
-                            <option value="Programming">Programming</option>
-                            <option value="Web-Development">Web Development</option>
-                            <option value="Android-Development">Android Development</option>
-                            <option value="AI-ML">AI and ML</option>
-                            <option value="Software-Development">Software Development</option>
-                            <option value="Technology">Technology</option>
-                        </select>
-                    </div>
 
                     <div class="form-group">
                         <label for="tags">Tags</label>

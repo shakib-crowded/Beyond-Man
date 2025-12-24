@@ -1,0 +1,1743 @@
+<% layout("../Layouts/boilerplate.ejs") %>
+
+    <body>
+        <div class="single-blog-container">
+            <!-- Blog Title -->
+            <div class="blog-title">
+                <h1>
+                    <%= blog.title %>
+                </h1>
+            </div>
+
+
+            <!-- Blog Meta Info -->
+            <div class="blog-meta">
+                By <strong>
+
+                    <%= blog.author.name %>
+
+                </strong> | Date: <span style="color: #4361ee;">
+                    <%= new Date(blog.created_date).toLocaleDateString('en-US', { weekday: 'short' , year: 'numeric' ,
+                        month: 'short' , day: 'numeric' }) %>
+                </span>
+            </div>
+
+            <!-- Blog Image -->
+
+            <!-- Blog Content -->
+            <div class="blog-content">
+                <%- blog.content %>
+
+            </div>
+
+            <!-- About Author Section -->
+            <div class="author-section">
+                <div class="about-author">About the Author</div>
+                <p class="author-description">
+
+                    <strong>
+                        <%=blog.author.profile.about_admin%>
+                    </strong>
+                </p>
+                <div class="author-name">
+                    <a target="_blank" href=/author/<%=blog.author.username %> style="text-decoration: none; color:
+                        #4361ee;"
+                        tar>
+                        <%= blog.author.name%>
+                    </a>
+                </div>
+            </div>
+
+
+            <div class="tag-list">
+                <strong>
+                    <% if (blog.tags && blog.tags.length> 0) { %>
+                        <% for (let tag of blog.tags) { %>
+                            <span class="tag">
+                                <a aria-label="Tags" style="color: white;text-decoration: none;"
+                                    href="/search/?search=<%= tag %>" target="_blank">
+                                    <%= tag %>
+                                </a>
+                            </span>
+                            <% } %>
+                                <% } else { %>
+                                    <span>No tags available</span>
+                                    <% } %>
+                </strong>
+            </div>
+
+            <div class="share-icons">
+                <a href="" class="share-link" data-platform="whatsapp" style="text-decoration: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="32px" height="32px"
+                        fill-rule="evenodd" clip-rule="evenodd">
+                        <linearGradient id="k87TA_gnBJ8uBlK4qfs8ia" x1="6.718" x2="35.097" y1="12.801" y2="41.18"
+                            gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="#dfe9f2" />
+                            <stop offset=".391" stop-color="#d6e0e9" />
+                            <stop offset="1" stop-color="#bfc8d1" />
+                        </linearGradient>
+                        <path fill="url(#k87TA_gnBJ8uBlK4qfs8ia)"
+                            d="M37.848,9.86C34.073,6.083,29.052,4.002,23.709,4C12.693,4,3.727,12.962,3.722,23.979	c-0.001,3.367,0.849,6.685,2.461,9.622L3.598,43.04c-0.094,0.345,0.002,0.713,0.254,0.967c0.19,0.192,0.447,0.297,0.711,0.297	c0.085,0,0.17-0.011,0.254-0.033l9.687-2.54c2.828,1.468,5.998,2.243,9.197,2.244c11.024,0,19.99-8.963,19.995-19.98	C43.698,18.656,41.621,13.636,37.848,9.86z" />
+                        <linearGradient id="k87TA_gnBJ8uBlK4qfs8ib" x1="15.389" x2="28.863" y1="10.726" y2="39.265"
+                            gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="#2ecc75" />
+                            <stop offset="1" stop-color="#0b964a" />
+                        </linearGradient>
+                        <path fill="url(#k87TA_gnBJ8uBlK4qfs8ib)"
+                            d="M34.871,12.832c-2.98-2.982-6.941-4.625-11.157-4.626c-8.704,0-15.783,7.076-15.787,15.774	c-0.001,2.981,0.833,5.883,2.413,8.396l0.376,0.597l-1.595,5.821l5.973-1.566l0.577,0.342c2.422,1.438,5.2,2.198,8.032,2.199h0.006	c8.698,0,15.777-7.077,15.78-15.776C39.49,19.778,37.851,15.814,34.871,12.832z" />
+                        <path
+                            d="M28.893,33.879c-0.995,0-2.354-0.254-5.087-1.331c-3.06-1.208-6.066-3.83-8.464-7.384l-0.077-0.113	c-0.642-0.857-2.132-3.107-2.132-5.5c0-2.58,1.288-3.953,1.838-4.54l0.085-0.091C15.815,14.089,16.709,14,17.058,14	c0.369,0.004,0.682,0,0.953,0.012c0.654,0.026,1.399,0.215,1.936,1.409l0,0c0.25,0.558,0.676,1.605,1.009,2.426	c0.213,0.527,0.386,0.955,0.439,1.069c0.294,0.586,0.308,1.167,0.036,1.714l-0.065,0.133c-0.128,0.262-0.261,0.533-0.544,0.863	l-0.235,0.282c-0.162,0.197-0.325,0.393-0.47,0.545c0.389,0.641,1.206,1.856,2.331,2.86c1.394,1.241,2.588,1.76,3.229,2.039	c0.127,0.055,0.233,0.102,0.317,0.142c0.405-0.47,1.072-1.271,1.302-1.614c0.77-1.156,1.877-0.755,2.24-0.622	c0.569,0.206,3.323,1.576,3.35,1.589l0.255,0.125c0.419,0.203,0.813,0.394,1.062,0.808c0.395,0.661,0.176,2.073-0.193,3.105	c-0.534,1.503-2.828,2.805-4.054,2.915l-0.226,0.024C29.465,33.855,29.196,33.879,28.893,33.879z M17.216,16	c-0.14,0-0.385-0.058-0.686,0.27l-0.101,0.109c-0.453,0.483-1.297,1.383-1.297,3.172c0,1.843,1.326,3.757,1.732,4.3	c0.027,0.036,0.071,0.101,0.135,0.194c2.175,3.223,4.853,5.582,7.541,6.642c3.384,1.335,4.253,1.234,4.956,1.151l0.278-0.03	c0.609-0.055,2.122-0.951,2.351-1.594c0.209-0.585,0.276-1.087,0.287-1.374c-0.044-0.021-0.092-0.043-0.143-0.067l-0.283-0.139	c-0.637-0.32-2.779-1.366-3.131-1.495c-0.442,0.608-1.262,1.565-1.479,1.814c-0.407,0.467-1.127,0.909-2.229,0.354	c-0.066-0.033-0.156-0.071-0.268-0.12c-0.691-0.301-2.13-0.926-3.763-2.38c-1.469-1.311-2.474-2.904-2.838-3.529	c-0.445-0.761-0.322-1.495,0.366-2.18c0.12-0.12,0.257-0.291,0.397-0.46l0.262-0.314c0.118-0.137,0.161-0.226,0.267-0.441	l0.035-0.071c-0.092-0.204-0.278-0.659-0.502-1.213c-0.323-0.797-0.736-1.815-0.979-2.357v0c-0.065-0.144-0.114-0.215-0.138-0.245	c0.005,0.015-0.029,0.016-0.058,0.014C17.706,16,17.463,16,17.216,16z M32.407,28.615L32.407,28.615L32.407,28.615z M19.642,19.736	L19.642,19.736L19.642,19.736z"
+                            opacity=".05" />
+                        <path
+                            d="M28.889,33.384c-0.846,0-2.155-0.22-4.899-1.302c-2.967-1.17-5.891-3.727-8.233-7.198l-0.087-0.128	c-0.616-0.822-2.037-2.962-2.037-5.206c0-2.382,1.193-3.654,1.703-4.198l0.089-0.096c0.625-0.683,1.351-0.756,1.634-0.756	c0.377,0.003,0.667,0,0.931,0.012c0.492,0.02,1.057,0.124,1.502,1.114l0,0c0.249,0.554,0.671,1.594,1.001,2.409	c0.225,0.555,0.405,1.002,0.452,1.097c0.082,0.165,0.338,0.674,0.039,1.275l-0.067,0.136c-0.125,0.255-0.233,0.476-0.475,0.758	L20.2,21.59c-0.173,0.21-0.346,0.419-0.496,0.569c-0.216,0.215-0.216,0.215-0.13,0.362c0.328,0.563,1.232,1.998,2.541,3.165	c1.453,1.295,2.696,1.834,3.363,2.124c0.144,0.062,0.259,0.113,0.344,0.156c0.293,0.146,0.323,0.116,0.427-0.002	c0.288-0.328,1.168-1.364,1.463-1.807c0.554-0.83,1.269-0.57,1.654-0.431c0.506,0.184,3.039,1.437,3.296,1.566l0.262,0.128	c0.38,0.184,0.68,0.329,0.852,0.614c0.254,0.426,0.149,1.603-0.235,2.681c-0.488,1.371-2.646,2.497-3.628,2.585l-0.239,0.026	C29.441,33.354,29.196,33.384,28.889,33.384z M17.201,15.5c-0.026,0-0.052,0-0.078,0c-0.183,0-0.595,0.031-0.962,0.432l-0.097,0.104	c-0.465,0.496-1.432,1.528-1.432,3.514c0,1.943,1.281,3.864,1.832,4.6c0.025,0.033,0.064,0.09,0.121,0.174	c2.231,3.306,4.991,5.73,7.772,6.828c3.505,1.382,4.445,1.271,5.197,1.183l0.267-0.029c0.693-0.062,2.451-1.013,2.776-1.925	c0.333-0.932,0.347-1.71,0.296-1.877c0.007,0.006-0.232-0.098-0.405-0.182l-0.276-0.136c-0.623-0.313-2.806-1.381-3.188-1.52	c-0.36-0.13-0.361-0.133-0.48,0.046c-0.349,0.521-1.32,1.657-1.542,1.91c-0.642,0.735-1.384,0.359-1.629,0.236	c-0.072-0.036-0.171-0.078-0.293-0.131c-0.668-0.291-2.057-0.895-3.63-2.296c-1.416-1.262-2.387-2.803-2.739-3.407	c-0.476-0.814,0.059-1.347,0.287-1.574c0.13-0.13,0.28-0.313,0.431-0.497l0.255-0.306c0.159-0.186,0.226-0.322,0.336-0.547	l0.07-0.143c0.049-0.098,0.058-0.189-0.04-0.383c-0.052-0.104-0.245-0.578-0.483-1.167c-0.326-0.803-0.741-1.829-0.987-2.374l0,0	c-0.229-0.509-0.363-0.515-0.632-0.525C17.717,15.5,17.461,15.5,17.201,15.5z"
+                            opacity=".07" />
+                        <path fill="#fff" fill-rule="evenodd"
+                            d="M19.035,15.831c-0.355-0.79-0.729-0.806-1.068-0.82	C17.69,14.999,17.374,15,17.058,15s-0.83,0.119-1.265,0.594c-0.435,0.475-1.661,1.622-1.661,3.956s1.7,4.59,1.937,4.906	c0.237,0.316,3.282,5.259,8.104,7.161c4.007,1.58,4.823,1.266,5.693,1.187c0.87-0.079,2.807-1.147,3.202-2.255	c0.395-1.108,0.395-2.057,0.277-2.255c-0.119-0.198-0.435-0.316-0.909-0.554s-2.807-1.385-3.242-1.543	c-0.435-0.158-0.751-0.237-1.068,0.238c-0.316,0.474-1.225,1.543-1.502,1.859c-0.277,0.317-0.554,0.357-1.028,0.119	c-0.474-0.238-2.002-0.738-3.815-2.354c-1.41-1.257-2.362-2.81-2.639-3.285c-0.277-0.474-0.03-0.731,0.208-0.968	c0.213-0.213,0.474-0.554,0.712-0.831c0.237-0.277,0.316-0.475,0.474-0.791c0.158-0.317,0.079-0.594-0.04-0.831	C20.379,19.115,19.457,16.769,19.035,15.831z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </a>
+                <a href="" class="share-link" data-platform="facebook" style="text-decoration: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="32px" height="32px">
+                        <path fill="#039be5" d="M24 5A19 19 0 1 0 24 43A19 19 0 1 0 24 5Z" />
+                        <path fill="#fff"
+                            d="M26.572,29.036h4.917l0.772-4.995h-5.69v-2.73c0-2.075,0.678-3.915,2.619-3.915h3.119v-4.359c-0.548-0.074-1.707-0.236-3.897-0.236c-4.573,0-7.254,2.415-7.254,7.917v3.323h-4.701v4.995h4.701v13.729C22.089,42.905,23.032,43,24,43c0.875,0,1.729-0.08,2.572-0.194V29.036z" />
+                    </svg>
+                </a>
+                <a href="" class="share-link" data-platform="twitter" style="text-decoration: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="32px" height="32px">
+                        <path
+                            d="M 11 4 C 7.134 4 4 7.134 4 11 L 4 39 C 4 42.866 7.134 46 11 46 L 39 46 C 42.866 46 46 42.866 46 39 L 46 11 C 46 7.134 42.866 4 39 4 L 11 4 z M 13.085938 13 L 21.023438 13 L 26.660156 21.009766 L 33.5 13 L 36 13 L 27.789062 22.613281 L 37.914062 37 L 29.978516 37 L 23.4375 27.707031 L 15.5 37 L 13 37 L 22.308594 26.103516 L 13.085938 13 z M 16.914062 15 L 31.021484 35 L 34.085938 35 L 19.978516 15 L 16.914062 15 z" />
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Comments Section -->
+            <div class="comments-section" id="comments-section">
+                <div class="comments-header">
+                    <h3 id="comment-count" class="comment-count-title">
+                        Comments (<%= blog.commentCount || blog.comments?.length || 0 %>)
+                    </h3>
+
+                    <% if (user) { %>
+                        <div class="post-comment-header">
+                            <span>Post as <strong>
+                                    <%= user.name %>
+                                </strong></span>
+                        </div>
+                        <% } %>
+                </div>
+
+                <!-- Main Comment Form -->
+                <% if (user) { %>
+                    <form id="comment-form" class="comment-form">
+                        <div class="form-group">
+                            <textarea id="comment-content" class="comment-textarea" placeholder="Write a comment..."
+                                rows="3" required></textarea>
+                            <div class="form-footer">
+                                <button type="submit" class="btn btn-primary btn-submit">
+                                    Post Comment
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <% } else { %>
+                        <div class="login-prompt">
+                            <p>Please <a href="/login?redirect=<%= encodeURIComponent('/'+currentUrl) %>">login</a>
+                                to leave a
+                                comment.</p>
+                        </div>
+                        <% } %>
+
+                            <!-- Comments Container -->
+                            <div id="comments-container" class="comments-container">
+                                <% if (blog.comments && blog.comments.length> 0) { %>
+                                    <% for (let comment of blog.comments) { %>
+                                        <div class="comment" data-comment-id="<%= comment._id %>"
+                                            data-is-edited="<%= comment.isEdited || false %>">
+
+                                            <!-- Comment Author -->
+                                            <div class="comment-author">
+                                                <div class="avatar-container">
+                                                    <% if (comment.author && comment.author.avatar) { %>
+                                                        <img src="<%= comment.author.avatar %>"
+                                                            alt="<%= comment.author.name %>" class="avatar">
+                                                        <% } else { %>
+                                                            <div class="avatar-placeholder">
+                                                                <%= (comment.author ? comment.author.name : 'DU'
+                                                                    ).charAt(0).toUpperCase() %>
+                                                            </div>
+                                                            <% } %>
+                                                </div>
+                                                <div class="author-info">
+                                                    <span class="author-name">
+                                                        <%= comment.author ? comment.author.name : 'Deleted User' %>
+                                                    </span>
+                                                    <span class="comment-meta">
+                                                        <span class="comment-date">
+                                                            <%= new Date(comment.createdAt).toLocaleDateString('en-US',
+                                                                { year: 'numeric' , month: 'short' , day: 'numeric' ,
+                                                                hour: '2-digit' , minute: '2-digit' }) %>
+                                                        </span>
+                                                        <% if (comment.isEdited) { %>
+                                                            <span class="edited-badge">(edited)</span>
+                                                            <% } %>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="comment-item" data-comment-id="<%= comment._id %>">
+                                                <div class="comment-content">
+                                                    <%= comment.content %>
+                                                </div>
+
+                                                <div class="comment-footer">
+                                                    <div class="comment-actions">
+                                                        <button class="btn-action like-btn"
+                                                            onclick="toggleLike('<%= comment._id %>')"
+                                                            data-comment-id="<%= comment._id %>"
+                                                            data-liked="<%= comment.likes && user && comment.likes.some(like => like.equals(user._id)) %>">
+                                                            <span class="icon">
+                                                                <% if (comment.likes && user) { %>
+                                                                    <%= comment.likes.some(like=> like.equals(user._id))
+                                                                        ? "❤️"
+                                                                        : "🩶" %>
+                                                                        <% } else { %>
+                                                                            🩶
+                                                                            <% } %>
+                                                            </span>
+                                                            <span class="like-count">
+                                                                <%= comment.likes ? comment.likes.length : 0 %>
+                                                            </span>
+                                                        </button>
+
+                                                        <button class="btn-action reply-btn"
+                                                            onclick="toggleReplyForm('<%= comment._id %>')">
+                                                            <span class="icon">💬</span>
+                                                            <span class="reply-count">
+                                                                <%= comment.replies ? comment.replies.length : 0 %>
+                                                            </span>
+                                                        </button>
+
+
+                                                        <% if (user && comment.author &&
+                                                            user.id===comment.author._id.toString()) { %>
+                                                            <button class="btn-action edit-btn"
+                                                                onclick="editComment('<%= comment._id %>')">
+                                                                <span class="icon">✏️</span>
+                                                                <span class="action-text">Edit</span>
+                                                            </button>
+                                                            <button class="btn-action delete-btn"
+                                                                onclick="showDeleteConfirmation('<%= comment._id %>')">
+                                                                <span class="icon">🗑️</span>
+                                                                <span class="action-text">Delete</span>
+                                                            </button>
+                                                            <% } %>
+
+                                                                <!-- Edit action buttons (hidden by default) -->
+                                                                <div class="edit-actions" style="display: none;">
+                                                                    <button class="btn-action save-btn"
+                                                                        onclick="saveEdit('<%= comment._id %>')">
+                                                                        <span class="icon">✅</span>
+                                                                        <span class="action-text">Save</span>
+                                                                    </button>
+                                                                    <button class="btn-action cancel-btn"
+                                                                        onclick="cancelEdit('<%= comment._id %>')">
+                                                                        <span class="icon">❌</span>
+                                                                        <span class="action-text">Cancel</span>
+                                                                    </button>
+                                                                </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <!-- Reply Form (Hidden by default) -->
+                                            <div class="reply-form" id="reply-form-<%= comment._id %>"
+                                                style="display: none;">
+                                                <form onsubmit="submitReply(event, '<%= comment._id %>')"
+                                                    class="reply-form-inner">
+                                                    <textarea class="reply-textarea" placeholder="Write a reply..."
+                                                        rows="2" required></textarea>
+                                                    <div class="reply-form-actions">
+                                                        <button type="submit" class="btn btn-primary btn-small">
+                                                            Reply
+                                                        </button>
+                                                        <button type="button" class="btn btn-secondary btn-small"
+                                                            onclick="toggleReplyForm('<%= comment._id %>')">
+                                                            Cancel
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+
+                                            <!-- Replies -->
+                                            <% if (comment.replies && comment.replies.length> 0) { %>
+                                                <div class="replies-container" id="replies-<%= comment._id %>">
+                                                    <% for (let reply of comment.replies) { %>
+                                                        <div class="reply" data-reply-id="<%= reply._id %>"
+                                                            data-is-edited="<%= reply.isEdited || false %>">
+                                                            <!-- Comment Author -->
+                                                            <div class="reply-author">
+                                                                <div class="avatar-container small">
+                                                                    <% if (reply.author && reply.author.avatar) { %>
+                                                                        <img src="<%= reply.author.avatar %>"
+                                                                            alt="<%= reply.author.name %>"
+                                                                            class="avatar">
+                                                                        <% } else { %>
+                                                                            <div class="avatar-placeholder small">
+                                                                                <%= (reply.author ? reply.author.name
+                                                                                    : 'DU' ).charAt(0).toUpperCase() %>
+                                                                            </div>
+                                                                            <% } %>
+                                                                </div>
+                                                                <div class="author-info">
+                                                                    <span class="author-name">
+                                                                        <%= reply.author ? reply.author.name
+                                                                            : 'Deleted User' %>
+                                                                    </span>
+                                                                    <span class="reply-date">
+                                                                        <%= new
+                                                                            Date(reply.createdAt).toLocaleDateString('en-US',
+                                                                            { month: 'short' , day: 'numeric' ,
+                                                                            hour: '2-digit' , minute: '2-digit' }) %>
+                                                                    </span>
+                                                                    <% if(reply.isEdited){ %>
+                                                                        <span class="edited-badge">(edited)</span>
+                                                                        <%} %>
+                                                                </div>
+                                                            </div>
+                                                            <div class="reply-item" data-reply-id="<%= reply._id%>">
+                                                                <div class="reply-content">
+                                                                    <%= reply.content %>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class=" reply-footer">
+                                                                <div class="reply-actions">
+                                                                    <button class="btn-action like-btn"
+                                                                        onclick="toggleLike('<%= reply._id %>')"
+                                                                        data-reply-id="<%= reply._id %>"
+                                                                        data-liked="<%= reply.likes && user && reply.likes.some(like => like.equals(user._id)) %>">
+                                                                        <span class="icon">
+                                                                            <% if (reply.likes && user) { %>
+                                                                                <%= reply.likes.some(like=>
+                                                                                    like.equals(user._id)) ? "❤️" :
+                                                                                    "🩶"
+                                                                                    %>
+                                                                                    <% } else { %>
+                                                                                        🩶
+                                                                                        <% } %>
+                                                                        </span>
+                                                                        <span class="like-count">
+                                                                            <%= reply.likes ? reply.likes.length : 0 %>
+                                                                        </span>
+                                                                    </button>
+                                                                    <% if (user && reply.author &&
+                                                                        user.id===reply.author._id.toString()) { %>
+                                                                        <button class="btn-action edit-btn"
+                                                                            onclick="editComment('<%= reply._id %>')">
+                                                                            <span class="icon">✏️</span>
+                                                                            <span class="action-text">Edit</span>
+                                                                        </button>
+                                                                        <button class="btn-action delete-btn"
+                                                                            onclick="showDeleteConfirmation('<%= reply._id %>')">
+                                                                            <span class="icon">🗑️</span>
+                                                                            <span class="action-text">Delete</span>
+
+                                                                        </button>
+                                                                        <% } %>
+
+                                                                            <div class="edit-actions"
+                                                                                style="display: none;">
+                                                                                <button class="btn-action save-btn"
+                                                                                    onclick="saveEdit('<%= reply._id %>')">
+                                                                                    <span class="icon">✅</span>
+                                                                                    <span
+                                                                                        class="action-text">Save</span>
+                                                                                </button>
+                                                                                <button class="btn-action cancel-btn"
+                                                                                    onclick="cancelEdit('<%= reply._id %>')">
+                                                                                    <span class="icon">❌</span>
+                                                                                    <span
+                                                                                        class="action-text">Cancel</span>
+                                                                                </button>
+                                                                            </div>
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+                                                        <% } %>
+                                                </div>
+                                                <% } %>
+
+                                                    <!-- Load More Replies -->
+                                                    <% if (comment.replyCount> (comment.replies ?
+                                                        comment.replies.length
+                                                        : 0)) { %>
+                                                        <button class="load-more-replies"
+                                                            onclick="loadMoreReplies('<%= comment._id %>')">
+                                                            Show <%= comment.replyCount - (comment.replies ?
+                                                                comment.replies.length : 0) %> more replies
+                                                        </button>
+                                                        <% } %>
+                                        </div>
+                                        <% } %>
+                                            <% } else { %>
+                                                <div class="no-comments">
+                                                    <p>No comments yet. Be the first to comment!</p>
+                                                </div>
+                                                <% } %>
+                            </div>
+
+                            <!-- Load More Comments -->
+                            <% if (blog.commentCount> blog.comments?.length) { %>
+                                <div class="load-more-container">
+                                    <button id="load-more-comments" class="btn btn-outline">
+                                        Load More Comments
+                                    </button>
+                                </div>
+                                <% } %>
+            </div>
+
+            <!-- Delete Confirmation Card (Hidden by default) -->
+            <div id="deleteConfirmationCard" class="delete-confirmation-card" style="display: none;">
+                <div class="delete-confirmation-content">
+                    <div class="delete-header">
+                        <h3>Delete Comment</h3>
+                    </div>
+                    <p>Are you sure you want to delete this comment? This action cannot be undone.</p>
+                    <div class="delete-actions">
+                        <button id="cancelDeleteBtn" class="btn btn-secondary">Cancel</button>
+                        <button id="confirmDeleteBtn" class="btn btn-danger">Delete</button>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </body>
+    <script>
+        // Global variables
+        let currentPage = 1;
+        const blogId = '<%= blog._id %>';
+        const commentsPerPage = 10;
+        let originalCommentText = {};
+        let isLoading = false;
+
+        // Make user data available globally
+        const USER_FROM_SERVER = '<%- JSON.stringify(user || null) %>';
+        window.user = JSON.parse(USER_FROM_SERVER);
+
+
+        // Utility functions
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            }, 100);
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function validateContent(content) {
+            if (!content || content.trim() === '') {
+                return 'Comment cannot be empty';
+            }
+            if (content.length > 1000) {
+                return 'Comment is too long (max 1000 characters)';
+            }
+            return null;
+        }
+
+        // API call wrapper
+        async function apiCall(url, options = {}) {
+            try {
+                const defaultOptions = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // 'CSRF-Token': window.csrfToken
+                    },
+                    credentials: 'same-origin'
+                };
+
+                const response = await fetch(url, { ...defaultOptions, ...options });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (!data.success) {
+                    throw new Error(data.message || 'Operation failed');
+                }
+
+                return data;
+            } catch (error) {
+                console.error('API Error:', error);
+                throw error;
+            }
+        }
+
+        // Submit main comment
+        document.getElementById('comment-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (isLoading) return;
+
+            const content = document.getElementById('comment-content').value.trim();
+            const validationError = validateContent(content);
+
+            if (validationError) {
+                showToast(validationError, 'error');
+                return;
+            }
+
+            isLoading = true;
+            const submitBtn = e.target.querySelector('.btn-submit');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Posting...';
+            submitBtn.disabled = true;
+
+            try {
+                const data = await apiCall('/comments', {
+                    method: 'POST',
+                    body: JSON.stringify({ content, blogId })
+                });
+
+                showToast('Comment posted successfully!', 'success');
+                document.getElementById('comment-content').value = '';
+                prependComment(data.comment);
+                updateCommentCount(1);
+
+                // Scroll to new comment
+                setTimeout(() => {
+                    const newComment = document.querySelector(`[data-comment-id="${data.comment._id}"]`);
+                    newComment?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 100);
+            } catch (error) {
+                showToast(error.message || 'Failed to post comment', 'error');
+            } finally {
+                isLoading = false;
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Submit reply
+        async function submitReply(event, parentCommentId) {
+            event.preventDefault();
+
+            if (isLoading) return;
+
+            const form = event.target;
+            const textarea = form.querySelector('textarea');
+            const content = textarea.value.trim();
+            const validationError = validateContent(content);
+
+            if (validationError) {
+                showToast(validationError, 'error');
+                return;
+            }
+
+            isLoading = true;
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Posting...';
+            submitBtn.disabled = true;
+
+            try {
+                const data = await apiCall('/comments', {
+                    method: 'POST',
+                    body: JSON.stringify({ content, blogId, parentCommentId })
+                });
+
+                showToast('Reply posted successfully!', 'success');
+                textarea.value = '';
+                toggleReplyForm(parentCommentId);
+                appendReply(parentCommentId, data.comment);
+            } catch (error) {
+                showToast(error.message || 'Failed to post reply', 'error');
+            } finally {
+                isLoading = false;
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        }
+
+        // Toggle like
+        async function toggleLike(commentId) {
+            if (isLoading) return;
+
+            isLoading = true;
+
+            // Find the correct button
+            const likeBtn = document.querySelector(`button[data-comment-id="${commentId}"]`) || document.querySelector(`button[data-reply-id="${commentId}"]`);
+
+            if (!likeBtn) return;
+
+            likeBtn.disabled = true;
+            const wasLiked = likeBtn.getAttribute('data-liked') === 'true';
+            const iconSpan = likeBtn.querySelector('.icon');
+
+            try {
+                const data = await apiCall(`/comments/${commentId}/like`, {
+                    method: 'POST'
+                });
+
+                // Update like count
+                const likeCount = likeBtn.querySelector('.like-count');
+                likeCount.textContent = data.likes;
+
+                // Update data-liked attribute
+                likeBtn.setAttribute('data-liked', data.isLiked);
+
+                // Update the icon dynamically
+                if (data.isLiked) {
+                    iconSpan.innerHTML = '❤️';
+                    likeBtn.classList.add('liked');
+                    if (!wasLiked) {
+                        showToast('Liked!', 'success');
+                    }
+                } else {
+                    iconSpan.innerHTML = '🩶';
+                    likeBtn.classList.remove('liked');
+                }
+
+            } catch (error) {
+                showToast(error.message || 'Failed to like', 'error');
+            } finally {
+                isLoading = false;
+                likeBtn.disabled = false;
+            }
+        }
+
+        // Edit comment
+        function editComment(commentId) {
+            const container = document.querySelector(`[data-comment-id="${commentId}"]`) ||
+                document.querySelector(`[data-reply-id="${commentId}"]`);
+
+
+            if (!container) return;
+
+            const contentDiv = container.querySelector('.comment-content, .reply-content');
+
+            const actionsDiv = container.querySelector('.edit-actions');
+
+            const editBtn = container.querySelector('.edit-btn');
+
+            if (!contentDiv || !actionsDiv) return;
+
+            // Store original text
+            originalCommentText[commentId] = contentDiv.textContent.trim();
+
+            // Enable editing
+            contentDiv.contentEditable = true;
+            contentDiv.classList.add('editing');
+            contentDiv.focus();
+            actionsDiv.style.display = 'flex';
+            editBtn.style.display = 'none';
+
+            // Move cursor to end
+            const range = document.createRange();
+            const selection = window.getSelection();
+            range.selectNodeContents(contentDiv);
+            range.collapse(false);
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
+
+        async function saveEdit(commentId) {
+            if (isLoading) return;
+
+            const container = document.querySelector(`[data-comment-id="${commentId}"]`) ||
+                document.querySelector(`[data-reply-id="${commentId}"]`);
+
+
+            if (!container) return;
+
+            const contentDiv = container.querySelector('.comment-content, .reply-content');
+            const actionsDiv = container.querySelector('.edit-actions');
+            const editBtn = container.querySelector('.edit-btn');
+
+
+            if (!contentDiv || !actionsDiv) return;
+
+            const newContent = contentDiv.textContent.trim();
+            const validationError = validateContent(newContent);
+
+            if (validationError) {
+                showToast(validationError, 'error');
+                contentDiv.focus();
+                return;
+            }
+
+            isLoading = true;
+            actionsDiv.style.opacity = '0.5';
+
+            try {
+                const data = await apiCall(`/comments/${commentId}`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ content: newContent })
+                });
+
+                contentDiv.contentEditable = false;
+                contentDiv.classList.remove('editing');
+                actionsDiv.style.display = 'none';
+                editBtn.style.display = 'inline-flex';
+
+
+
+                // Update edited indicator
+                if (data.comment.isEdited) {
+                    const dateSpan = container.querySelector('.comment-date, .reply-date');
+                    const editedBadge = container.querySelector('.edited-badge');
+
+                    if (!editedBadge) {
+                        const badge = document.createElement('span');
+                        badge.className = 'edited-badge';
+                        badge.textContent = ' (edited)';
+                        dateSpan?.appendChild(badge);
+                    }
+                }
+
+                showToast('Comment updated successfully!', 'success');
+            } catch (error) {
+                showToast(error.message || 'Failed to update comment', 'error');
+            } finally {
+                isLoading = false;
+                actionsDiv.style.opacity = '1';
+            }
+        }
+
+        function cancelEdit(commentId) {
+            const container = document.querySelector(`[data-comment-id="${commentId}"]`) ||
+                document.querySelector(`[data-reply-id="${commentId}"]`);
+
+
+            if (!container) return;
+
+            const contentDiv = container.querySelector('.comment-content, .reply-content');
+            const actionsDiv = container.querySelector('.edit-actions');
+            const editBtn = container.querySelector('.edit-btn');
+
+            if (!contentDiv || !actionsDiv) return;
+
+            contentDiv.textContent = originalCommentText[commentId] || '';
+            contentDiv.contentEditable = false;
+            contentDiv.classList.remove('editing');
+            actionsDiv.style.display = 'none';
+            editBtn.style.display = 'inline-flex';
+        }
+
+
+        let deleteCommentId = null;
+
+        // Show delete confirmation card
+        function showDeleteConfirmation(commentId) {
+            deleteCommentId = commentId;
+            const deleteCard = document.getElementById('deleteConfirmationCard');
+            deleteCard.style.display = 'flex';
+
+            // Set up event listeners for the buttons
+            document.getElementById('confirmDeleteBtn').onclick = () => performDelete(commentId);
+            document.getElementById('cancelDeleteBtn').onclick = hideDeleteConfirmation;
+
+            // Close on background click
+            deleteCard.onclick = function (e) {
+                if (e.target === this) {
+                    hideDeleteConfirmation();
+                }
+            };
+        }
+
+        // Hide delete confirmation card
+        function hideDeleteConfirmation() {
+            const deleteCard = document.getElementById('deleteConfirmationCard');
+            deleteCard.style.display = 'none';
+            deleteCommentId = null;
+
+            // Remove event listeners
+            deleteCard.onclick = null;
+            document.getElementById('confirmDeleteBtn').onclick = null;
+            document.getElementById('cancelDeleteBtn').onclick = null;
+        }
+
+        // Perform the actual delete operation
+        async function performDelete(commentId) {
+            if (isLoading) return;
+            isLoading = true;
+
+            try {
+                const data = await apiCall(`/comments/${commentId}`, {
+                    method: 'DELETE'
+                });
+
+                const commentDiv = document.querySelector(`[data-comment-id="${commentId}"]`) ||
+                    document.querySelector(`[data-reply-id="${commentId}"]`);
+
+                if (commentDiv) {
+                    // Add fade out animation
+                    commentDiv.style.transition = 'all 0.3s ease';
+                    commentDiv.style.opacity = '0';
+                    commentDiv.style.height = commentDiv.offsetHeight + 'px';
+
+                    // Trigger reflow
+                    void commentDiv.offsetHeight;
+
+                    // Animate height to 0
+                    commentDiv.style.height = '0';
+                    commentDiv.style.margin = '0';
+                    commentDiv.style.padding = '0';
+                    commentDiv.style.overflow = 'hidden';
+
+                    setTimeout(() => {
+                        commentDiv.remove();
+                        updateCommentCount(-1);
+                    }, 300);
+                }
+
+                showToast('Comment deleted successfully', 'success');
+            } catch (error) {
+                showToast(error.message || 'Failed to delete comment', 'error');
+            } finally {
+                isLoading = false;
+                hideDeleteConfirmation();
+            }
+        }
+
+
+        // Delete comment
+        // async function deleteComment(commentId) {
+        //     if (!confirm('Are you sure you want to delete this comment? This action cannot be undone.')) {
+        //         return;
+        //     }
+
+        //     if (isLoading) return;
+        //     isLoading = true;
+
+        //     try {
+        //         const data = await apiCall(`/comments/${commentId}`, {
+        //             method: 'DELETE'
+        //         });
+
+        //         const commentDiv = document.querySelector(`[data-comment-id="${commentId}"]`) ||
+        //             document.querySelector(`[data-reply-id="${commentId}"]`);
+
+        //         if (commentDiv) {
+        //             commentDiv.style.opacity = '0';
+        //             commentDiv.style.height = '0';
+        //             commentDiv.style.margin = '0';
+        //             commentDiv.style.padding = '0';
+        //             commentDiv.style.overflow = 'hidden';
+
+        //             setTimeout(() => {
+        //                 commentDiv.remove();
+        //                 updateCommentCount(-1);
+        //             }, 300);
+        //         }
+
+        //         showToast('Comment deleted successfully', 'success');
+        //     } catch (error) {
+        //         showToast(error.message || 'Failed to delete comment', 'error');
+        //     } finally {
+        //         isLoading = false;
+        //     }
+        // }
+
+        // Toggle reply form
+        function toggleReplyForm(commentId) {
+            const form = document.getElementById(`reply-form-${commentId}`);
+            if (!form) return;
+
+            const isVisible = form.style.display === 'block';
+            form.style.display = isVisible ? 'none' : 'block';
+
+            if (!isVisible) {
+                form.querySelector('textarea').focus();
+            }
+        }
+
+        // Load more replies
+        async function loadMoreReplies(commentId) {
+            if (isLoading) return;
+
+            const loadMoreBtn = document.querySelector(`[onclick="loadMoreReplies('${commentId}')"]`);
+            const repliesContainer = document.getElementById(`replies-${commentId}`);
+
+            if (!loadMoreBtn || !repliesContainer) return;
+
+            isLoading = true;
+            const originalText = loadMoreBtn.textContent;
+            loadMoreBtn.textContent = 'Loading...';
+            loadMoreBtn.disabled = true;
+
+            try {
+                // Calculate next page
+                const currentReplies = repliesContainer.querySelectorAll('.reply').length;
+                const nextPage = Math.floor(currentReplies / 5) + 1;
+
+                const response = await fetch(`/api/comments/${commentId}/replies?page=${nextPage}&limit=5`);
+                const data = await response.json();
+
+                if (data.success && data.replies.length > 0) {
+                    data.replies.forEach(reply => {
+                        appendReply(commentId, reply);
+                    });
+
+                    // Update or remove load more button
+                    if (!data.pagination.hasMore) {
+                        loadMoreBtn.remove();
+                    } else {
+                        const remaining = data.pagination.totalReplies - (currentReplies + data.replies.length);
+                        loadMoreBtn.textContent = `Show ${remaining} more replies`;
+                    }
+                } else {
+                    loadMoreBtn.remove();
+                }
+            } catch (error) {
+                console.error('Error loading more replies:', error);
+                showToast('Failed to load more replies', 'error');
+            } finally {
+                isLoading = false;
+                loadMoreBtn.disabled = false;
+                if (loadMoreBtn.textContent === 'Loading...') {
+                    loadMoreBtn.textContent = originalText;
+                }
+            }
+        }
+
+        // Load more comments
+        document.getElementById('load-more-comments')?.addEventListener('click', async () => {
+            if (isLoading) return;
+
+            currentPage++;
+            isLoading = true;
+            const loadMoreBtn = document.getElementById('load-more-comments');
+            const originalText = loadMoreBtn.textContent;
+            loadMoreBtn.textContent = 'Loading...';
+            loadMoreBtn.disabled = true;
+
+            try {
+                const data = await apiCall(`/comments/blog/${blogId}?page=${currentPage}&limit=${commentsPerPage}`);
+
+                if (data.comments && data.comments.length > 0) {
+                    appendComments(data.comments);
+
+                    if (!data.pagination.hasMore) {
+                        loadMoreBtn.style.display = 'none';
+                    }
+                } else {
+                    loadMoreBtn.style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error loading more comments:', error);
+                showToast('Failed to load more comments', 'error');
+                currentPage--; // Revert page on error
+            } finally {
+                isLoading = false;
+                loadMoreBtn.textContent = originalText;
+                loadMoreBtn.disabled = false;
+            }
+        });
+
+        // Helper functions
+        function prependComment(comment) {
+            const commentsContainer = document.getElementById('comments-container');
+            const noCommentsMsg = commentsContainer.querySelector('.no-comments');
+
+            if (noCommentsMsg) {
+                noCommentsMsg.remove();
+            }
+
+            const commentHTML = generateCommentHTML(comment);
+            commentsContainer.insertAdjacentHTML('afterbegin', commentHTML);
+        }
+
+        function appendReply(parentCommentId, reply) {
+            const repliesContainer = document.getElementById(`replies-${parentCommentId}`) ||
+                createRepliesContainer(parentCommentId);
+
+            const replyHTML = generateReplyHTML(reply);
+            repliesContainer.insertAdjacentHTML('beforeend', replyHTML);
+        }
+
+        function appendComments(comments) {
+            const commentsContainer = document.getElementById('comments-container');
+
+            comments.forEach(comment => {
+                const commentHTML = generateCommentHTML(comment);
+                commentsContainer.insertAdjacentHTML('beforeend', commentHTML);
+            });
+        }
+
+        function createRepliesContainer(commentId) {
+            const commentDiv = document.querySelector(`[data-comment-id="${commentId}"]`);
+            const repliesHTML = `<div class="replies-container" id="replies-${commentId}"></div>`;
+
+            commentDiv.insertAdjacentHTML('beforeend', repliesHTML);
+            return document.getElementById(`replies-${commentId}`);
+        }
+
+        function generateCommentHTML(comment) {
+            return `
+            <div class="comment" data-comment-id="${comment._id}" data-is-edited="${comment.isEdited || false}">
+                <div class="comment-author">
+                    <div class="avatar-container">
+                        ${comment.author?.avatar ?
+                    `<img src="${escapeHtml(comment.author.avatar)}" alt="${escapeHtml(comment.author.name)}" class="avatar">` :
+                    `<div class="avatar-placeholder">${(comment.author?.name || 'DU').charAt(0).toUpperCase()}</div>`
+                }
+                    </div>
+                    <div class="author-info">
+                        <span class="author-name">${escapeHtml(comment.author?.name || 'Deleted User')}</span>
+                        <span class="comment-meta">
+                            <span class="comment-date">
+                                ${new Date(comment.createdAt).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                })}
+                            </span>
+                            ${comment.isEdited ? '<span class="edited-badge">(edited)</span>' : ''}
+                        </span>
+                    </div>
+                </div>
+
+
+
+                <div class="comment-item" data-comment-id="${comment._id}">
+    <div class="comment-content">${comment.content}</div>    
+                        
+    <div class="comment-footer">
+        <div class="comment-actions">
+            <button class="btn-action like-btn" onclick="toggleLike('${comment._id}')"
+                data-comment-id="${comment._id}"
+                data-liked="${comment.likes && user && comment.likes.some(like => like.equals(user._id))}">
+                <span class="icon">
+                    ${comment.likes && user ? (comment.likes.some(like => like.equals(user._id)) ? "❤️" : "🩶") : "🩶"}
+                </span>
+                <span class="like-count">
+                     ${comment.likes ? comment.likes.length : 0} 
+                </span>
+            </button>
+
+            <button class="btn-action reply-btn" onclick="toggleReplyForm('${comment._id}')">
+                <span class="icon">💬</span>
+                ${comment.replies ? comment.replies.length : 0} 
+
+            </button>
+
+            
+
+        ${user && comment.author && user._id === comment.author._id.toString() ? `<button class="btn-action edit-btn" onclick="editComment('${comment._id}')">
+                    <span class="icon">✏️</span>
+                    <span class="action-text">Edit</span>
+                </button>
+                <button class="btn-action delete-btn" onclick="showDeleteConfirmation('${comment._id}')">
+                    <span class="icon">🗑️</span>
+                    <span class="action-text">Delete</span>
+                </button>`: ""}
+
+                    <!-- Edit action buttons (hidden by default) -->
+                    <div class="edit-actions" style="display: none;">
+                        <button class="btn-action save-btn" onclick="saveEdit('${comment._id}')">
+                            <span class="icon">✅</span>
+                            <span class="action-text">Save</span>
+                        </button>
+                        <button class="btn-action cancel-btn" onclick="cancelEdit('${comment._id}')">
+                            <span class="icon">❌</span>
+                            <span class="action-text">Cancel</span>
+                        </button>
+                    </div>
+        </div>
+    </div>
+
+
+                <div class="reply-form" id="reply-form-${comment._id}" style="display: none;">
+                    <form onsubmit="submitReply(event, '${comment._id}')" class="reply-form-inner">
+                        <textarea class="reply-textarea" placeholder="Write a reply..." rows="2" required></textarea>
+                        <div class="reply-form-actions">
+                            <button type="submit" class="btn btn-primary btn-small">Reply</button>
+                            <button type="button" class="btn btn-secondary btn-small" onclick="toggleReplyForm('${comment._id}')">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        `;
+        }
+
+        function generateReplyHTML(reply) {
+            return `
+            <div class="reply" data-reply-id="${reply._id}" data-is-edited="${reply.isEdited || false}">
+                <div class="reply-author">
+                    <div class="avatar-container small">
+                        ${reply.author?.avatar ?
+                    `<img src="${escapeHtml(reply.author.avatar)}" alt="${escapeHtml(reply.author.name)}" class="avatar">` :
+                    `<div class="avatar-placeholder small">${(reply.author?.name || 'DU').charAt(0).toUpperCase()}</div>`
+                }
+                    </div>
+                    <div class="author-info">
+                        <span class="author-name">${escapeHtml(reply.author?.name || 'Deleted User')}</span>
+                        <span class="reply-date">
+                            ${new Date(reply.createdAt).toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                })}
+                        </span>
+                        ${reply.isEdited ? '<span class="edited-badge">(edited)</span>' : ''}
+                    </div>
+                </div>
+
+                <div class="reply-item" data-reply-id="${reply._id}">
+                    <div class="reply-content">
+                        ${reply.content}                    
+                    </div>
+                    <div class="reply-footer">
+                                        <div class="reply-actions">
+                                        <button class="btn-action like-btn" onclick="toggleLike('${reply._id}')"       data-reply-id="${reply._id}" data-liked="${reply.likes && user && reply.likes.some(like => like.equals(user._id))}">
+                                            <span class="icon">
+                                                ${reply.likes && user ? (reply.likes.some(like => like.equals(user._id)) ? "❤️" : "🩶") : "🩶"}
+                                            </span>
+
+                                        <span class="like-count">${reply.likes ? reply.likes.length : 0}</span>
+                                        </button>
+
+
+                    ${user && reply.author && user._id === reply.author._id.toString() ? `
+                        <button class="btn-action edit-btn" onclick="editComment('${reply._id}')">
+                            <span class="icon">✏️</span>
+                            <span class="action-text">Edit</span>
+                        </button>
+                        <button class="btn-action delete-btn" onclick="showDeleteConfirmation('${reply._id}')">
+                            <span class="icon">🗑️</span>
+                            <span class="action-text">Delete</span>
+
+                        </button>
+                    ` : ''}
+
+                      <!-- Edit action buttons (hidden by default) -->
+                    <div class="edit-actions" style="display: none;">
+                        <button class="btn-action save-btn" onclick="saveEdit('${reply._id}')">
+                            <span class="icon">✅</span>
+                            <span class="action-text">Save</span>
+                        </button>
+                        <button class="btn-action cancel-btn" onclick="cancelEdit('${reply._id}')">
+                            <span class="icon">❌</span>
+                            <span class="action-text">Cancel</span>
+                        </button>
+                    </div>
+                </div>
+                        </div>
+
+            </div>
+        `;
+        }
+
+        function updateCommentCount(change) {
+            const countElement = document.getElementById('comment-count');
+            if (!countElement) return;
+
+            const text = countElement.textContent;
+            const match = text.match(/\((\d+)\)/);
+
+            if (match) {
+                const currentCount = parseInt(match[1]);
+                const newCount = Math.max(0, currentCount + change);
+                countElement.textContent = text.replace(/\(\d+\)/, `(${newCount})`);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add click outside listener for edit mode
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.comment-content.editing') &&
+                    !e.target.closest('.edit-actions')) {
+                    const editingElements = document.querySelectorAll('.comment-content.editing');
+                    editingElements.forEach(el => {
+                        const commentId = el.id.replace('content-', '');
+                        if (commentId && originalCommentText[commentId]) {
+                            cancelEdit(commentId);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+    <style>
+        /* Comments Section Styles */
+        .comments-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .comment-count-title {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .post-comment-header {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .login-prompt {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .login-prompt a {
+            color: #4361EE;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-prompt a:hover {
+            text-decoration: underline;
+        }
+
+        /* Comment Form */
+        .comment-form {
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .comment-textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 100px;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        .comment-textarea:focus {
+            outline: none;
+            border-color: #3A56D4;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+
+        .form-footer {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 0.5rem;
+        }
+
+        /* Buttons */
+
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #1e7e34;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #007bff;
+            color: #007bff;
+        }
+
+        .btn-outline:hover {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-small {
+            padding: 0.3rem 1rem;
+            font-size: 0.85rem;
+            border: grey;
+        }
+
+        /* Comments Container */
+        .comments-container {
+            margin-top: 1.5rem;
+        }
+
+        .no-comments {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-style: italic;
+        }
+
+        /* Individual Comment */
+        .comment {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .comment:hover {
+            border-color: #e0e0e0;
+            background: #fff;
+        }
+
+        .comment-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .avatar-container {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .avatar-container.small {
+            width: 32px;
+            height: 32px;
+        }
+
+        .avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .avatar-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .avatar-placeholder.small {
+            font-size: 1rem;
+        }
+
+        .author-info {
+            flex: 1;
+        }
+
+        .author-name {
+            font-weight: 600;
+            color: #333;
+            display: block;
+        }
+
+        .comment-meta,
+        .reply-date {
+            font-size: 0.85rem;
+            color: #666;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .edited-badge {
+            color: #888;
+            font-style: italic;
+        }
+
+        /* Comment Content */
+        .comment-content,
+        .reply-content {
+            margin: 1rem 0;
+            line-height: 1.6;
+            color: #333;
+            padding: 0.5rem;
+            border-radius: 4px;
+            background: transparent;
+            transition: background-color 0.3s;
+        }
+
+        .comment-content.editing,
+        .reply-content.editing {
+            background: #fff;
+            border: 2px solid #007bff;
+            outline: none;
+            padding: 0.8rem;
+            min-height: 80px;
+        }
+
+        /* Actions */
+        .comment-actions,
+        .reply-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eaeaea;
+        }
+
+        .btn-action {
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 0.85rem;
+            cursor: pointer;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: all 0.3s;
+        }
+
+        .btn-action:hover {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+
+        .edit-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Reply Form */
+        .reply-form {
+            margin-top: 1rem;
+            animation: slideDown 0.3s ease;
+        }
+
+        .reply-form-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .reply-textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            resize: vertical;
+            min-height: 60px;
+            font-family: inherit;
+        }
+
+        .reply-form-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+        }
+
+        /* Replies */
+        .replies-container {
+            margin-left: 3rem;
+            margin-top: 1rem;
+            padding-left: 1.5rem;
+            border-left: 2px solid #eaeaea;
+        }
+
+        .reply {
+            background: #fff;
+            border: 1px solid #eaeaea;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+        }
+
+        .reply:hover {
+            border-color: #ddd;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .reply-author {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Load More */
+        .load-more-container {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eaeaea;
+        }
+
+        .load-more-replies {
+            background: none;
+            border: none;
+            color: #007bff;
+            cursor: pointer;
+            font-size: 0.85rem;
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+            text-decoration: underline;
+            transition: color 0.3s;
+        }
+
+        .load-more-replies:hover {
+            color: #0056b3;
+        }
+
+        .load-more-replies:disabled {
+            color: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+            max-width: 300px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .toast-success {
+            background: #28a745;
+        }
+
+        .toast-error {
+            background: #dc3545;
+        }
+
+        .toast-info {
+            background: #17a2b8;
+        }
+
+
+        .delete-confirmation-card {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .delete-confirmation-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            max-width: 400px;
+            width: 90%;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .delete-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1rem;
+
+        }
+
+        .delete-header .delete-icon {
+            font-size: 24px;
+        }
+
+        .delete-header h3 {
+            margin: 0;
+            color: #333;
+            font-size: 1.25rem;
+        }
+
+        .delete-confirmation-content p {
+            margin: 1rem 0 1.5rem;
+            color: #666;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .delete-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: space-around;
+        }
+
+        .delete-actions .btn {
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .delete-actions .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .delete-actions .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .delete-actions .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .delete-actions .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.3);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .comments-section {
+                padding: 1rem;
+                margin-top: 1rem;
+            }
+
+            .comments-header {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: flex-start;
+            }
+
+            .replies-container {
+                margin-left: 1rem;
+                padding-left: 1rem;
+            }
+
+            .comment-actions {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+
+            .btn-action {
+                font-size: 0.8rem;
+                padding: 0.2rem 0.5rem;
+            }
+        }
+
+        /* Accessibility */
+        .btn:focus,
+        .btn-action:focus,
+        .reply-textarea:focus {
+            outline: 2px solid #3A56D4;
+            outline-offset: 2px;
+        }
+    </style>

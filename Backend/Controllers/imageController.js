@@ -26,6 +26,12 @@ module.exports.loadImage = async (req, res) => {
     res.send(buffer);
   } catch (error) {
     console.error("Error loading image:", error.message);
+    if (req.accepts("html")) {
+      res.render("error.ejs", {
+        message: "An error occurred while load image. Please try again.",
+        error: process.env.NODE_ENV === "development" ? error : {},
+      });
+    }
     res.status(500).send("Error loading image");
   }
 };

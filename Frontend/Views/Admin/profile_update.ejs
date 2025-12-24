@@ -119,7 +119,7 @@
             <h1>Update Your Profile</h1>
 
             <div id="education-wrapper">
-                <% profile.education.forEach(function(edu, index) { %>
+                <% admin.profile.education.forEach(function(edu, index) { %>
                     <div class="education-block">
                         <div class="form-group">
                             <label>Degree Name</label>
@@ -152,39 +152,40 @@
 
             <div class="form-group">
                 <label for="location">Current Location</label>
-                <input type="text" id="location" name="location" value="<%= profile.location %>" required />
+                <input type="text" id="location" name="location" value="<%= admin.profile.location %>" required />
             </div>
 
             <div class="form-group">
                 <label for="hobbies">Hobbies</label>
-                <input type="text" id="hobbies" name="hobbies" value="<%= profile.hobbies %>" />
+                <input type="text" id="hobbies" name="hobbies" value="<%= admin.profile.hobbies %>" />
             </div>
 
             <div class="form-group">
                 <label for="instagram_profile">Instagram Profile</label>
                 <input type="url" id="instagram_profile" name="instagram_profile"
-                    value="<%= profile.instagram_profile %>" required />
+                    value="<%= admin.profile.instagram_profile %>" required />
             </div>
 
             <div class="form-group">
                 <label for="linkedin_profile">LinkedIn Profile</label>
-                <input type="url" id="linkedin_profile" name="linkedin_profile" value="<%= profile.linkedin_profile %>"
-                    required />
+                <input type="url" id="linkedin_profile" name="linkedin_profile"
+                    value="<%= admin.profile.linkedin_profile %>" required />
             </div>
 
             <div class="form-group">
                 <label for="x_profile">X (Twitter) Profile</label>
-                <input type="url" id="x_profile" name="x_profile" value="<%= profile.x_profile %>" required />
+                <input type="url" id="x_profile" name="x_profile" value="<%= admin.profile.x_profile %>" required />
             </div>
 
             <div class="form-group">
-                <label for="about_author">About You</label>
-                <textarea id="about_author" name="about_author" rows="4" required><%= profile.about_author %></textarea>
+                <label for="about_admin">About You</label>
+                <textarea id="about_admin" name="about_admin" rows="4"
+                    required><%= admin.profile.about_admin %></textarea>
             </div>
 
             <div class="form-group">
                 <label>Current Profile Picture</label>
-                <img src="<%= profile.profile_image.url %>" alt="Admin's profile picture" />
+                <img src="<%= admin.profile.profile_image.url %>" alt="Admin's profile picture" />
             </div>
 
             <div class="form-group">

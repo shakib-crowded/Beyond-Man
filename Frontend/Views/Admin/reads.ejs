@@ -17,10 +17,10 @@
         <header class="admin-header">
             <h1>Blog Management</h1>
             <div class="header-actions">
-                <a href="/admin/edit" class="btn btn-primary" aria-label="Upload New Blog">
+                <a href="/admin/upload" class="btn btn-primary" aria-label="Upload New Blog">
                     <i class="fas fa-plus"></i> New Blog
                 </a>
-                <a href="/admin" class="btn btn-outline" aria-label="Back to Dashboard">
+                <a href="/admin/dashboard" class="btn btn-outline" aria-label="Back to Dashboard">
                     <i class="fas fa-arrow-left"></i> Dashboard
                 </a>
                 <button class="btn btn-danger" aria-label="Log Out" onclick="confirmLogout()">
@@ -99,7 +99,7 @@
                                     <h3>No Blogs Available</h3>
                                     <p>You haven't created any blogs yet. Get started by clicking the "New Blog" button.
                                     </p>
-                                    <a href="/admin/edit" class="btn btn-primary">Create Your First Blog</a>
+                                    <a href="/admin/upload" class="btn btn-primary">Create Your First Blog</a>
                                 </div>
                                 <% } %>
             </div>

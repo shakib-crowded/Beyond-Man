@@ -1,0 +1,60 @@
+<div class="comment-item" data-comment-id="<%= comment._id %>">
+    <div class="comment-content">
+        <%= comment.content %>
+    </div>
+
+    <div class="comment-footer">
+        <div class="comment-actions">
+            <button class="btn-action like-btn" onclick="toggleLike('<%= comment._id %>')"
+                data-comment-id="<%= comment._id %>"
+                data-liked="<%= comment.likes && user && comment.likes.some(like => like.equals(user._id)) %>">
+                <span class="icon">
+                    <% if (comment.likes && user) { %>
+                        <%= comment.likes.some(like=> like.equals(user._id))
+                            ? "❤️"
+                            : "🩶" %>
+                            <% } else { %>
+                                🩶
+                                <% } %>
+                </span>
+                <span class="like-count">
+                    <%= comment.likes ? comment.likes.length : 0 %>
+                </span>
+            </button>
+
+            <button class="btn-action reply-btn" onclick="toggleReplyForm('<%= comment._id %>')">
+                <span class="icon">💬</span>
+                <span class="action-text">Reply</span>
+            </button>
+
+
+
+            <% if (user && comment.author && user.id===comment.author._id.toString()) { %>
+                <button class="btn-action edit-btn" onclick="editComment('<%= comment._id %>')">
+                    <span class="icon">✏️</span>
+                    <span class="action-text">Edit</span>
+                </button>
+                <button class="btn-action delete-btn" onclick="deleteComment('<%= comment._id %>')">
+                    <span class="icon">🗑️</span>
+                    <span class="action-text">Delete</span>
+                </button>
+                <% } %>
+
+                    <!-- Edit action buttons (hidden by default) -->
+                    <div class="edit-actions" style="display: none;">
+                        <button class="btn-action save-btn" onclick="saveEdit('<%= comment._id %>')">
+                            <span class="icon">💾</span>
+                            <span class="action-text">Save</span>
+                        </button>
+                        <button class="btn-action cancel-btn" onclick="cancelEdit('<%= comment._id %>')">
+                            <span class="icon">❌</span>
+                            <span class="action-text">Cancel</span>
+                        </button>
+                    </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="comment-content" id="content-${comment._id}">${escapeHtml(comment.content)}</div>

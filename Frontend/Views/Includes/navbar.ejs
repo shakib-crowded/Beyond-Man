@@ -1,3 +1,113 @@
+<style>
+        /* Logout Modal Styles */
+
+        .logout-modal {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 10000;
+                justify-content: center;
+                align-items: center;
+        }
+
+        .logout-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.6);
+                backdrop-filter: blur(3px);
+                z-index: 9999;
+        }
+
+        .logout-modal-content {
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+                width: 90%;
+                max-width: 400px;
+                overflow: hidden;
+                transform: translateY(20px);
+                opacity: 0;
+                transition: all 0.3s ease;
+                z-index: 10001;
+        }
+
+        .logout-modal.show .logout-modal-content {
+                transform: translateY(0);
+                opacity: 1;
+        }
+
+        .logout-modal-header {
+                padding: 20px;
+                text-align: center;
+                background: #f8f9fa;
+                border-bottom: 1px solid #eee;
+        }
+
+        .logout-modal-header i {
+                font-size: 2.5rem;
+                color: #3f37c9;
+                margin-bottom: 10px;
+        }
+
+        .logout-modal-header h3 {
+                margin: 0;
+                color: #333;
+                font-size: 1.3rem;
+        }
+
+        .logout-modal-body {
+                padding: 25px 20px;
+                text-align: center;
+                color: #555;
+                font-size: 1rem;
+                line-height: 1.5;
+        }
+
+        .logout-modal-footer {
+                display: flex;
+                padding: 15px;
+                border-top: 1px solid #eee;
+        }
+
+        .logout-modal-btn {
+                flex: 1;
+                padding: 12px;
+                border: none;
+                border-radius: 6px;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                font-size: 0.95rem;
+        }
+
+        .cancel-btn {
+                background: #f1f3f5;
+                color: #555;
+                margin-right: 10px;
+        }
+
+        .cancel-btn:hover {
+                color: #000000;
+                background: #e9ecef;
+        }
+
+        .logout-modal .logout-btn {
+                background: #ff4757;
+                color: white;
+        }
+
+        .logout-modal .logout-btn:hover {
+                background: #ff6b81;
+        }
+</style>
+
 <nav class="navbar">
         <div class="nav-container">
                 <!-- Logo -->
@@ -48,8 +158,6 @@
                 <!-- Desktop Navigation -->
                 <div class="nav-main">
                         <div class="nav-actions">
-
-
                                 <% if (!user) { %>
                                         <div class="user-menu">
                                                 <div class="user-avatar">
@@ -58,8 +166,7 @@
                                                 <div class="user-dropdown">
                                                         <div class="auth-buttons">
                                                                 <a href="/login" class="btn btn-login">Login</a>
-                                                                <a href="/register" class="btn btn-primary"
-                                                                        style="color: white;">Register</a>
+                                                                <a href="/register" class="btn btn-primary">Register</a>
                                                         </div>
                                                 </div>
                                         </div>
@@ -73,7 +180,8 @@
 
                                                                 <div class="divider"></div>
                                                                 <a onclick="showLogOutCard()" class="logout-btn"><i
-                                                                                class="fas fa-power-off"></i> Log
+                                                                                class="fas fa-power-off"></i>
+                                                                        Log
                                                                         Out</a>
                                                         </div>
                                                 </div>
@@ -151,7 +259,7 @@
                                 <li class="mobile-user-links">
                                         <!-- <a href="/profile"><i class="fas fa-user"></i> Profile</a>
                                         <a href="/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a> -->
-                                        <a onclick="showLogOutCard()" class="mobile-logout"><i
+                                        <a onclick="showLogOutCard()" class="mobile-logout" style="cursor: pointer;"><i
                                                         class="fas fa-power-off"></i> Log
                                                 Out</a>
                                 </li>

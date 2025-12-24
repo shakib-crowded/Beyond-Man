@@ -45,36 +45,23 @@
                     <h2 class="section-title">Basic Information</h2>
 
                     <div class="form-group">
-                        <label for="languageName" class="required">Language Name</label>
-                        <input type="text" id="languageName" name="languageName" placeholder="e.g., JavaScript, Python"
-                            required>
+                        <label for="path" class="required">Path Name</label>
+                        <input type="text" id="path" name="path" placeholder="e.g., JavaScript, Python" required>
                     </div>
 
                     <div class="form-group">
                         <label for="title" class="required">Blog Title</label>
-                        <input type="text" id="title" name="title" placeholder="Enter blog title" maxlength="250"
-                            required>
+                        <input type="text" id="title" name="title" placeholder="Enter blog title" minlength="5"
+                            maxlength="200" required>
                         <div class="char-counter" id="charTitleCount">0/250 characters</div>
                     </div>
 
                     <div class="form-group">
                         <label for="description" class="required">Short Description</label>
                         <textarea id="description" name="description"
-                            placeholder="Brief description for preview cards..." maxlength="150" required></textarea>
+                            placeholder="Brief description for preview cards..." minlength="50" maxlength="500"
+                            required></textarea>
                         <div class="char-counter" id="charDescriptionCount">0/150 characters</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="category" class="required">Category</label>
-                        <select id="category" name="category" required>
-                            <option value="">Select a category</option>
-                            <option value="Programming">Programming</option>
-                            <option value="Web-Development">Web Development</option>
-                            <option value="Android-Development">Android Development</option>
-                            <option value="Software-Development">Software Development</option>
-                            <option value="Data-Science">Data Science</option>
-                            <option value="Machine-Learning">Machine Learning</option>
-                        </select>
                     </div>
                 </div>
 
@@ -162,12 +149,6 @@
                 <div class="form-section">
                     <h2 class="section-title">Additional Information</h2>
 
-                    <div class="form-group">
-                        <label for="author">Author Name</label>
-                        <input type="text" id="author" name="author" placeholder="Your name or pseudonym"
-                            maxlength="40">
-                        <div class="char-counter" id="charAuthorCount">0/40 characters</div>
-                    </div>
 
                     <div class="form-group">
                         <label for="tags">Tags</label>

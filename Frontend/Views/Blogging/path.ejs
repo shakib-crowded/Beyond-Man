@@ -7,7 +7,8 @@
                     <% for(blog of allBlogs) { %>
                         <article class="blog-card">
                             <div class="card-image-container">
-                                <a href="/<%= blog.slug %>" class="card-image-link" aria-label="Read <%= blog.title %>">
+                                <a href="/<%= blogPath %>/<%= blog.slug %>" class="card-image-link"
+                                    aria-label="Read <%= blog.title %>">
                                     <img src="/images/admin_BLOGS/<%= blog.image.filename.replace('admin_BLOGS/', '') %>"
                                         alt="<%= blog.title %>" class="card-image" loading="lazy">
                                     <div class="image-overlay"></div>
@@ -16,19 +17,20 @@
 
                             <div class="card-content">
                                 <h3 class="card-title">
-                                    <a href="/<%= blog.slug %>">
+                                    <a href="/<%= blogPath %>/<%= blog.slug %>">
                                         <%= blog.title %>
                                     </a>
                                 </h3>
 
                                 <div class="card-meta">
                                     <div class="meta-author">
-                                        <a href="/author/<%= blog.admin %>" class="author-link">
+                                        <a href="/author/<%= blog.author?.username || blog.author?._id%>"
+                                            class="author-link">
                                             <svg class="meta-icon" viewBox="0 0 24 24" width="16" height="16">
                                                 <path fill="currentColor"
                                                     d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" />
                                             </svg>
-                                            <%= blog.author || blog.admin %>
+                                            <%= blog.author?.name || "Unknown Author" %>
                                         </a>
                                     </div>
 

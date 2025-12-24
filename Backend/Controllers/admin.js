@@ -1,6 +1,5 @@
-const Blog = require("../Models/blogs");
-const Admin = require("../Models/signUpAdmin");
-const AuthorProfile = require("../Models/authorProfile");
+const Blog = require("../Models/Blog");
+const Admin = require("../Models/Admin");
 const cloudinary = require("cloudinary").v2;
 const DOMPurify = require("dompurify");
 const { JSDOM } = require("jsdom");
@@ -9,136 +8,20 @@ const { JSDOM } = require("jsdom");
 const { window } = new JSDOM("");
 const domPurify = DOMPurify(window);
 
-module.exports.admin_block = (req, res) => {
-  if (req.isAuthenticated()) {
-    if (req.user.role === "admin") {
-      res.redirect("/admin/dashboard");
-    } else {
-      res.status(403).send("Access Denied :You are not an admin");
-    }
-  } else {
-    res.render("../Admin/admin.ejs");
-  }
+module.exports.home = (req, res) => {
+  res.render("../Admin/home.ejs");
 };
 
-module.exports.admin_dashboard = (req, res) => {
-  res.render("../Admin/adminDashboard.ejs");
+module.exports.show_profile_page = (req, res) => {
+  res.render("../Admin/profile.ejs");
 };
 
-module.exports.admin_edit = (req, res) => {
-  res.render("../Admin/upload_blog.ejs");
-};
-module.exports.admin_upload = async (req, res) => {
+module.exports.profile_complete = async (req, res) => {
   try {
-    // Extract image details
-    const url = req.file.path;
-    const filename = req.file.filename;
-    const admin = await Admin.adminSignUp.findById(req.user._id);
-    const adminUsername = admin.username;
+    const admin = req.user;
 
-    // Extract blog details
-    const {
-      languageName,
-      title,
-      description,
-      content,
-      author,
-      category,
-      tags,
-    } = req.body;
-
-    // Sanitize the content
-    const sanitizedContent = domPurify.sanitize(content);
-
-    // Add `first-paragraph` class to the first <p> tag
-    // const modifiedContent = sanitizedContent.replace(/<p>(.*?)<\/p>/);
-
-    // Create and save the new blog
-    const newBlog = new Blog({
-      languageName,
-      title,
-      description,
-      content: sanitizedContent,
-      author,
-      category,
-      tags: tags.split(", "),
-      admin: adminUsername,
-      image: { url, filename },
-    });
-
-    await newBlog.save();
-
-    req.flash("success", "New Blog Created!");
-    res.redirect("/admin/read");
-  } catch (err) {
-    console.error("Error creating blog:", err);
-    req.flash("error", "Failed to create blog. Please try again.");
-    res.redirect("/admin/upload");
-  }
-};
-
-module.exports.admin_read = async (req, res) => {
-  try {
-    const admin = await Admin.adminSignUp.findById(res.locals.currAdmin._id);
-    const adminUsername = admin.username;
-    const blogs = await Blog.find({ admin: adminUsername });
-    res.render("../Admin/read_blogs", { blogs });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("An error occurred while fetching blogs.");
-  }
-};
-
-module.exports.admin_read_single_blog = async (req, res) => {
-  try {
-    const blog = await Blog.findById(req.params.id);
-
-    // Define the formatDate function
-    const formatDate = (dateString) => {
-      if (!dateString) return "N/A";
-      const date = new Date(dateString);
-      return date.toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      });
-    };
-
-    // Also pass formatDateTime if needed
-    const formatDateTime = (dateString) => {
-      if (!dateString) return "N/A";
-      const date = new Date(dateString);
-      return date.toLocaleString("en-US", {
-        weekday: "short",
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        hour12: true,
-      });
-    };
-
-    res.render("../Admin/single_blog", {
-      blog,
-      formatDate,
-      formatDateTime,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Server Error");
-  }
-};
-
-module.exports.admin_profile_page = (req, res) => {
-  res.render("../Admin/adminProfile.ejs");
-};
-
-module.exports.admin_profile = async (req, res) => {
-  try {
     const url = req.file?.path;
     const filename = req.file?.filename;
-    const username = req.user.username;
 
     let {
       education,
@@ -147,8 +30,16 @@ module.exports.admin_profile = async (req, res) => {
       instagram_profile,
       linkedin_profile,
       x_profile,
-      about_author,
+      about_admin,
     } = req.body;
+
+    // Validate required fields
+    if (!location || !about_admin) {
+      return res.status(400).json({
+        success: false,
+        message: "Location and About Admin are required.",
+      });
+    }
 
     // Ensure education is always an array
     if (!Array.isArray(education)) {
@@ -163,22 +54,28 @@ module.exports.admin_profile = async (req, res) => {
           .filter((h) => h !== "")
       : [];
 
-    const adminProfile = new AuthorProfile({
-      username,
-      education,
+    // Build education objects
+    const formattedEducation = education.map((e) => ({
+      degreeName: e.degreeName,
+      universityName: e.universityName,
+      startingDate: e.startingDate,
+      endingDate: e.endingDate || null,
+    }));
+
+    admin.profile = {
+      about_admin,
       location,
       hobbies: hobbiesArray,
       instagram_profile,
       linkedin_profile,
       x_profile,
-      about_author,
-      profile_image: { url, filename },
-      isCompletedProfile: true,
-    });
+      profile_image: url ? { url, filename } : admin.profile?.profile_image,
+      education: formattedEducation,
+    };
 
-    await adminProfile.save();
+    admin.profileCompleted = true;
 
-    req.flash("success", "Your Profile Completed!");
+    await admin.save();
     res.redirect("/admin/dashboard");
   } catch (error) {
     console.error("Admin profile creation error:", error);
@@ -186,17 +83,16 @@ module.exports.admin_profile = async (req, res) => {
   }
 };
 
-module.exports.admin_profile_update_page = async (req, res) => {
-  const adminUsername = req.user.username;
-  const adminProfile = await AuthorProfile.findOne({ username: adminUsername });
-  res.render("../Admin/admin_profile_update.ejs", { profile: adminProfile });
+module.exports.profile_update_page = async (req, res) => {
+  const { id } = req.user;
+  const admin = await Admin.findById(id);
+
+  res.render("../Admin/profile_update.ejs", { admin });
 };
-module.exports.admin_profile_update = async (req, res) => {
+module.exports.profile_update = async (req, res) => {
   try {
-    const adminUsername = req.user.username;
-    const adminProfile = await AuthorProfile.findOne({
-      username: adminUsername,
-    });
+    const { id } = req.user;
+    const admin = await Admin.findById(id);
 
     const {
       education,
@@ -205,10 +101,10 @@ module.exports.admin_profile_update = async (req, res) => {
       instagram_profile,
       linkedin_profile,
       x_profile,
-      about_author,
+      about_admin,
     } = req.body;
 
-    let updatedImage = adminProfile.profile_image;
+    let updatedImage = admin.profile.profile_image;
     const processedHobbies = hobbies ? hobbies.split(/\s*,\s*/) : [];
 
     // Process new profile image if uploaded
@@ -239,16 +135,16 @@ module.exports.admin_profile_update = async (req, res) => {
     }
 
     // Update profile fields
-    adminProfile.education = educationArray;
-    adminProfile.location = location;
-    adminProfile.hobbies = processedHobbies;
-    adminProfile.instagram_profile = instagram_profile;
-    adminProfile.linkedin_profile = linkedin_profile;
-    adminProfile.x_profile = x_profile;
-    adminProfile.about_author = about_author;
-    adminProfile.profile_image = updatedImage;
+    admin.profile.education = educationArray;
+    admin.profile.location = location;
+    admin.profile.hobbies = processedHobbies;
+    admin.profile.instagram_profile = instagram_profile;
+    admin.profile.linkedin_profile = linkedin_profile;
+    admin.profile.x_profile = x_profile;
+    admin.profile.about_admin = about_admin;
+    admin.profile.profile_image = updatedImage;
 
-    await adminProfile.save();
+    await admin.save();
     res.redirect("/admin/dashboard");
   } catch (error) {
     console.error("Error updating profile: ", error);
@@ -256,26 +152,125 @@ module.exports.admin_profile_update = async (req, res) => {
   }
 };
 
-module.exports.admin_update_form = async (req, res) => {
+module.exports.dashboard = (req, res) => {
+  res.render("../Admin/dashboard.ejs");
+};
+
+module.exports.upload_form = (req, res) => {
+  res.render("../Admin/upload_blog.ejs");
+};
+module.exports.upload = async (req, res) => {
+  try {
+    // Extract image details
+    const url = req.file.path;
+    const filename = req.file.filename;
+
+    const blogAdmin = await Admin.findById(req.user.id);
+
+    // Extract blog details
+    const { path, title, description, content, tags } = req.body;
+
+    // Sanitize the content
+    const sanitizedContent = domPurify.sanitize(content);
+
+    // Add `first-paragraph` class to the first <p> tag
+    // const modifiedContent = sanitizedContent.replace(/<p>(.*?)<\/p>/);
+
+    // Create and save the new blog
+    const newBlog = new Blog({
+      path,
+      title,
+      description,
+      content: sanitizedContent,
+      tags: tags.split(", "),
+      author: blogAdmin,
+      image: { url, filename },
+    });
+
+    await newBlog.save();
+
+    res.redirect("/admin/reads");
+  } catch (err) {
+    console.error("Error creating blog:", err);
+    res.redirect("/admin/upload");
+  }
+};
+
+module.exports.reads = async (req, res) => {
+  try {
+    // const admin = await Admin.findById(req.user.id);
+    // const adminUsername = admin.username;
+    // const blogs = await Blog.find({ admin: adminUsername });
+
+    const admin = await Admin.findById(req.user.id);
+    const blogs = await Blog.find({ author: admin._id });
+    res.render("../Admin/reads", { blogs });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("An error occurred while fetching blogs.");
+  }
+};
+
+module.exports.read = async (req, res) => {
+  try {
+    const blog = await Blog.findById(req.params.id);
+
+    // Define the formatDate function
+    const formatDate = (dateString) => {
+      if (!dateString) return "N/A";
+      const date = new Date(dateString);
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    };
+
+    // Also pass formatDateTime if needed
+    const formatDateTime = (dateString) => {
+      if (!dateString) return "N/A";
+      const date = new Date(dateString);
+      return date.toLocaleString("en-US", {
+        weekday: "short",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
+      });
+    };
+
+    res.render("../Admin/read", {
+      blog,
+      formatDate,
+      formatDateTime,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error");
+  }
+};
+
+module.exports.update_form = async (req, res) => {
   let { id } = req.params;
   let blog = await Blog.findById(id);
   if (!blog) {
-    req.flash("false", "Blog Doesn't Exists!");
-    req.redirect("/admin/read");
+    req.redirect("/admin/reads");
   }
   res.render("../Admin/update_blog", { blog });
 };
 
-module.exports.admin_update = async (req, res) => {
+module.exports.update = async (req, res) => {
   try {
     const { id } = req.params; // Extract blog ID from the URL parameter
-    const { languageName, title, content, author, category, tags } = req.body;
+    const { path, title, content, tags } = req.body;
 
     // Find the blog by its ID
     const blog = await Blog.findById(id);
     if (!blog) {
       req.flash("error", "Blog not found.");
-      return res.redirect("/admin/read");
+      return res.redirect("/admin/reads");
     }
 
     // Update image if a new one is uploaded
@@ -302,11 +297,9 @@ module.exports.admin_update = async (req, res) => {
       .replace(/\s+/g, "-"); // Replace spaces with hyphens
 
     // Update the blog with the new values
-    blog.languageName = languageName;
+    blog.path = path;
     blog.title = title;
     blog.content = sanitizedContent;
-    blog.author = author;
-    blog.category = category;
     blog.tags = processedTags;
     blog.image = updatedImage; // Update the image if a new one is provided
     blog.updated_date = Date.now();
@@ -315,8 +308,7 @@ module.exports.admin_update = async (req, res) => {
     // Save the updated blog
     await blog.save();
 
-    req.flash("success", "Blog updated successfully!");
-    res.redirect("/admin/read");
+    res.redirect("/admin/reads");
   } catch (err) {
     console.error("Error updating blog:", err);
     req.flash("error", "Failed to update blog. Please try again.");
@@ -324,7 +316,7 @@ module.exports.admin_update = async (req, res) => {
   }
 };
 
-module.exports.admin_destroy = async (req, res) => {
+module.exports.destroy = async (req, res) => {
   let { id } = req.params;
 
   try {
@@ -343,7 +335,6 @@ module.exports.admin_destroy = async (req, res) => {
     // Delete the blog from the database`
     await Blog.findByIdAndDelete(id);
 
-    req.flash("success", "Blog deleted successfully!");
     res.json({ message: "Blog deleted successfully!" });
   } catch (err) {
     console.error("Error deleting blog:", err);

@@ -41,12 +41,84 @@
             </div>
             <div class="col contact-form wow fadeInUp" data-wow-delay="0.5s" id="contact-form">
                 <h5 class="contact-subheading">Fill The Form For Query...</h5>
-                <form method="post" action="/contact">
-                    <input type="text" class="form-control" placeholder="Subject" name="subject">
-                    <textarea class="form-control" placeholder="Leave a message here" name="message"
-                        rows="6"></textarea>
+                <form id="contactForm">
+                    <input type="text" class="form-control" placeholder="Subject" name="subject" required>
+                    <textarea class="form-control" placeholder="Leave a message here" name="message" rows="6"
+                        required></textarea>
                     <button aria-label="Send Message" type="submit">Send Message</button>
                 </form>
             </div>
         </div>
     </div>
+
+    <script>
+        const form = document.getElementById("contactForm");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+
+            const data = {
+                subject: formData.get("subject"),
+                message: formData.get("message")
+            }
+
+            try {
+                const res = await fetch("/contact", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await res.json();
+
+                if (result.success) {
+                    alert(result.message);
+                    form.reset();
+                }
+                else
+                    alert(result.message || "Something went wrong")
+
+            } catch (error) {
+
+
+            }
+        })
+
+    </script>
+    <!-- 
+{
+    "_id": {
+      "$oid": "67dd109b55c42482b0b57e0d"
+    },
+    "title": "Hello World Program In 10 Programming Languages.",
+    "description": "Hello World program sabse pehla program hota hai kisi bhi programming language mein...",
+    "content": "This is blog content</p>",
+    "author": "Shakib Ansari",
+    "category": "Programming",
+    "tags": [
+      "programming-in-c",
+      "hello-world",
+      "10-hello-world-program",
+      "first-program",
+      "programming-languages"
+    ],
+    "image": {
+      "url": "https://res.cloudinary.com/dsedsszhf/image/upload/v1743320105/admin_BLOGS/fuwtv66tcpt5ngs7k7mz.jpg",
+      "filename": "admin_BLOGS/fuwtv66tcpt5ngs7k7mz"
+    },
+    "admin": "shakib@dev",
+    "comments": [],
+    "created_date": {
+      "$date": "2025-03-21T07:09:15.655Z"
+    },
+    "slug": "hello-world-program-in-10-programming-languages",
+    "__v": 1,
+    "updated_date": {
+      "$date": "2025-05-21T04:47:39.462Z"
+    },
+    "languageName": "all"
+  } -->

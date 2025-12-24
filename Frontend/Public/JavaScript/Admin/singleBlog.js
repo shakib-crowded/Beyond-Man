@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((response) => {
         if (response.ok) {
           // Redirect to blog list after successful deletion
-          window.location.href = "/admin/read?deleted=true";
+          window.location.href = "/admin/reads";
         } else {
           throw new Error("Failed to delete blog");
         }

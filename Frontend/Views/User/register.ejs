@@ -1,33 +1,53 @@
 <% layout("../Layouts/boilerplate") %>
 
-    <div class="login-page">
+    <div class="signup-page">
+
         <!-- Notification Container -->
         <div class="notification-container" id="notificationContainer"></div>
 
-        <div class="login-container">
+        <div class="signup-container">
             <!-- Desktop Decorative Elements -->
-            <div class="login-decoration">
+            <div class="signup-decoration">
                 <div class="shape-1"></div>
                 <div class="shape-2"></div>
                 <div class="shape-3"></div>
             </div>
 
-            <div class="login-card">
-                <div class="login-header">
+            <div class="signup-card">
+                <div class="signup-header">
                     <div class="logo-container">
                         <img src="../Resources/images/Beyond Man Logo (Circle).png" alt="Beyond Man Logo"
                             style="height: 5rem;">
                     </div>
-                    <h1>Welcome Back</h1>
-                    <p>Please enter your credentials to access your account</p>
+                    <h1>Create Your Account</h1>
+                    <p>Join us today to start your learning journey</p>
                 </div>
 
-                <form class="login-form" id="loginForm" novalidate>
+                <form class="signup-form" id="signupForm" novalidate>
+                    <!-- Name Field -->
                     <div class="form-group">
-                        <label for="username">Username or Email</label>
-                        <div class="input-wrapper" data-validation="username">
+                        <label for="name">Full Name</label>
+                        <div class="input-wrapper" data-validation="name">
                             <i class="fas fa-user"></i>
-                            <input type="text" id="username" name="username" placeholder="Enter your username or email"
+                            <input type="text" id="name" name="name" placeholder="Enter your full name"
+                                autocomplete="name" required>
+                            <div class="validation-icons">
+                                <i class="fas fa-check-circle valid-icon"></i>
+                                <i class="fas fa-exclamation-circle invalid-icon"></i>
+                            </div>
+                        </div>
+                        <div class="validation-feedback">
+                            <div class="hint-text">3-40 characters, letters and spaces only</div>
+                            <div class="error-message"></div>
+                        </div>
+                    </div>
+
+                    <!-- Username Field -->
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <div class="input-wrapper" data-validation="username">
+                            <i class="fas fa-at"></i>
+                            <input type="text" id="username" name="username" placeholder="Choose a username"
                                 autocomplete="username" required>
                             <div class="validation-icons">
                                 <i class="fas fa-check-circle valid-icon"></i>
@@ -35,27 +55,46 @@
                             </div>
                         </div>
                         <div class="validation-feedback">
-                            <div class="hint-text">3-40 characters, letters, numbers, ._-@</div>
+                            <div class="hint-text">3-40 characters, lowercase letters, numbers, ._-@</div>
                             <div class="error-message"></div>
                         </div>
                     </div>
 
+                    <!-- Email Field -->
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <div class="input-wrapper" data-validation="email">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="email" name="email" placeholder="Enter your email"
+                                autocomplete="email" required>
+                            <div class="validation-icons">
+                                <i class="fas fa-check-circle valid-icon"></i>
+                                <i class="fas fa-exclamation-circle invalid-icon"></i>
+                            </div>
+                        </div>
+                        <div class="validation-feedback">
+                            <div class="hint-text">Enter a valid email address</div>
+                            <div class="error-message"></div>
+                        </div>
+                    </div>
+
+                    <!-- Password Field -->
                     <div class="form-group">
                         <label for="password">Password</label>
                         <div class="input-wrapper" data-validation="password">
                             <i class="fas fa-lock"></i>
-                            <input type="password" id="password" name="password" placeholder="••••••••"
-                                autocomplete="current-password" required>
+                            <input type="password" id="password" name="password" placeholder="Create a password"
+                                autocomplete="new-password" required>
                             <div class="validation-icons">
                                 <i class="fas fa-check-circle valid-icon"></i>
                                 <i class="fas fa-exclamation-circle invalid-icon"></i>
                             </div>
                             <button type="button" class="toggle-password" aria-label="Toggle password visibility">
-                                <i class="fa-solid fa-eye" id="showPassword"></i>
+                                <i class="fas fa-eye"></i>
                             </button>
                         </div>
                         <div class="validation-feedback">
-                            <div class="hint-text">8+ chars, uppercase, lowercase, special</div>
+                            <div class="hint-text">8+ chars, uppercase, lowercase, number, special</div>
                             <div class="error-message"></div>
                         </div>
                         <div class="password-strength">
@@ -64,34 +103,129 @@
                         </div>
                     </div>
 
-                    <input type="text" value="<%= redirect %>" name="redirect" id="redirect" hidden>
+                    <!-- Terms Checkbox -->
+                    <div class="form-checkbox">
+                        <input type="checkbox" id="terms" name="terms" value="true">
+                        <label for="terms">I agree to the <a href="/terms-and-conditions" target="_blank">Terms of
+                                Service</a> and <a href="/privacy-policy" target="_blank">Privacy Policy</a></label>
+                        <div class="terms-error error-message"></div>
+                    </div>
 
-                    <button type="submit" class="login-btn" id="submit-btn">
-                        <span class="btn-text">Sign In</span>
+                    <!-- Submit Button -->
+                    <button type="submit" class="signup-btn" id="submit-btn">
+                        <span class="btn-text">Create Account</span>
                         <span class="btn-loader" style="display: none;">
                             <i class="fas fa-spinner fa-spin"></i>
                         </span>
                         <i class="fas fa-arrow-right btn-icon"></i>
                     </button>
 
-                    <a href="/forgot-password" class="forgot-password">Forgot Password?</a>
+                    <!-- Login Link -->
+                    <div class="signup-footer">
+                        <p>Already have an account? <a href="/login">Log in</a></p>
+                    </div>
                 </form>
-
-                <div class="login-footer">
-                    <p>Don't have an account? <a href="/register">Create account</a></p>
-                </div>
             </div>
         </div>
     </div>
 
     <script>
+        // Notification System
+        class NotificationSystem {
+            constructor() {
+                this.container = document.getElementById('notificationContainer');
+                this.notifications = [];
+                this.autoCloseDelay = 5000; // 5 seconds
+            }
+
+            show(title, message, type = 'info', duration = 5000) {
+                const notification = this.createNotification(title, message, type);
+                this.container.appendChild(notification);
+                this.notifications.push(notification);
+
+                // Auto remove after duration
+                const autoRemove = setTimeout(() => {
+                    this.remove(notification);
+                }, duration);
+
+                // Add click to close
+                const closeBtn = notification.querySelector('.notification-close');
+                closeBtn.addEventListener('click', () => {
+                    clearTimeout(autoRemove);
+                    this.remove(notification);
+                });
+
+                return notification;
+            }
+
+            createNotification(title, message, type) {
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+
+                // Set icon based on type
+                let icon = 'info-circle';
+                switch (type) {
+                    case 'success': icon = 'check-circle'; break;
+                    case 'error': icon = 'exclamation-circle'; break;
+                    case 'warning': icon = 'exclamation-triangle'; break;
+                    case 'info': icon = 'info-circle'; break;
+                }
+
+                notification.innerHTML = `
+            <i class="fas fa-${icon} notification-icon"></i>
+            <div class="notification-content">
+                <div class="notification-title">${title}</div>
+                <div class="notification-message">${message}</div>
+            </div>
+            <button class="notification-close" aria-label="Close notification">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+
+                return notification;
+            }
+
+            remove(notification) {
+                if (!notification.parentNode) return;
+
+                notification.classList.add('fade-out');
+
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        this.container.removeChild(notification);
+                    }
+                    const index = this.notifications.indexOf(notification);
+                    if (index > -1) {
+                        this.notifications.splice(index, 1);
+                    }
+                }, 300);
+            }
+
+            clearAll() {
+                this.notifications.forEach(notification => {
+                    this.remove(notification);
+                });
+            }
+        }
+
+
+        // Initialize notification system
+        const Notifications = new NotificationSystem();
+
         (function () {
             'use strict';
 
             // Configuration
             const CONFIG = {
-                apiEndpoint: '/login',
+                apiEndpoint: '/register',
                 validation: {
+                    name: {
+                        pattern: /^[a-zA-Z\s]+$/,
+                        minLength: 3,
+                        maxLength: 40,
+                        errorMessage: 'Only letters and spaces allowed',
+                        requiredMessage: 'Full name is required'
+                    },
                     username: {
                         pattern: /^[a-z0-9._@-]+$/,
                         minLength: 3,
@@ -99,11 +233,18 @@
                         errorMessage: 'Only lowercase letters, numbers, and . _ - @',
                         requiredMessage: 'Username is required'
                     },
+                    email: {
+                        pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                        minLength: 1,
+                        maxLength: 100,
+                        errorMessage: 'Please enter a valid email address',
+                        requiredMessage: 'Email is required'
+                    },
                     password: {
-                        pattern: /^(?=.*[a-z])(?=.*[A-Z]).+$/,
+                        pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=<>?]).+$/,
                         minLength: 8,
                         maxLength: 50,
-                        errorMessage: 'Requires uppercase, lowercase, and special character',
+                        errorMessage: 'Must include uppercase, lowercase, number, and special character',
                         requiredMessage: 'Password is required'
                     }
                 },
@@ -120,100 +261,24 @@
 
             // DOM Elements
             const elements = {
-                form: document.getElementById('loginForm'),
+                form: document.getElementById('signupForm'),
+                name: document.getElementById('name'),
                 username: document.getElementById('username'),
+                email: document.getElementById('email'),
                 password: document.getElementById('password'),
-                showPasswordBtn: document.getElementById('showPassword'),
-                redirect: document.getElementById("redirect"),
+                terms: document.getElementById('terms'),
+                togglePasswordBtn: document.querySelector('.toggle-password'),
                 submitBtn: document.getElementById('submit-btn'),
                 strengthBar: document.querySelector('.strength-bar'),
-                strengthText: document.querySelector('.strength-text'),
-                notificationContainer: document.getElementById('notificationContainer')
+                strengthText: document.querySelector('.strength-text')
             };
 
             // Validate that required elements exist
-            if (!elements.form || !elements.username || !elements.password) {
+            if (!elements.form || !elements.name || !elements.username ||
+                !elements.email || !elements.password || !elements.terms) {
                 console.error('Required form elements not found');
                 return;
             }
-
-            // Notification System
-            class NotificationSystem {
-                constructor() {
-                    this.container = elements.notificationContainer;
-                    this.notifications = [];
-                    this.autoCloseDelay = 5000;
-                }
-
-                show(title, message, type = 'info', duration = 5000) {
-                    const notification = this.createNotification(title, message, type);
-                    this.container.appendChild(notification);
-                    this.notifications.push(notification);
-
-                    const autoRemove = setTimeout(() => {
-                        this.remove(notification);
-                    }, duration);
-
-                    const closeBtn = notification.querySelector('.notification-close');
-                    closeBtn.addEventListener('click', () => {
-                        clearTimeout(autoRemove);
-                        this.remove(notification);
-                    });
-
-                    return notification;
-                }
-
-                createNotification(title, message, type) {
-                    const notification = document.createElement('div');
-                    notification.className = `notification ${type}`;
-
-                    let icon = 'info-circle';
-                    switch (type) {
-                        case 'success': icon = 'check-circle'; break;
-                        case 'error': icon = 'exclamation-circle'; break;
-                        case 'warning': icon = 'exclamation-triangle'; break;
-                        case 'info': icon = 'info-circle'; break;
-                    }
-
-                    notification.innerHTML = `
-                        <i class="fas fa-${icon} notification-icon"></i>
-                        <div class="notification-content">
-                            <div class="notification-title">${title}</div>
-                            <div class="notification-message">${message}</div>
-                        </div>
-                        <button class="notification-close" aria-label="Close notification">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    `;
-
-                    return notification;
-                }
-
-                remove(notification) {
-                    if (!notification.parentNode) return;
-
-                    notification.classList.add('fade-out');
-
-                    setTimeout(() => {
-                        if (notification.parentNode) {
-                            this.container.removeChild(notification);
-                        }
-                        const index = this.notifications.indexOf(notification);
-                        if (index > -1) {
-                            this.notifications.splice(index, 1);
-                        }
-                    }, 300);
-                }
-
-                clearAll() {
-                    this.notifications.forEach(notification => {
-                        this.remove(notification);
-                    });
-                }
-            }
-
-            // Initialize notification system
-            const Notifications = new NotificationSystem();
 
             // Validation Functions
             const Validator = {
@@ -225,7 +290,6 @@
 
                     const value = field.value.trim();
                     const errorElement = formGroup.querySelector('.error-message');
-                    const hintElement = formGroup.querySelector('.hint-text');
 
                     // Reset validation state
                     wrapper.classList.remove('valid', 'invalid');
@@ -266,6 +330,22 @@
                     wrapper.classList.add('invalid');
                     formGroup.classList.add('has-error');
                     if (errorElement) errorElement.textContent = message;
+                },
+
+                validateTerms() {
+                    const termsGroup = elements.terms.closest('.form-checkbox');
+                    const termsError = termsGroup.querySelector('.terms-error');
+
+                    termsGroup.classList.remove('invalid', 'has-error');
+
+                    if (!elements.terms.checked) {
+                        termsError.textContent = 'You must accept the terms and conditions';
+                        termsGroup.classList.add('invalid', 'has-error');
+                        return false;
+                    }
+
+                    termsError.textContent = '';
+                    return true;
                 },
 
                 checkPasswordStrength(password) {
@@ -332,83 +412,75 @@
                     });
                 },
 
-                showNotification(message, type = 'error') {
+                showNotification(message, type = 'info') {
                     const titles = {
                         success: 'Success!',
                         error: 'Error!',
                         warning: 'Warning!',
-                        info: 'Notice'
+                        info: 'Info'
                     };
 
                     Notifications.show(titles[type] || titles.info, message, type);
                 },
 
-                // Check for URL parameters to show messages
-                checkUrlNotifications() {
-                    const urlParams = new URLSearchParams(window.location.search);
 
-                    if (urlParams.has('verified') && urlParams.get('verified') === 'true') {
-                        this.showNotification('Email verified successfully! You can now log in.', 'success');
-                    }
-
-                    if (urlParams.has('logout') && urlParams.get('logout') === 'true') {
-                        this.showNotification('You have been logged out successfully.', 'info');
-                    }
-
-                    if (urlParams.has('session_expired') && urlParams.get('session_expired') === 'true') {
-                        this.showNotification('Your session has expired. Please log in again.', 'warning');
-                    }
-
-                    if (urlParams.has('registered') && urlParams.get('registered') === 'true') {
-                        this.showNotification('Registration successful! Please log in with your credentials.', 'success');
-                    }
-
-                    if (urlParams.has('error')) {
-                        const errorMessage = urlParams.get('error');
-                        this.showNotification(decodeURIComponent(errorMessage), 'error');
-                    }
-
-                    if (urlParams.has('message')) {
-                        const message = urlParams.get('message');
-                        this.showNotification(decodeURIComponent(message), 'info');
-                    }
+                showHintsForEmptyFields() {
+                    [elements.name, elements.username, elements.email, elements.password].forEach(field => {
+                        if (!field.value.trim()) {
+                            const hint = field.closest('.form-group')?.querySelector('.hint-text');
+                            if (hint) hint.style.display = 'block';
+                        }
+                    });
                 }
             };
 
             // API Handler
             const API = {
-                async login(credentials) {
+                async signup(userData) {
                     try {
                         const response = await fetch(CONFIG.apiEndpoint, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
                             },
-                            body: JSON.stringify(credentials)
+                            body: JSON.stringify(userData)
                         });
 
                         const data = await response.json();
 
                         if (!response.ok) {
-                            throw new Error(data.message || 'Login failed');
+                            throw new Error(data.message);
                         }
 
-                        return { success: true, data };
+                        return { success: true, message: data.message };
                     } catch (error) {
-                        return { success: false, error: error.message };
+
+                        return { success: false, message: error.message };
                     }
                 }
             };
 
             // Event Handlers
             const EventHandlers = {
+                handleNameInput() {
+                    Validator.validateField(elements.name, CONFIG.validation.name);
+                },
+
                 handleUsernameInput() {
                     Validator.validateField(elements.username, CONFIG.validation.username);
+                },
+
+                handleEmailInput() {
+                    Validator.validateField(elements.email, CONFIG.validation.email);
                 },
 
                 handlePasswordInput() {
                     Validator.validateField(elements.password, CONFIG.validation.password);
                     Validator.checkPasswordStrength(elements.password.value);
+                },
+
+                handleTermsChange() {
+                    Validator.validateTerms();
                 },
 
                 handleInputFocus(e) {
@@ -425,8 +497,12 @@
                     const wrapper = e.target.closest('.input-wrapper');
                     if (wrapper) wrapper.classList.remove('focused');
 
-                    if (e.target === elements.username) {
+                    if (e.target === elements.name) {
+                        Validator.validateField(elements.name, CONFIG.validation.name);
+                    } else if (e.target === elements.username) {
                         Validator.validateField(elements.username, CONFIG.validation.username);
+                    } else if (e.target === elements.email) {
+                        Validator.validateField(elements.email, CONFIG.validation.email);
                     } else if (e.target === elements.password) {
                         Validator.validateField(elements.password, CONFIG.validation.password);
                     }
@@ -436,67 +512,57 @@
                     const isPassword = elements.password.type === 'password';
                     elements.password.type = isPassword ? 'text' : 'password';
 
-                    elements.showPasswordBtn.classList.toggle('fa-eye', !isPassword);
-                    elements.showPasswordBtn.classList.toggle('fa-eye-slash', isPassword);
+                    const icon = elements.togglePasswordBtn.querySelector('i');
+                    icon.classList.toggle('fa-eye', !isPassword);
+                    icon.classList.toggle('fa-eye-slash', isPassword);
                 },
 
                 async handleSubmit(e) {
                     e.preventDefault();
 
                     // Validate all fields
-                    const isUsernameValid = Validator.validateField(
-                        elements.username,
-                        CONFIG.validation.username
-                    );
-                    const isPasswordValid = Validator.validateField(
-                        elements.password,
-                        CONFIG.validation.password
-                    );
+                    const isNameValid = Validator.validateField(elements.name, CONFIG.validation.name);
+                    const isUsernameValid = Validator.validateField(elements.username, CONFIG.validation.username);
+                    const isEmailValid = Validator.validateField(elements.email, CONFIG.validation.email);
+                    const isPasswordValid = Validator.validateField(elements.password, CONFIG.validation.password);
+                    const isTermsValid = Validator.validateTerms();
 
-                    if (!isUsernameValid || !isPasswordValid) {
+                    if (!isNameValid || !isUsernameValid || !isEmailValid || !isPasswordValid || !isTermsValid) {
                         UI.shakeErrorFields();
-                        UI.showNotification('Please fix the errors in the form before submitting.', 'error');
+                        UI.showHintsForEmptyFields();
                         return;
                     }
 
                     // Show loading state
                     UI.setLoadingState(true);
 
-                    // Prepare credentials
-                    const credentials = {
+                    // Prepare user data
+                    const userData = {
+                        name: elements.name.value.trim(),
                         username: elements.username.value.trim(),
+                        email: elements.email.value.trim(),
                         password: elements.password.value,
-                        redirect: elements.redirect.value
+                        terms: elements.terms.checked
                     };
 
-
                     // Submit to API
-                    const result = await API.login(credentials);
+                    const result = await API.signup(userData);
+
                     UI.setLoadingState(false);
 
                     if (result.success) {
-                        UI.showNotification(result.data.message || 'Login successful!', 'success');
+                        UI.showNotification(result.message || 'Account created successfully! Please check your email for verification.', 'success');
 
-
-
-                        console.log(result.data.user);
-                        localStorage.setItem("user", JSON.stringify(result.data.user))
-
-                        // Redirect or handle successful login
+                        // Redirect to email verification page or login
                         setTimeout(() => {
-                            window.location.href = result.data.redirect || '/';
-
-                        }, 1500);
+                            window.location.href = `/verify-otp?email=${encodeURIComponent(userData.email)}`;
+                        }, 5000);
                     } else {
-                        const errorMessage = result.error || 'Login failed. Please check your credentials and try again.';
-                        UI.showNotification(errorMessage, 'error');
+                        UI.showNotification(result.message || 'Signup failed. Please try again.', 'error');
 
                         // Clear password on error
                         elements.password.value = '';
                         Validator.checkPasswordStrength('');
-
-                        // Shake the form for visual feedback
-                        UI.shakeErrorFields();
                     }
                 }
             };
@@ -504,8 +570,11 @@
             // Initialize Event Listeners
             function initEventListeners() {
                 // Input validation
+                elements.name.addEventListener('input', EventHandlers.handleNameInput);
                 elements.username.addEventListener('input', EventHandlers.handleUsernameInput);
+                elements.email.addEventListener('input', EventHandlers.handleEmailInput);
                 elements.password.addEventListener('input', EventHandlers.handlePasswordInput);
+                elements.terms.addEventListener('change', EventHandlers.handleTermsChange);
 
                 // Focus/Blur events
                 const inputs = document.querySelectorAll('.input-wrapper input');
@@ -515,32 +584,16 @@
                 });
 
                 // Password visibility toggle
-                if (elements.showPasswordBtn) {
-                    elements.showPasswordBtn.parentElement.addEventListener('click',
-                        EventHandlers.togglePasswordVisibility);
+                if (elements.togglePasswordBtn) {
+                    elements.togglePasswordBtn.addEventListener('click', EventHandlers.togglePasswordVisibility);
                 }
 
                 // Form submission
                 elements.form.addEventListener('submit', EventHandlers.handleSubmit);
-
-                // Auto-focus username field on page load
-                setTimeout(() => {
-                    elements.username.focus();
-                }, 100);
             }
 
             // Initialize
-            function init() {
-                initEventListeners();
-                UI.checkUrlNotifications();
-            }
-
-            // Start the application when DOM is loaded
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', init);
-            } else {
-                init();
-            }
+            initEventListeners();
         })();
     </script>
 
@@ -645,6 +698,18 @@
             to {
                 transform: translateX(0);
                 opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(100%);
+                opacity: 0;
             }
         }
 

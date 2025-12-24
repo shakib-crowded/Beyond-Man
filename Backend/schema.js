@@ -1,12 +1,11 @@
 const Joi = require("joi");
 
 const validateBlogSchema = Joi.object({
-  languageName: Joi.string().required(),
+  path: Joi.string().required(),
   title: Joi.string().required(),
   description: Joi.string().required(),
   content: Joi.string().required(),
   author: Joi.string().allow("").optional(),
-  category: Joi.string().required(),
   tags: Joi.string().allow("").optional(),
 }).required();
 

@@ -355,7 +355,7 @@
     <div class="author-profile-container">
         <div class="profile-card">
             <div class="profile-header">
-                <img src="/images/author_PROFILES<%= authorProfile.profile_image.filename.replace('author_PROFILES', '') %>"
+                <img src="/images/author_PROFILES<%= author.profile.profile_image.filename.replace('author_PROFILES', '') %>"
                     alt="Author Profile Picture" class="profile-picture">
                 <h1 class="profile-name">
                     <%= author.name %>
@@ -363,24 +363,24 @@
                 <div class="profile-location">
                     <i class="fas fa-map-marker-alt"></i>
                     <span>
-                        <%= authorProfile.location %>
+                        <%= author.profile.location %>
                     </span>
                 </div>
             </div>
 
             <div class="profile-body">
                 <div class="profile-about">
-                    <h3>About <%= author.name %>
+                    <h3>About <%= author.profile.name %>
                     </h3>
                     <p>
-                        <%=authorProfile.about_author%>
+                        <%=author.profile.about_admin%>
                     </p>
 
                 </div>
 
                 <div class="profile-details">
-                    <% if (authorProfile.education && authorProfile.education.length> 0) {
-                        const sortedEducation = [...authorProfile.education].sort((a, b) => new Date(b.startingDate) -
+                    <% if (author.profile.education && author.profile.education.length> 0) {
+                        const sortedEducation = [...author.profile.education].sort((a, b) => new Date(b.startingDate) -
                         new Date(a.startingDate));
                         sortedEducation.forEach(educationItem => {
                         const startDate = new Date(educationItem.startingDate).toLocaleDateString('en-US', {
@@ -408,11 +408,11 @@
                                 <p>No education details available.</p>
                                 <% } %>
                                     <div class="detail-section">
-                                        <% if(authorProfile.hobbies && authorProfile.hobbies.length> 0){%>
+                                        <% if(author.profile.hobbies && author.profile.hobbies.length> 0){%>
                                             <h3>Hobbies & Interests</h3>
                                             <div class="hobbies-list">
 
-                                                <% for(let hobby of authorProfile.hobbies){ %>
+                                                <% for(let hobby of author.profile.hobbies){ %>
                                                     <span class="hobby-tag">
                                                         <%= hobby %>
                                                     </span>
@@ -433,15 +433,15 @@
                     <h3>Connect With Me</h3>
                     <p>Feel free to reach out through any of these platforms</p>
                     <div class="modal-social-links">
-                        <a href="<%= authorProfile.instagram_profile %>" target="_blank"
+                        <a href="<%= author.profile.instagram_profile %>" target="_blank"
                             class="modal-social-link instagram">
                             <i class="fab fa-instagram"></i>
                         </a>
-                        <a href="<%= authorProfile.linkedin_profile %>" target="_blank"
+                        <a href="<%= author.profile.linkedin_profile %>" target="_blank"
                             class="modal-social-link linkedin">
                             <i class="fab fa-linkedin-in"></i>
                         </a>
-                        <a href="<%= authorProfile.x_profile %>" target="_blank" class="modal-social-link twitter">
+                        <a href="<%= author.profile.x_profile %>" target="_blank" class="modal-social-link twitter">
                             <i class="fab fa-twitter"></i>
                         </a>
                     </div>

@@ -1,28 +1,32 @@
 const express = require("express");
 const wrapAsync = require("../Utils/wrapAsync");
 const router = express.Router({ mergeParams: true });
-const passport = require("passport");
-const { validateUserSignUpPage, isUserNotLoggedIn } = require("../middleware");
+const {
+  redirectIfAuthenticated,
+  requireVerificationSession,
+} = require("../middleware");
 const userEnterController = require("../Controllers/userEnter");
 
 router
   .route("/register")
-  .get(userEnterController.sign_up_form)
-  .post(validateUserSignUpPage, wrapAsync(userEnterController.sign_up));
+  .get(redirectIfAuthenticated, userEnterController.user_register_form)
+  .post(wrapAsync(userEnterController.user_register));
 
 router
   .route("/login")
-  .get(isUserNotLoggedIn, userEnterController.login_form)
-  .post(
-    isUserNotLoggedIn,
-    passport.authenticate("user", {
-      failureRedirect: "/login",
-      failureFlash: true,
-    }),
-    userEnterController.login
-  );
+  .get(redirectIfAuthenticated, userEnterController.user_login_form)
+  .post(userEnterController.user_login);
 
-router.get("/verify/:token", userEnterController.verifyUser);
+router
+  .route("/verify-otp")
+  .get(
+    redirectIfAuthenticated,
+    requireVerificationSession,
+    userEnterController.verifyOtpPage
+  )
+  .post(userEnterController.verifyOtp);
+
+router.post("/resend-otp", userEnterController.resendOtp);
 
 router.post("/logout", userEnterController.logout);
 

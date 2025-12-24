@@ -1,237 +1,347 @@
-const Comment = require("../Models/comments");
-const { userSignUp } = require("../Models/signUpUser");
-const Blog = require("../Models/blogs");
-const { adminSignUp } = require("../Models/signUpAdmin");
-
+const Comment = require("../Models/Comment");
+const Blog = require("../Models/Blog");
 // Create a new comment
 exports.createComment = async (req, res) => {
   try {
-    const { content, blogId } = req.body;
+    const { content, blogId, parentCommentId } = req.body;
+    const userId = req.user.id;
 
-    const userId = req.user.id; // Assuming user is attached in middleware
-
-    const user = await userSignUp.findById(userId);
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-
-    const username = user.username;
-
-    const comment = new Comment({
-      content,
-      username,
-      user: userId,
-      name: user.name,
-    });
-    await comment.save();
-
-    // Find the blog and push the comment ID into the comments array
+    // Validate blog exists
     const blog = await Blog.findById(blogId);
     if (!blog) {
-      return res.status(404).json({ error: "Blog not found" });
+      return res.status(404).json({
+        success: false,
+        message: "Blog post not found",
+      });
     }
 
-    blog.comments.push(comment._id);
-    await blog.save(); // Save the updated blog with new comment
+    // Create comment
+    const commentData = {
+      content,
+      blog: blogId,
+      author: userId,
+    };
+    let comment;
 
-    res.status(201).json({ message: "Comment added successfully", comment });
+    // If it's a reply
+    if (parentCommentId) {
+      const parentComment = await Comment.findById(parentCommentId);
+      if (!parentComment) {
+        return res.status(404).json({
+          success: false,
+          message: "Parent comment not found",
+        });
+      }
+
+      commentData.parentComment = parentCommentId;
+
+      comment = await Comment.create(commentData);
+
+      // Add reply to parent comment
+      parentComment.replies.push(comment._id);
+      await parentComment.save();
+    } else {
+      // Top-level comment
+      comment = await Comment.create(commentData);
+
+      // Add comment to blog
+      blog.comments.push(comment._id);
+      await blog.save();
+    }
+
+    // Populate author details for response
+    const newComment = await Comment.findById(comment._id)
+      .populate({
+        path: "author",
+        select: "name username profile avatar",
+      })
+      .lean();
+
+    res.status(201).json({
+      success: true,
+      message: parentCommentId ? "Reply added" : "Comment added",
+      comment: newComment,
+    });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Error creating comment" });
+    console.error("Create comment error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to add comment",
+      error: error.message,
+    });
   }
 };
+
+// Get comments for a blog with pagination
 exports.getComments = async (req, res) => {
   try {
-    const comments = await Comment.find()
-      .populate("user", "name email") // Populate user in main comments
-      .populate("replies.user", "name email"); // Populate user for only first-level replies
+    const { blogId } = req.params;
+    const { page = 1, limit = 10, sort = "newest" } = req.query;
+    const userId = req.user?.id;
 
-    res.status(200).json(comments);
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+
+    // Build sort object
+    let sortOption = { createdAt: -1 }; // newest first by default
+    if (sort === "oldest") sortOption = { createdAt: 1 };
+    if (sort === "popular") sortOption = { likeCount: -1 };
+
+    // Get top-level comments
+    const comments = await Comment.find({
+      blog: blogId,
+      parentComment: null,
+      isDeleted: false,
+    })
+      .sort(sortOption)
+      .skip(skip)
+      .limit(parseInt(limit))
+      .populate({
+        path: "author",
+        select: "name username profile avatar",
+      })
+      .populate({
+        path: "replies",
+        match: { isDeleted: false },
+        populate: {
+          path: "author",
+          select: "name username profile avatar",
+        },
+        options: { sort: { createdAt: 1 } },
+        perDocumentLimit: 5, // Limit replies per comment
+      })
+      .lean();
+
+    // Mark if user liked each comment
+    if (userId) {
+      comments.forEach((comment) => {
+        comment.isLiked = comment.likes.some(
+          (like) => like.toString() === userId
+        );
+        // Process replies
+        comment.replies?.forEach((reply) => {
+          reply.isLiked = reply.likes.some(
+            (like) => like.toString() === userId
+          );
+        });
+      });
+    }
+
+    // Get total count for pagination
+    const totalComments = await Comment.countDocuments({
+      blog: blogId,
+      parentComment: null,
+      isDeleted: false,
+    });
+
+    res.json({
+      success: true,
+      comments,
+      pagination: {
+        currentPage: parseInt(page),
+        totalPages: Math.ceil(totalComments / parseInt(limit)),
+        totalComments,
+        hasMore: totalComments > skip + comments.length,
+      },
+    });
   } catch (error) {
-    console.error("Error fetching comments:", error);
-    res.status(500).json({ error: "Error fetching comments" });
+    console.error("Get comments error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch comments",
+    });
   }
 };
 
-// Update a comment
+// Update comment
 exports.updateComment = async (req, res) => {
   try {
+    const { commentId } = req.params;
     const { content } = req.body;
-    const { id } = req.params;
-    await Comment.findByIdAndUpdate(id, { content, update_at: new Date() });
-    res.status(200).json({ success: true });
+    const userId = req.user.id;
+
+    const comment = await Comment.findById(commentId);
+
+    if (!comment) {
+      return res.status(404).json({
+        success: false,
+        message: "Comment not found",
+      });
+    }
+
+    // Check ownership
+    if (comment.author.toString() !== userId) {
+      return res.status(403).json({
+        success: false,
+        message: "Not authorized to edit this comment",
+      });
+    }
+
+    // Check if comment is deleted
+    if (comment.isDeleted) {
+      return res.status(400).json({
+        success: false,
+        message: "Cannot edit deleted comment",
+      });
+    }
+
+    comment.content = content;
+    comment.isEdited = true;
+    await comment.save();
+
+    const updatedComment = await Comment.findById(commentId).populate({
+      path: "author",
+      select: "name username profile avatar",
+    });
+
+    res.json({
+      success: true,
+      message: "Comment updated",
+      comment: updatedComment,
+    });
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    console.error("Update comment error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to update comment",
+    });
   }
 };
 
-// Delete a comment
+// Delete comment (soft delete)
 exports.deleteComment = async (req, res) => {
   try {
-    await Comment.findByIdAndDelete(req.params.id);
-    res.json({ success: true });
-  } catch (error) {
-    res.json({ success: false, error: error.message });
-  }
-};
-
-// Like a comment
-exports.likeComment = async (req, res) => {
-  try {
-    const comment = await Comment.findById(req.params.id);
-    if (!comment) {
-      return res.status(404).json({ error: "Comment not found" });
-    }
-
-    const userId = req.user._id;
-    const hasLiked = comment.likes.includes(userId);
-    const hasDisliked = comment.dislikes.includes(userId);
-
-    if (hasLiked) {
-      comment.likes = comment.likes.filter(
-        (id) => id.toString() !== userId.toString()
-      );
-    } else {
-      comment.likes.push(userId);
-      comment.dislikes = comment.dislikes.filter(
-        (id) => id.toString() !== userId.toString()
-      );
-    }
-
-    await comment.save();
-
-    res.json({
-      likes: comment.likes.length,
-      dislikes: comment.dislikes.length,
-      userLiked: comment.likes.includes(userId),
-      userDisliked: comment.dislikes.includes(userId),
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
-
-// Dislike a comment
-exports.dislikeComment = async (req, res) => {
-  try {
-    const comment = await Comment.findById(req.params.id);
-    if (!comment) {
-      return res.status(404).json({ error: "Comment not found" });
-    }
-
-    const userId = req.user._id;
-    const hasLiked = comment.likes.includes(userId);
-    const hasDisliked = comment.dislikes.includes(userId);
-
-    if (hasDisliked) {
-      comment.dislikes = comment.dislikes.filter(
-        (id) => id.toString() !== userId.toString()
-      );
-    } else {
-      comment.dislikes.push(userId);
-      comment.likes = comment.likes.filter(
-        (id) => id.toString() !== userId.toString()
-      );
-    }
-
-    await comment.save();
-
-    res.json({
-      likes: comment.likes.length,
-      dislikes: comment.dislikes.length,
-      userLiked: comment.likes.includes(userId),
-      userDisliked: comment.dislikes.includes(userId),
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
-
-// Reply to a comment
-exports.replyToComment = async (req, res) => {
-  try {
-    const { content } = req.body;
-
+    const { commentId } = req.params;
     const userId = req.user.id;
-    const user =
-      (await userSignUp.findById(userId)) ||
-      (await adminSignUp.findById(userId));
 
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
+    const comment = await Comment.findById(commentId);
+
+    if (!comment) {
+      return res.status(404).json({
+        success: false,
+        message: "Comment not found",
+      });
     }
 
-    const parentComment = await Comment.findById(req.params.id);
-    if (!parentComment) {
-      return res.status(404).json({ error: "Comment not found" });
+    // Check ownership (or admin role)
+    const isOwner = comment.author.toString() === userId;
+
+    if (!isOwner) {
+      return res.status(403).json({
+        success: false,
+        message: "Not authorized to delete this comment",
+      });
     }
 
-    const name = user.role === "admin" ? `${user.name} (Author)` : user.name;
+    // Soft delete the comment
+    await comment.softDelete();
 
-    const reply = new Comment({
-      content,
-      user: user._id,
-      username: user.username,
-      name,
+    res.json({
+      success: true,
+      message: "Comment deleted",
     });
-    await reply.save();
-    if (!parentComment) {
-      return res.status(404).json({ error: "Comment not found" });
+  } catch (error) {
+    console.error("Delete comment error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to delete comment",
+    });
+  }
+};
+
+// Like/Unlike comment
+exports.toggleLike = async (req, res) => {
+  try {
+    const { commentId } = req.params;
+    const userId = req.user.id;
+
+    const comment = await Comment.findById(commentId);
+
+    if (!comment) {
+      return res.status(404).json({
+        success: false,
+        message: "Comment not found",
+      });
     }
 
-    parentComment.replies.push(reply._id);
-    await parentComment.save();
+    const likeIndex = comment.likes.indexOf(userId);
+    let action = "";
 
-    res.status(201).json(reply);
+    if (likeIndex === -1) {
+      // Like
+      comment.likes.push(userId);
+      action = "liked";
+    } else {
+      // Unlike
+      comment.likes.splice(likeIndex, 1);
+      action = "unliked";
+    }
+
+    await comment.save();
+
+    res.json({
+      success: true,
+      message: `Comment ${action}`,
+      likes: comment.likes.length,
+      isLiked: action === "liked",
+    });
   } catch (error) {
-    res.status(500).json({ error: "Error replying to comment" });
+    console.error("Toggle like error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to toggle like",
+    });
   }
 };
 
-exports.updateReply = async (req, res) => {
+// Get more replies
+exports.getReplies = async (req, res) => {
   try {
-    const { commentId, replyId } = req.params;
-    const { content } = req.body;
+    const { commentId } = req.params;
+    const { page = 1, limit = 10 } = req.query;
+    const userId = req.user?.id;
 
-    const comment = await Comment.findById(commentId);
-    if (!comment) return res.status(404).json({ error: "Comment not found" });
+    const skip = (parseInt(page) - 1) * parseInt(limit);
 
-    // Find the reply inside the comment
-    const reply = comment.replies.find(
-      (reply) => reply._id.toString() === replyId
-    );
-    if (!reply) return res.status(404).json({ error: "Reply not found" });
+    const replies = await Comment.find({
+      parentComment: commentId,
+      isDeleted: false,
+    })
+      .sort({ createdAt: 1 })
+      .skip(skip)
+      .limit(parseInt(limit))
+      .populate({
+        path: "author",
+        select: "name username profile avatar",
+      })
+      .lean();
 
-    reply.content = content;
-    reply.updated_at = new Date();
+    // Mark if user liked each reply
+    if (userId) {
+      replies.forEach((reply) => {
+        reply.isLiked = reply.likes.some((like) => like.toString() === userId);
+      });
+    }
 
-    await comment.save();
-    res
-      .status(200)
-      .json({ success: true, message: "Reply updated successfully!" });
+    const totalReplies = await Comment.countDocuments({
+      parentComment: commentId,
+      isDeleted: false,
+    });
+
+    res.json({
+      success: true,
+      replies,
+      pagination: {
+        currentPage: parseInt(page),
+        totalPages: Math.ceil(totalReplies / parseInt(limit)),
+        totalReplies,
+        hasMore: totalReplies > skip + replies.length,
+      },
+    });
   } catch (error) {
-    res.status(500).json({ error: "Server error while updating reply" });
-  }
-};
-exports.deleteReply = async (req, res) => {
-  try {
-    const { commentId, replyId } = req.params;
-
-    const comment = await Comment.findById(commentId);
-    if (!comment) return res.status(404).json({ error: "Comment not found" });
-
-    // Remove the reply from the array
-    comment.replies = comment.replies.filter(
-      (reply) => reply._id.toString() !== replyId
-    );
-    await comment.save();
-
-    res
-      .status(200)
-      .json({ success: true, message: "Reply deleted successfully!" });
-  } catch (error) {
-    res.status(500).json({ error: "Server error while deleting reply" });
+    console.error("Get replies error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch replies",
+    });
   }
 };

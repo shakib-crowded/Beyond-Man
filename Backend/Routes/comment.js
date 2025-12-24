@@ -1,27 +1,17 @@
 const express = require("express");
-const {
-  createComment,
-  getComments,
-  getCommentById,
-  updateComment,
-  deleteComment,
-  likeComment,
-  dislikeComment,
-  replyToComment,
-  updateReply,
-  deleteReply,
-} = require("../Controllers/comment");
-const { isUserLoggedIn } = require("../middleware");
-
 const router = express.Router();
+const { userAuth } = require("../middleware");
+const commentController = require("../Controllers/comment");
 
-router.post("/", isUserLoggedIn, createComment); // Create a comment
-router.get("/", getComments); // Get all comments
-router.put("/:id", isUserLoggedIn, updateComment); // Update a comment
-router.delete("/:id", isUserLoggedIn, deleteComment); // Delete a comment
-router.post("/:id/like", isUserLoggedIn, likeComment); // Like a comment
-router.post("/:id/dislike", isUserLoggedIn, dislikeComment); // Dislike a comment
-router.post("/:id/reply", isUserLoggedIn, replyToComment); // Reply to a comment
-router.put("/:commentId/:replyId", isUserLoggedIn, updateReply);
-router.delete("/:commentId/:replyId", isUserLoggedIn, deleteReply);
+// All comment routes require authentication
+router.use(userAuth);
+
+// Comment CRUD operations
+router.post("/", commentController.createComment);
+router.get("/blog/:blogId", commentController.getComments);
+router.put("/:commentId", commentController.updateComment);
+router.delete("/:commentId", commentController.deleteComment);
+router.post("/:commentId/like", commentController.toggleLike);
+router.get("/:commentId/replies", commentController.getReplies);
+
 module.exports = router;

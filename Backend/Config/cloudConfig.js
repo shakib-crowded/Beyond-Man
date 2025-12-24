@@ -15,7 +15,7 @@ const blogStorage = new CloudinaryStorage({
   },
 });
 
-const authorProfileStorage = new CloudinaryStorage({
+const adminProfileStorage = new CloudinaryStorage({
   cloudinary,
   params: {
     folder: "author_PROFILES",
@@ -23,4 +23,4 @@ const authorProfileStorage = new CloudinaryStorage({
   },
 });
 
-module.exports = { cloudinary, blogStorage, authorProfileStorage };
+module.exports = { cloudinary, blogStorage, adminProfileStorage };
