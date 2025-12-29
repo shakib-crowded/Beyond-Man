@@ -1,13 +1,32 @@
 <% layout("../Layouts/boilerplate") %>
 
     <body>
+
+
         <main class="blog-container">
+
+            <!-- Results Header -->
+            <header class="results-header">
+                <h1 class="results-title">
+
+                    <% if (languageInfo.title && languageInfo.title.length> 0) { %>
+                        <%= languageInfo.title %>
+                            <% } else { %>
+                                All Articles
+                                <% } %>
+                </h1>
+
+            </header>
+
+
+
+
             <% if(allBlogs.length> 0){ %>
                 <section class="blog-grid">
                     <% for(blog of allBlogs) { %>
                         <article class="blog-card">
                             <div class="card-image-container">
-                                <a href="/<%= blogPath %>/<%= blog.slug %>" class="card-image-link"
+                                <a href="/<%= path %>/<%= blog.slug %>" class="card-image-link"
                                     aria-label="Read <%= blog.title %>">
                                     <img src="/images/admin_BLOGS/<%= blog.image.filename.replace('admin_BLOGS/', '') %>"
                                         alt="<%= blog.title %>" class="card-image" loading="lazy">
@@ -17,7 +36,7 @@
 
                             <div class="card-content">
                                 <h3 class="card-title">
-                                    <a href="/<%= blogPath %>/<%= blog.slug %>">
+                                    <a href="/<%= path %>/<%= blog.slug %>">
                                         <%= blog.title %>
                                     </a>
                                 </h3>
@@ -129,7 +148,8 @@
                             <p>Dear Learner,</p>
                             <p>We couldn't find any article that match with <strong>
                                     "<%= languageInfo.title %>"
-                                </strong>. Our team is constantly adding new content, and this topic may be coming soon.
+                                </strong>. Our team is constantly adding new content, and this topic may be coming
+                                soon.
                             </p>
                             <p>Here's what you can do:</p>
                             <ul>
@@ -200,6 +220,17 @@
     </body>
 
     <style>
+        .results-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .results-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
         .blog-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -462,127 +493,288 @@
             }
         }
     </style>
-
+    <!-- PAGINATION HANDLER -->
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const blogContainer = document.querySelector('.blog-container');
+        // class PaginationHandler {
+        //     constructor() {
+        //         this.blogGrid = document.querySelector('.blog-grid');
+        //         this.paginationList = document.querySelector('.pagination-list');
+        //         this.blogContainer = document.querySelector('.blog-container');
+        //         this.loadingOverlay = document.getElementById('loading-overlay');
+        //         this.isLoading = false;
 
-            document.querySelector('.pagination-list')?.addEventListener('click', async function (e) {
-                if (e.target.closest('a')) {
-                    e.preventDefault();
-                    const link = e.target.closest('a');
-                    const url = link.getAttribute('href');
+        //         this.init();
+        //     }
 
-                    try {
-                        // Show loading state
-                        blogContainer.classList.add('loading');
+        //     init() {
+        //         if (!this.paginationList) return;
 
-                        const response = await fetch(url, {
-                            headers: {
-                                'X-Requested-With': 'XMLHttpRequest',
-                                'Accept': 'application/json'
-                            }
-                        });
+        //         // Add click event listener for pagination
+        //         this.paginationList.addEventListener('click', (e) => this.handlePaginationClick(e));
 
-                        if (!response.ok) throw new Error('Network response was not ok');
+        //         // Handle browser back/forward buttons
+        //         window.addEventListener('popstate', () => this.handlePopState());
+        //     }
 
-                        const data = await response.json();
+        //     async handlePaginationClick(e) {
+        //         const link = e.target.closest('a');
+        //         if (!link || this.isLoading) return;
 
-                        // Update content
-                        document.querySelector('.blog-grid').innerHTML = data.html;
+        //         e.preventDefault();
 
-                        // Update pagination controls
-                        updatePagination(data.pagination);
+        //         const url = link.getAttribute('href');
+        //         await this.loadPage(url);
+        //     }
 
-                        // Update URL without reload
-                        history.pushState(null, null, url);
+        //     async loadPage(url) {
+        //         try {
+        //             this.isLoading = true;
+        //             this.showLoading();
 
-                        // Smooth scroll to top
-                        window.scrollTo({
-                            top: 0,
-                            behavior: 'smooth'
-                        });
-                    } catch (error) {
-                        console.error('Error:', error);
-                        alert('Error loading content. Please try again.');
-                    } finally {
-                        blogContainer.classList.remove('loading');
-                    }
-                }
-            });
+        //             const response = await fetch(url, {
 
-            // Handle browser back/forward
-            window.addEventListener('popstate', function () {
-                window.location.reload();
-            });
+        //                 headers: {
+        //                     'X-Requested-With': 'XMLHttpRequest'
+        //                 }
 
-            function updatePagination(pagination) {
-                const { totalPages, currentPage, limit } = pagination;
+        //             });
 
-                // Generate new pagination HTML
-                let paginationHTML = '';
+        //             if (!response.ok) {
+        //                 throw new Error(`HTTP error! status: ${response.status}`);
+        //             }
 
-                // Previous button
-                if (currentPage > 1) {
-                    paginationHTML += `
-          <li>
-            <a href="?page=${currentPage - 1}&limit=${limit}" class="pagination-link" aria-label="Previous page">
-              <svg viewBox="0 0 24 24" width="16" height="16">
-                <path fill="currentColor" d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" />
-              </svg>
-            </a>
-          </li>`;
-                }
+        //             const data = await response.json();
 
-                // Page numbers
-                const startPage = Math.max(1, currentPage - 2);
-                const endPage = Math.min(totalPages, currentPage + 2);
+        //             if (!data.success) {
+        //                 throw new Error(data.message || 'Failed to load content');
+        //             }
 
-                if (startPage > 1) {
-                    paginationHTML += `<li><a href="?page=1&limit=${limit}" class="pagination-link">1</a></li>`;
-                    if (startPage > 2) {
-                        paginationHTML += `<li class="pagination-ellipsis">...</li>`;
-                    }
-                }
+        //             // Update content
+        //             this.updateContent(data);
 
-                for (let i = startPage; i <= endPage; i++) {
-                    if (i === currentPage) {
-                        paginationHTML += `
-            <li>
-              <span class="pagination-link current" aria-current="page">${i}</span>
-            </li>`;
-                    } else {
-                        paginationHTML += `
-            <li>
-              <a href="?page=${i}&limit=${limit}" class="pagination-link">${i}</a>
-            </li>`;
-                    }
-                }
+        //             // Update URL without reload
+        //             history.pushState({ url }, '', url);
 
-                if (endPage < totalPages) {
-                    if (endPage < totalPages - 1) {
-                        paginationHTML += `<li class="pagination-ellipsis">...</li>`;
-                    }
-                    paginationHTML += `
-          <li>
-            <a href="?page=${totalPages}&limit=${limit}" class="pagination-link">${totalPages}</a>
-          </li>`;
-                }
+        //             // Smooth scroll to top
+        //             this.scrollToTop();
 
-                // Next button
-                if (currentPage < totalPages) {
-                    paginationHTML += `
-          <li>
-            <a href="?page=${currentPage + 1}&limit=${limit}" class="pagination-link" aria-label="Next page">
-              <svg viewBox="0 0 24 24" width="16" height="16">
-                <path fill="currentColor" d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
-              </svg>
-            </a>
-          </li>`;
-                }
+        //         } catch (error) {
+        //             console.error('Error loading page:', error);
+        //             this.showError('Failed to load content. Please try again.');
+        //         } finally {
+        //             this.isLoading = false;
+        //             this.hideLoading();
+        //         }
+        //     }
 
-                // Update the pagination container
-                document.querySelector('.pagination-list').innerHTML = paginationHTML;
+        //     updateContent(data) {
+        //         // Update blog grid
+        //         if (this.blogGrid && data.html) {
+        //             this.blogGrid.innerHTML = data.html;
+        //         }
+
+        //         // Update pagination
+        //         if (data.pagination) {
+        //             this.updatePagination(data.pagination);
+        //         }
+        //     }
+
+        //     updatePagination(pagination) {
+        //         const { totalPages, currentPage, limit } = pagination;
+
+        //         if (!this.paginationList) return;
+
+        //         let html = '';
+
+        //         // Previous button
+        //         if (currentPage > 1) {
+        //             html += this.createPaginationButton(
+        //                 currentPage - 1,
+        //                 limit,
+        //                 'Previous page',
+        //                 this.createSVGIcon('prev')
+        //             );
+        //         }
+
+        //         // Calculate page range
+        //         const startPage = Math.max(1, currentPage - 2);
+        //         const endPage = Math.min(totalPages, currentPage + 2);
+
+        //         // First page + ellipsis
+        //         if (startPage > 1) {
+        //             html += this.createPaginationButton(1, limit, '1');
+        //             if (startPage > 2) {
+        //                 html += '<li class="pagination-ellipsis">...</li>';
+        //             }
+        //         }
+
+        //         // Page numbers
+        //         for (let i = startPage; i <= endPage; i++) {
+        //             if (i === currentPage) {
+        //                 html += ` <li>
+        // <span class="pagination-link current" aria-current="page">${i}</span>
+        // </li>
+        // `;
+        //             } else {
+        //                 html += this.createPaginationButton(i, limit, `${i}`);
+        //             }
+        //         }
+
+        //         // Last page + ellipsis
+        //         if (endPage < totalPages) {
+        //             if (endPage < totalPages - 1) {
+        //                 html += '<li class="pagination-ellipsis">...</li>';
+        //             } html += this.createPaginationButton(totalPages, limit, `${totalPages}`);
+        //         } // Next button 
+        //         if (currentPage < totalPages) {
+        //             html += this.createPaginationButton(currentPage + 1, limit, 'Next page',
+        //                 this.createSVGIcon('next'));
+        //         } this.paginationList.innerHTML = html;
+        //     } createPaginationButton(page, limit,
+        //         label, content = null) {
+        //         const displayContent = content || label; return ` <li>
+        //     <a href="?page=${page}&limit=${limit}" class="pagination-link" aria-label="${label}">
+        //         ${displayContent}
+        //     </a>
+        //     </li>
+        //     `;
+        //     }
+
+        //     createSVGIcon(type) {
+        //         const paths = {
+        //             prev: 'M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z',
+        //             next: 'M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z'
+        //         };
+
+        //         return `
+        //     <svg viewBox="0 0 24 24" width="16" height="16">
+        //         <path fill="currentColor" d="${paths[type]}" />
+        //     </svg>
+        //     `;
+        //     }
+
+        //     showLoading() {
+        //         if (this.loadingOverlay) {
+        //             this.loadingOverlay.style.display = 'flex';
+        //         }
+        //         if (this.blogGrid) {
+        //             this.blogGrid.classList.add('loading');
+        //         }
+        //     }
+
+        //     hideLoading() {
+        //         if (this.loadingOverlay) {
+        //             this.loadingOverlay.style.display = 'none';
+        //         }
+        //         if (this.blogGrid) {
+        //             this.blogGrid.classList.remove('loading');
+        //         }
+        //     }
+
+        //     showError(message) {
+        //         // You can implement a toast notification here
+        //         alert(message);
+        //     }
+
+        //     scrollToTop() {
+        //         window.scrollTo({
+        //             top: 0,
+        //             behavior: 'smooth'
+        //         });
+        //     }
+
+        //     handlePopState() {
+        //         // Reload page on browser back/forward
+        //         window.location.reload();
+        //     }
+        // }
+
+        // ============================================
+        // COURSE CARD MODAL
+        // ============================================
+        let pathCountdownInterval;
+
+        function showBrowseCourseCard() {
+            const overlay = document.getElementById('hero-course-card-overlay');
+            const card = document.getElementById('hero-course-card');
+            const countdownElement = document.getElementById('countdown');
+
+            if (!overlay || !card) return;
+
+            overlay.classList.add('active');
+            card.classList.add('active');
+
+            // Start countdown
+            let timeLeft = 5;
+            countdownElement.textContent = timeLeft;
+
+            pathCountdownInterval = setInterval(() => {
+                timeLeft--;
+                if (timeLeft <= 0) { closeCourseCard(); } else { countdownElement.textContent = timeLeft; }
+            }, 1000);
+        }
+        function closeCourseCard() {
+            const overlay = document.getElementById('hero-course-card-overlay'); const
+                card = document.getElementById('hero-course-card'); if (!overlay || !card) return;
+            overlay.classList.remove('active'); card.classList.remove('active'); // Clear countdown 
+            if (pathCountdownInterval) { clearInterval(pathCountdownInterval); pathCountdownInterval = null; } // Reset countdown
+            const countdownElement = document.getElementById('countdown'); if (countdownElement) {
+                countdownElement.textContent = '5';
             }
+        } //============================================// IMAGE ERROR HANDLING //============================================
+        function handleImageError(img) {
+            img.onerror = null; // Prevent infinite loop img.src='/images/placeholder.jpg' ;
+            img.alt = 'Image not available';
+        }
+        //============================================// INITIALIZE ON DOM LOAD //============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize pagination handler
+            // new PaginationHandler();
+
+            // Add error handling to all images
+            const images = document.querySelectorAll('.card-image');
+            images.forEach(img => {
+                img.addEventListener('error', () => handleImageError(img));
+            });
+
         });
+
+        // ============================================
+        // PERFORMANCE OPTIMIZATION
+        // ============================================
+
+        // Debounce function for performance
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Lazy load images when they come into viewport
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        if (img.dataset.src) {
+                            img.src = img.dataset.src;
+                            img.removeAttribute('data-src');
+                        }
+                        observer.unobserve(img);
+                    }
+                });
+            });
+
+            // Observe images with data-src attribute
+            document.addEventListener('DOMContentLoaded', () => {
+                const lazyImages = document.querySelectorAll('img[data-src]');
+                lazyImages.forEach(img => imageObserver.observe(img));
+            });
+        }
     </script>

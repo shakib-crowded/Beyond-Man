@@ -70,6 +70,16 @@ module.exports.courses = (req, res) => {
   res.render("courses", { user: req.user || null, meta, blog });
 };
 
+module.exports.nav_course = async (req, res) => {
+  try {
+    const courses = await Course.find();
+    res.status(200).json(courses);
+  } catch (error) {
+    console.error("Error fetching courses:", error);
+    res.status(500).json({ error: "Failed to fetch courses" });
+  }
+};
+
 module.exports.about = (req, res) => {
   const meta = {
     title: "Beyond Man | About Us",

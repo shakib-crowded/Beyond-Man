@@ -63,7 +63,8 @@ exports.createComment = async (req, res) => {
       comment: newComment,
     });
   } catch (error) {
-    console.error("Create comment error:", error);
+    console.log("This is error: ", error);
+    // console.error("Create comment error:", error);
     res.status(500).json({
       success: false,
       message: "Failed to add comment",

@@ -55,15 +55,6 @@ const BlogSchema = new mongoose.Schema(
     tags: {
       type: [String],
       default: [],
-      validate: {
-        validator: function (tags) {
-          return (
-            tags.length <= 10 &&
-            tags.every((tag) => tag.trim().length > 0 && tag.length <= 50)
-          );
-        },
-        message: "Maximum 10 tags allowed, each tag must be 1-50 characters",
-      },
     },
     image: {
       url: {

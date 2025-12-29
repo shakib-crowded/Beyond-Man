@@ -279,9 +279,9 @@ module.exports.user_login = async (req, res, next) => {
 
     const token = jwt.sign(
       { userId: user._id, userRole: user.role },
-      process.env.MY_SUPER_SECRET,
+      process.env.USER_SUPER_SECRET,
       {
-        expiresIn: "3d",
+        expiresIn: "7d",
       }
     );
 

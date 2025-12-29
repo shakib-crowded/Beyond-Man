@@ -2,25 +2,25 @@ const express = require("express");
 const wrapAsync = require("../Utils/wrapAsync");
 const router = express.Router({ mergeParams: true });
 const {
-  redirectIfAuthenticated,
+  redirectUserIfAuthenticated,
   requireVerificationSession,
 } = require("../middleware");
 const userEnterController = require("../Controllers/userEnter");
 
 router
   .route("/register")
-  .get(redirectIfAuthenticated, userEnterController.user_register_form)
+  .get(redirectUserIfAuthenticated, userEnterController.user_register_form)
   .post(wrapAsync(userEnterController.user_register));
 
 router
   .route("/login")
-  .get(redirectIfAuthenticated, userEnterController.user_login_form)
+  .get(redirectUserIfAuthenticated, userEnterController.user_login_form)
   .post(userEnterController.user_login);
 
 router
   .route("/verify-otp")
   .get(
-    redirectIfAuthenticated,
+    redirectUserIfAuthenticated,
     requireVerificationSession,
     userEnterController.verifyOtpPage
   )

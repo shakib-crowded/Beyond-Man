@@ -47,10 +47,9 @@ app.use("/", appendUser);
 // Routes
 app.use("/images", imageRouter);
 app.use("/admin", adminRouter, adminEnterRouter, adminCourseRouter);
-app.use("/path", pathRouter);
 app.use("/author", authorRouter);
 app.use("/reset-password", resetPasswordRouter);
-app.use("/", indexRouter, userEnterRouter, blogRouter, coursesRouter);
+app.use("/", indexRouter, userEnterRouter, blogRouter, pathRouter);
 app.use("/comments", commentRouter);
 app.use("/query", queryRouter);
 app.use("/forgot-password", forgotPasswordRouter);

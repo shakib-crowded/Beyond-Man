@@ -20,7 +20,7 @@ module.exports.userAuth = async (req, res, next) => {
 
     let decoded;
     try {
-      decoded = jwt.verify(token, process.env.MY_SUPER_SECRET);
+      decoded = jwt.verify(token, process.env.USER_SUPER_SECRET);
     } catch (err) {
       return res.status(401).json({
         success: false,
@@ -68,7 +68,7 @@ module.exports.adminAuth = async (req, res, next) => {
       return res.redirect("/admin/login");
     }
 
-    const decoded = jwt.verify(token, process.env.MY_SUPER_SECRET);
+    const decoded = jwt.verify(token, process.env.ADMIN_SUPER_SECRET);
 
     // Fetch admin from DB
     const admin = await Admin.findById(decoded.adminId);
@@ -84,7 +84,7 @@ module.exports.adminAuth = async (req, res, next) => {
   }
 };
 
-module.exports.redirectIfAuthenticated = async (req, res, next) => {
+module.exports.redirectUserIfAuthenticated = async (req, res, next) => {
   try {
     const token = req.cookies.token;
 
@@ -95,7 +95,7 @@ module.exports.redirectIfAuthenticated = async (req, res, next) => {
     }
 
     // Verify token
-    const decoded = jwt.verify(token, process.env.MY_SUPER_SECRET);
+    const decoded = jwt.verify(token, process.env.USER_SUPER_SECRET);
     const user = await User.findById(decoded.userId).select("-password");
 
     if (user) {
@@ -124,7 +124,7 @@ module.exports.redirectAdminIfAuthenticated = async (req, res, next) => {
       return next();
     }
     // Verify token
-    const decoded = jwt.verify(adminToken, process.env.MY_SUPER_SECRET);
+    const decoded = jwt.verify(adminToken, process.env.ADMIN_SUPER_SECRET);
     const admin = await Admin.findById(decoded.adminId).select("-password");
 
     if (admin) {
@@ -229,7 +229,7 @@ module.exports.appendUser = async (req, res, next) => {
     req.user = null;
     if (!token) return next();
 
-    const decoded = jwt.verify(token, process.env.MY_SUPER_SECRET);
+    const decoded = jwt.verify(token, process.env.USER_SUPER_SECRET);
 
     const user = await User.findById(decoded.userId).select(
       "_id name username email role"

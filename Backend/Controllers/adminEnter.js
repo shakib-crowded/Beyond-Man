@@ -67,7 +67,7 @@ module.exports.login = async (req, res, next) => {
 
     const adminToken = jwt.sign(
       { adminId: admin._id, userRole: admin.role },
-      process.env.MY_SUPER_SECRET,
+      process.env.ADMIN_SUPER_SECRET,
       { expiresIn: "1d" }
     );
 

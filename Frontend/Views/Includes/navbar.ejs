@@ -306,7 +306,7 @@
                         // For desktop version, get the parent dropdown-grid element
                         const dropdownGrid = !isMobile ? container : null;
 
-                        fetch('/nav-courses')
+                        fetch('/nav_courses')
                                 .then(response => {
                                         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                                         return response.json();
