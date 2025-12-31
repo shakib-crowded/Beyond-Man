@@ -53,19 +53,19 @@
                     <div class="form-group">
                         <label for="title" class="required">Blog Title</label>
                         <input type="text" id="title" name="title" placeholder="Enter blog title"
-                            value="<%= blog.title %>" maxlength="250" required>
+                            value="<%= blog.title %>" minlength="5" maxlength="200" required>
                         <div class="char-counter" id="charTitleCount">
-                            <%= blog.title.length || 0 %>/250 characters
+                            <%= blog.title.length || 0 %>/200 characters
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="description" class="required">Short Description</label>
                         <textarea id="description" name="description"
-                            placeholder="Brief description for preview cards..." maxlength="150"
+                            placeholder="Brief description for preview cards..." minlength="50" maxlength="200"
                             required><%= blog.description %></textarea>
                         <div class="char-counter" id="charDescriptionCount">
-                            <%= blog.description.length || 0 %>/150 characters
+                            <%= blog.description.length || 0 %>/200 characters
                         </div>
                     </div>
                 </div>
@@ -223,6 +223,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+
             // Initialize Quill Editor
             const initializeEditor = () => {
                 // Register modules
@@ -381,14 +382,14 @@
                     });
                 };
 
-                updateCounter("title", "charTitleCount", 250);
-                updateCounter("description", "charDescriptionCount", 150);
-                updateCounter("author", "charAuthorCount", 40);
+                updateCounter("title", "charTitleCount", 200);
+                updateCounter("description", "charDescriptionCount", 200);
             };
 
             // Form validation
             const setupFormValidation = () => {
                 const form = document.getElementById("blogForm");
+
 
                 form.addEventListener("submit", (e) => {
                     const content = document.getElementById("content").value;
@@ -401,7 +402,6 @@
                         );
                         return;
                     }
-
 
                     // Clear localStorage only if form is actually valid and submitting
                     localStorage.removeItem("draft-content");
@@ -418,6 +418,7 @@
             };
 
             // Initialize all components
+
             initializeEditor();
             setupCharacterCounters();
             setupFormValidation();

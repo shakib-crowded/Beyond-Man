@@ -146,9 +146,8 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     };
 
-    updateCounter("title", "charTitleCount", 250);
-    updateCounter("description", "charDescriptionCount", 150);
-    updateCounter("author", "charAuthorCount", 40);
+    updateCounter("title", "charTitleCount", 200);
+    updateCounter("description", "charDescriptionCount", 200);
   };
 
   // Image preview

@@ -53,15 +53,15 @@
                         <label for="title" class="required">Blog Title</label>
                         <input type="text" id="title" name="title" placeholder="Enter blog title" minlength="5"
                             maxlength="200" required>
-                        <div class="char-counter" id="charTitleCount">0/250 characters</div>
+                        <div class="char-counter" id="charTitleCount">0/200 characters</div>
                     </div>
 
                     <div class="form-group">
-                        <label for="description" class="required">Short Description</label>
+                        <label for="description" class="required">Short Description (150-160) is best</label>
                         <textarea id="description" name="description"
-                            placeholder="Brief description for preview cards..." minlength="50" maxlength="500"
+                            placeholder="Brief description for preview cards..." minlength="50" maxlength="200"
                             required></textarea>
-                        <div class="char-counter" id="charDescriptionCount">0/150 characters</div>
+                        <div class="char-counter" id="charDescriptionCount">0/200 characters</div>
                     </div>
                 </div>
 
@@ -85,8 +85,8 @@
                             </div>
                             <label for="image-url" class="btn btn-primary">
                                 <i class="fas fa-upload"></i> Select Image
-                                <input type="file" id="image-url" name="image"
-                                    accept="image/png, image/jpeg, image/jpg">
+                                <input type="file" id="image-url" name="image" accept="image/png, image/jpeg, image/jpg"
+                                    required>
                             </label>
                         </div>
                     </div>

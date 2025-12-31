@@ -1,17 +1,12 @@
 function updateTitleCharCount() {
   const titleInput = document.getElementById("title");
   const charTitleCount = document.getElementById("charTitleCount");
-  charTitleCount.textContent = `${titleInput.value.length}/250 characters`;
+  charTitleCount.textContent = `${titleInput.value.length}/200 characters`;
 }
 function updateDescriptionCharCount() {
   const descriptionInput = document.getElementById("description");
   const charDescriptionCount = document.getElementById("charDescriptionCount");
-  charDescriptionCount.textContent = `${descriptionInput.value.length}/150 characters`;
-}
-function updateAuthorCharCount() {
-  const authorInput = document.getElementById("author");
-  const charAuthorCount = document.getElementById("charAuthorCount");
-  charAuthorCount.textContent = `${authorInput.value.length}/40 characters`;
+  charDescriptionCount.textContent = `${descriptionInput.value.length}/200 characters`;
 }
 
 let blogIdToDelete = null;

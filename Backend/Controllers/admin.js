@@ -269,7 +269,6 @@ module.exports.update = async (req, res) => {
     // Find the blog by its ID
     const blog = await Blog.findById(id);
     if (!blog) {
-      req.flash("error", "Blog not found.");
       return res.redirect("/admin/reads");
     }
 
@@ -311,7 +310,6 @@ module.exports.update = async (req, res) => {
     res.redirect("/admin/reads");
   } catch (err) {
     console.error("Error updating blog:", err);
-    req.flash("error", "Failed to update blog. Please try again.");
     res.redirect(`/admin/${req.params.id}/update`);
   }
 };
