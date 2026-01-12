@@ -3,7 +3,11 @@ require("dotenv").config();
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.LOCAL_MONOG_URI);
+    await mongoose.connect(
+      process.env.NODE_ENV === "development"
+        ? process.env.LOCAL_MONOG_URI
+        : process.env.ATLASDB_URL
+    );
     console.log("MongoDB Connect");
   } catch (error) {
     console.error(error);
