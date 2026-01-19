@@ -264,7 +264,7 @@ module.exports.update_form = async (req, res) => {
 module.exports.update = async (req, res) => {
   try {
     const { id } = req.params; // Extract blog ID from the URL parameter
-    const { path, title, content, tags } = req.body;
+    const { path, title, description, content, tags } = req.body;
 
     // Find the blog by its ID
     const blog = await Blog.findById(id);
@@ -298,6 +298,7 @@ module.exports.update = async (req, res) => {
     // Update the blog with the new values
     blog.path = path;
     blog.title = title;
+    blog.description = description;
     blog.content = sanitizedContent;
     blog.tags = processedTags;
     blog.image = updatedImage; // Update the image if a new one is provided

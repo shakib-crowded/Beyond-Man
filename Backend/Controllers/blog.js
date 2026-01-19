@@ -24,11 +24,11 @@ const sanitizeSearchTerm = (input) => {
 const validatePagination = (page, limit) => {
   const validatedPage = Math.max(
     DEFAULT_PAGE,
-    parseInt(page, 10) || DEFAULT_PAGE
+    parseInt(page, 10) || DEFAULT_PAGE,
   );
   const validatedLimit = Math.min(
     MAX_LIMIT,
-    Math.max(1, parseInt(limit, 10) || DEFAULT_LIMIT)
+    Math.max(1, parseInt(limit, 10) || DEFAULT_LIMIT),
   );
 
   return {
@@ -277,7 +277,7 @@ module.exports.getSearchFilters = async (req, res) => {
           name: p._id,
           count: p.count,
         })),
-      })
+      }),
     );
   } catch (error) {
     console.error("Search filters error:", error);
@@ -336,11 +336,11 @@ module.exports.getBlogBySlug = async (req, res, next) => {
     if (req.user) {
       blog.comments.forEach((comment) => {
         comment.isLiked = comment.likes?.some(
-          (like) => like.toString() === req.user.id
+          (like) => like.toString() === req.user.id,
         );
         comment.replies?.forEach((reply) => {
           reply.isLiked = reply.likes?.some(
-            (like) => like.toString() === req.user.id
+            (like) => like.toString() === req.user.id,
           );
         });
       });

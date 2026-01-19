@@ -47,8 +47,6 @@
                     </a>
                 </div>
             </div>
-
-
             <div class="tag-list">
                 <strong>
                     <% if (blog.tags && blog.tags.length> 0) { %>
@@ -197,7 +195,8 @@
                                                             data-liked="<%= comment.likes && user && comment.likes.some(like => like.equals(user._id)) %>">
                                                             <span class="icon">
                                                                 <% if (comment.likes && user) { %>
-                                                                    <%= comment.likes.some(like=> like.equals(user._id))
+                                                                    <%= comment.likes.some(like=>
+                                                                        like.equals(user._id))
                                                                         ? "❤️"
                                                                         : "🩶" %>
                                                                         <% } else { %>
